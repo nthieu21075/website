@@ -1,0 +1,99 @@
+body {
+  font-family: Poppins;
+  color: #26415b;
+  margin: 0;
+}
+
+.blueBg {
+  background-image: linear-gradient(to bottom, #3dbdff, #2491eb);
+}
+
+.boxShadow {
+  box-shadow: 0 8px 8px 0 rgba(0,0,0,0.2);
+}
+
+.blackBg {
+  height: 100%;
+  background-image: url('.././public/images/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.slick-list {
+  width: 100%;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.ant-carousel .slick-slide {
+  width: 100%;
+  text-align: center;
+  height: 400px;
+  line-height: 400px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+  }
+}
+
+.header-logo {
+  float: left;
+  margin-left: 5% !important;
+  padding-right: 0 !important;
+}
+
+.menu-none-hover {
+  border-bottom: none !important;
+
+  &:hover {
+    border-bottom: none !important;
+  }
+}
+
+.menu-user-logo {
+  background-color: #87d068 !important;
+  margin-right: 7px !important;
+
+  i {
+    margin: 0 !important;
+  }
+}
+
+.profile-avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.carousel-item-padding {
+  padding: 0 10px;
+}
+
+.react-multiple-carousel__arrow {
+  background-color: #3dbdff !important;
+}
+
+.react-multiple-carousel__arrow--left {
+  left: 1px !important;
+}
+
+.react-multiple-carousel__arrow--right {
+  right: 1px !important;
+}
+
+.ant-form-item {
+  margin-bottom: 5px !important;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: #3dbdff !important;
+}
