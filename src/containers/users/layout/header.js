@@ -30,11 +30,14 @@ class HeaderContainer extends Component {
       case 'profile':
         Navigator.push('/my-profile')
         return
-      case 'profile':
-        Navigator.push('/my-profile')
+      case 'pitches':
+        Navigator.push('/pitches')
         return
       case 'logo':
         Navigator.push('/')
+        return
+      default:
+        Navigator.push('/tournaments')
         return
     }
   }

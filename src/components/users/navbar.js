@@ -85,8 +85,8 @@ class AuthNav extends Component {
         {_.size(user) == 0 && loginItem()}
         {_.size(user) == 0 && registerItem()}
         {categoriesItem()}
-        <Menu.Item key='sports' style={menuItemStyled}>
-          <Link to='/'> Place of organization</Link>
+        <Menu.Item key='pitches' style={menuItemStyled}>
+          <Link to='/'>Pitches</Link>
         </Menu.Item>
       </Menu>
     )

@@ -1,39 +1,11 @@
 import React, { Component } from 'react'
 import { Row, Col, List, Typography } from 'antd'
-import categoryImage from 'public/images/category.jpg'
 import TournamentItem from 'components/users/tournamentItem'
 import Slider from "react-slick"
 import _ from 'lodash'
-
-const data = [
-  {
-    src: categoryImage,
-    title: 'Title 1',
-    description: 'Description',
-    organizer: 'Jack'
-  },
-  {
-    src: categoryImage,
-    title: 'Title 2',
-    description: 'Description',
-    organizer: 'Jack'
-  },
-  {
-    src: categoryImage,
-    title: 'Title 3',
-    description: 'Description',
-    organizer: 'Jack'
-  },
-  {
-    src: categoryImage,
-    title: 'Title 4',
-    description: 'Description',
-    organizer: 'Jack'
-  }
-]
+import { tournamentData } from 'global/fakeData'
 
 const settings = {
-  slidesToShow: 3,
   speed: 1500,
   arrows: true,
   responsive: [
@@ -68,9 +40,10 @@ const { Title } = Typography
 
 class TournamentContainer extends Component {
   render() {
-    const { title, autoPlay, infinite } = this.props
+    const { title, autoPlay, infinite, slidesToShow } = this.props
     settings['autoplay'] = autoPlay
     settings['infinite'] = infinite
+    settings['slidesToShow'] = slidesToShow
 
     return (
       <div style={{ margin: '30px 0' }}>
@@ -78,7 +51,7 @@ class TournamentContainer extends Component {
           <Title level={2}>{title}</Title>
         </Row>
         <Slider {...settings}>
-          {_.map(data, (item, index) => {
+          {_.map(tournamentData, (item, index) => {
             return <TournamentItem key={index} item={item} loading={false} bordered={true} className={'carousel-item-padding'}/>
           })}
         </Slider>

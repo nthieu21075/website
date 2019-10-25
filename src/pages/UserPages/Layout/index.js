@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import HomePage from 'pages/UserPages/HomePage'
 import ProfilePage from 'pages/UserPages/ProfilePage'
-import CategoryPage from 'pages/UserPages/CategoryPage'
+import TournamentsPage from 'pages/UserPages/TournamentsPage'
 import HeaderContainer from 'containers/users/layout/header'
 import Routes from 'global/routes'
 
@@ -14,7 +14,7 @@ class UserLayout extends Component {
         <Switch>
           <Route exact path={Routes.users.HOME_PAGE} component={HomePage} />
           <Route exact path={Routes.users.PROFILE_PAGE} component={ProfilePage} />
-          <Route exact path={Routes.users.CATEGORY_PAGE} component={CategoryPage} />
+          <Route exact path={Routes.users.TOURNAMENTS_PAGE} component={TournamentsPage} />
         </Switch>
       </div>
     )

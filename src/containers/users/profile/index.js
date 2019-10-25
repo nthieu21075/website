@@ -5,38 +5,10 @@ import ProfileMenu from 'components/users/profile/menu'
 import ListTournament from 'components/users/listTournament'
 import { Layout, Breadcrumb, Typography, Pagination } from 'antd'
 import { reduxForm } from 'redux-form'
-import categoryImage from 'public/images/category.jpg'
-
+import { tournamentData } from 'global/fakeData'
 
 const { Title } = Typography
 const { Content } = Layout
-
-const data = [
-  {
-    src: categoryImage,
-    title: 'Title 1',
-    description: 'Description',
-    organizer: 'Jack'
-  },
-  {
-    src: categoryImage,
-    title: 'Title 2',
-    description: 'Description',
-    organizer: 'Jack'
-  },
-  {
-    src: categoryImage,
-    title: 'Title 3',
-    description: 'Description',
-    organizer: 'Jack'
-  },
-  {
-    src: categoryImage,
-    title: 'Title 4',
-    description: 'Description',
-    organizer: 'Jack'
-  }
-]
 
 const contentStyled = {
   padding: '10px 24px',
@@ -68,7 +40,7 @@ const MyTournamentContent = () => (
       grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3}}
       loading={false}
       bordered={true}
-      data={data}
+      data={tournamentData}
     />
     <Pagination defaultCurrent={1} total={50} />
   </Content>

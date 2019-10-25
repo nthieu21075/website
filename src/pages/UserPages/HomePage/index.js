@@ -10,10 +10,10 @@ class HomePage extends Component {
       <div style={{ width: '100%' }}>
         <BannerContainer/>
         <Row type="flex" justify="center">
-          <Col xs={{span: 22}} md={{span: 22}} sm={{span: 22}} lg={{span: 20}} xl={{span: 20}}>
+          <Col xs={{span: 23}} md={{span: 22}} sm={{span: 21}} lg={{span: 21}} xl={{span: 21}} style={{ paddingBottom: '100px' }}>
             <CategoriesContainer/>
-            <TournamentContainer title="My tournament is happening" autoPlay={false} infinite={false}/>
-            <TournamentContainer title="Tournaments" autoPlay={true} infinite={true}/>
+            <TournamentContainer title="My tournament is happening" autoPlay={false} infinite={false} slidesToShow={3}/>
+            <TournamentContainer title="Tournaments" autoPlay={true} infinite={true} slidesToShow={4}/>
           </Col>
         </Row>
       </div>
