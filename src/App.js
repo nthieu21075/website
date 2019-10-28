@@ -15,7 +15,8 @@ import LoginPage from 'pages/LoginPage'
 import RegisterPage from 'pages/RegisterPage'
 // User Pages
 import UserLayout from 'pages/UserPages/Layout'
-
+// Organiser Pages
+import OrganizerLayout from 'pages/OrganizerPages/Layout'
 
 const App = () => (
   <Provider store={store}>
@@ -26,6 +27,7 @@ const App = () => (
           <Switch>
             <Route exact path={Routes.REGISTER_PAGE} component={RegisterPage} />
             <Route exact path={Routes.LOGIN_PAGE} component={LoginPage} />
+            <Route path='/organizer' component={OrganizerLayout} />
             <Route path='/' component={UserLayout} />
           </Switch>
         </ScrollToTop>
