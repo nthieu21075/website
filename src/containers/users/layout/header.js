@@ -23,6 +23,7 @@ class HeaderContainer extends Component {
     switch(key) {
       case 'logout':
         this.props.dispatch(initAuthState())
+        Navigator.push('/')
         return
       case 'notification':
         this.setState({ visibleNotification: true })
@@ -32,6 +33,12 @@ class HeaderContainer extends Component {
         return
       case 'pitches':
         Navigator.push('/pitches')
+        return
+      case 'login':
+        Navigator.push('/login')
+        return
+      case 'register':
+        Navigator.push('/register')
         return
       case 'logo':
         Navigator.push('/')
