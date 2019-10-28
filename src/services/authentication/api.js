@@ -18,7 +18,12 @@ export const submitLogin =
         } else {
 
           dispatch(authSuccess(apiResponse.data.user))
-          Navigator.push('/')
+
+          if (apiResponse.data.user.type == 'normal'){
+            Navigator.push('/')
+          } else if (apiResponse.data.user.type == 'organizer'){
+            Navigator.push('/organizer')
+          }
         }
       } else {
         dispatch(authFail({ error: response.statusText }))

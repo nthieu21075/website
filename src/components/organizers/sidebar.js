@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom"
-import { Layout, Menu, Icon } from 'antd'
+import { Layout, Menu, Icon, Row } from 'antd'
 import _ from 'lodash'
 
 const { Sider } = Layout
@@ -18,7 +18,9 @@ class SideBar extends Component {
           console.log(collapsed, type);
         }}
       >
-        <div className="logo" />
+        <Row type="flex" justify="center">
+          <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ width: '60px', marginBottom: '10px' }}/>
+        </Row>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
           <Menu.Item key="1">
             <Icon type="user" />
