@@ -16,7 +16,8 @@ const authReducer = (state = initialState, action) => {
     case AuthFormActions.ERROR: {
       return {
         ...state,
-        errors: action.errors
+        errors: action.errors,
+        success: null
       }
     }
 
@@ -34,7 +35,15 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.user,
-        success: action.message
+        errors: null
+      }
+    }
+
+    case AuthFormActions.UPDATE_MSG: {
+      return {
+        ...state,
+        success: action.message,
+        errors: null
       }
     }
 

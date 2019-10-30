@@ -8,12 +8,12 @@ const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 6 },
-    xl: { span: 6 }
+    xl: { span: 8 }
   },
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 14 },
-    xl: { span: 16 }
+    xl: { span: 10 }
   }
 }
 
@@ -25,11 +25,14 @@ const tailFormItemLayout = {
     },
     sm: {
       span: 12,
-      offset: 11,
+      offset: 12,
+    },
+    xl: {
+      span: 12,
+      offset: 12,
     },
   }
 }
-
 
 const ChangePasswordForm = props => {
   const { handleSubmit, pristine, submitting } = props
@@ -67,7 +70,7 @@ const ChangePasswordForm = props => {
         validate={[ required(), length({ min: 6 }) ]}
       />
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" disabled={pristine || submitting} htmlType="submit">Save</Button>
+        <Button type="primary" loading={submitting} htmlType="submit">Save</Button>
       </Form.Item>
     </Form>
   )

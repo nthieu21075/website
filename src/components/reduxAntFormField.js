@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Form } from "antd"
 
 const reduxFormField = Component => ({ required, input, meta, children, hasFeedback, label, addonBefore, options, defaultValue, ...rest }) => {
-  const hasError = meta.invalid && meta.error
+  const hasError = meta.invalid && meta.error && meta.touched
 
   return (
     <Form.Item

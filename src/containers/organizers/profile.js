@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Layout, Typography, Pagination } from 'antd'
-import { reduxForm } from 'redux-form'
+import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
 import { notification } from 'antd'
 import ProfileInfoForm from 'components/organizers/profileForm'
-import { submitUpdateProfile } from 'services/origanizers/profile/api'
+import ChangePasswordForm from 'components/organizers/changePasswordForm'
+import { updateProfile, updatePassword } from 'services/origanizers/profile/api'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -24,6 +25,10 @@ class ProfileContainer extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    this.props.dispatch(reset('origanizerChangePasswordForm'))
+  }
+
   componentDidUpdate() {
     const { authentication } = this.props
 
@@ -41,16 +46,24 @@ class ProfileContainer extends Component {
       <Content style={contentStyled}>
         <Title level={3} style={{ textAlign: 'center' }}>My profile</Title>
         <ProfileInfoFormDecorator/>
+        <Title level={3} style={{ textAlign: 'center', marginTop: '15px' }}>Update Passowrd</Title>
+        <ChangePasswordFormDecorator/>
       </Content>
     )
   }
 }
 
+const ChangePasswordFormDecorator = reduxForm({
+  form: 'origanizerChangePasswordForm',
+  onSubmit: updatePassword,
+  enableReinitialize: true
+})(ChangePasswordForm)
+
 let ProfileInfoFormDecorator = reduxForm({
   form: 'origanizerProfileForm',
   enableReinitialize: true,
   destroyOnUnmount: false,
-  onSubmit: submitUpdateProfile
+  onSubmit: updateProfile
 })(ProfileInfoForm)
 
 ProfileInfoFormDecorator = connect(
