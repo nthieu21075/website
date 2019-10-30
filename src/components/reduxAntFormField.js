@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import { Form } from "antd"
 
 const reduxFormField = Component => ({ required, input, meta, children, hasFeedback, label, addonBefore, options, defaultValue, ...rest }) => {
-  const hasError = meta.invalid
+  const hasError = meta.invalid && meta.error
 
   return (
     <Form.Item
       required={required}
       label={label}
-      validateStatus={ hasError ? 'error' : 'success' }
+      validateStatus={ hasError ? 'error' : '' }
       hasFeedback={hasFeedback}
       help={hasError && meta.error}
     >
-      <Component {...input} {...rest} options={options} addonBefore={addonBefore} children={children} />
+      <Component {...input} {...rest} options={options} addonBefore={addonBefore} defaultValue={defaultValue} children={children} />
     </Form.Item>
   )
 }

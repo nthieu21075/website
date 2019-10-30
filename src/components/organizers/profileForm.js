@@ -14,54 +14,20 @@ import {
 import { required, email, numericality } from 'redux-form-validators'
 import { Field, reduxForm } from 'redux-form'
 import reduxAntFormField from 'components/reduxAntFormField'
+import {residences} from 'global/fakeData'
 
 const { Option } = Select;
-
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-]
 
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 6 },
-    xl: { span: 6 }
+    xl: { span: 8 }
   },
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 14 },
-    xl: { span: 16 }
+    xl: { span: 10 }
   }
 }
 
@@ -73,7 +39,11 @@ const tailFormItemLayout = {
     },
     sm: {
       span: 12,
-      offset: 11,
+      offset: 12,
+    },
+    xl: {
+      span: 12,
+      offset: 12,
     },
   }
 }
@@ -85,11 +55,18 @@ const prefixSelector = () => (
  </Select>
 )
 
-const RegistrationForm = props => {
-  const { handleSubmit, pristine, submitting } = props
-
+const ProfileForm = ({ handleSubmit, pristine, submitting, initialValues: {location} }) => {
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit} style={{width: '100%'}}>
+      <Field
+        hasFeedback
+        required={true}
+        label="Organizer Name"
+        name="organizerName"
+        component={reduxAntFormField(Input)}
+        placeholder="Organizer Name"
+        validate={[ required() ]}
+      />
       <Field
         hasFeedback
         required={true}
@@ -121,7 +98,8 @@ const RegistrationForm = props => {
         hasFeedback
         required={true}
         label="City/District"
-        name="city"
+        name="location"
+        defaultValue={location}
         options={residences}
         component={reduxAntFormField(Cascader)}
         placeholder="City/District"
@@ -138,10 +116,10 @@ const RegistrationForm = props => {
         validate={[ required(), numericality() ]}
       />
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" disabled={pristine || submitting} htmlType="submit">Save</Button>
+        <Button type="primary" loading={submitting} htmlType="submit">Save</Button>
       </Form.Item>
     </Form>
   )
 }
 
-export default RegistrationForm
+export default ProfileForm

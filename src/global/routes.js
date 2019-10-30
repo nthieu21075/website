@@ -11,5 +11,9 @@ export default {
     HOME_PAGE,
     PROFILE_PAGE,
     TOURNAMENTS_PAGE
+  },
+  organizers: {
+    HOMEPAGE: '/organizer',
+    MY_PROFILE: '/organizer/my-profile'
   }
 }

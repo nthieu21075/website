@@ -7,6 +7,7 @@ const { Sider } = Layout
 
 class SideBar extends Component {
   render() {
+    const { onClick } = this.props
     return (
       <Sider
         breakpoint="lg"
@@ -21,22 +22,30 @@ class SideBar extends Component {
         <Row type="flex" justify="center">
           <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ width: '60px', marginBottom: '10px' }}/>
         </Row>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-          <Menu.Item key="1">
-            <Icon type="user" />
-            <span className="nav-text">nav 1</span>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['myProfile']} onClick={onClick}>
+          <Menu.Item key="myProfile">
+            <Icon type="unordered-list" />
+            <span className="nav-text">My profile</span>
           </Menu.Item>
-          <Menu.Item key="2">
-            <Icon type="video-camera" />
-            <span className="nav-text">nav 2</span>
+          <Menu.Item key="createTournament">
+            <Icon type="unordered-list" />
+            <span className="nav-text">Create Tournament</span>
           </Menu.Item>
-          <Menu.Item key="3">
-            <Icon type="upload" />
-            <span className="nav-text">nav 3</span>
+          <Menu.Item key="unpublishTour">
+            <Icon type="unordered-list" />
+            <span className="nav-text">List Tournament</span>
           </Menu.Item>
-          <Menu.Item key="4">
-            <Icon type="user" />
-            <span className="nav-text">nav 4</span>
+          <Menu.Item key="publishedTour">
+            <Icon type="unordered-list" />
+            <span className="nav-text">Finished Tournament</span>
+          </Menu.Item>
+          <Menu.Item key="happeningTour">
+            <Icon type="unordered-list" />
+            <span className="nav-text">Happening Tournament</span>
+          </Menu.Item>
+          <Menu.Item key="happeningMatch">
+            <Icon type="unordered-list" />
+            <span className="nav-text">Happening Match</span>
           </Menu.Item>
         </Menu>
       </Sider>

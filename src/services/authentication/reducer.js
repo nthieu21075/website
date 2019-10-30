@@ -6,7 +6,9 @@ import { AuthFormActions } from './actions'
 const initialState = {
   user: {},
   errors: null,
-  logged: false
+  success: null,
+  logged: false,
+  apiToken: ''
 }
 
 const authReducer = (state = initialState, action) => {
@@ -21,9 +23,18 @@ const authReducer = (state = initialState, action) => {
     case AuthFormActions.SUCCESS: {
       return {
         ...state,
+        apiToken: action.apiToken,
         user: action.user,
         errors: null,
         logged: true
+      }
+    }
+
+    case AuthFormActions.UPDATE_AUTH_DATA: {
+      return {
+        ...state,
+        user: action.user,
+        success: action.message
       }
     }
 

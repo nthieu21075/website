@@ -19,7 +19,6 @@ class HeaderContainer extends Component {
   }
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
-    console.log(key)
     switch(key) {
       case 'logout':
         this.props.dispatch(initAuthState())

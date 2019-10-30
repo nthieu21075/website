@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Affix } from 'antd'
+import { connect } from 'react-redux'
 import NavBar from 'components/organizers/nav'
 import Notification from 'components/organizers/notification'
 import { initAuthState } from 'services/authentication/actions'
@@ -22,10 +23,12 @@ class HeaderContainer extends Component {
     switch(key) {
       case 'logout':
         this.props.dispatch(initAuthState())
-        Navigator.push('/')
+        Navigator.push('/login')
         return
       case 'notification':
         this.setState({ visibleNotification: true })
+        return
+      case 'search':
         return
       default:
         Navigator.push('/login')
@@ -45,4 +48,4 @@ class HeaderContainer extends Component {
   }
 }
 
-export default HeaderContainer
+export default connect()(HeaderContainer)

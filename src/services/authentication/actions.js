@@ -1,6 +1,7 @@
 export const AuthFormActions = {
   ERROR: '@authForm/error',
   SUCCESS: '@authForm/success',
+  UPDATE_AUTH_DATA: '@authForm/updateData',
   INITIALIZE: '@authForm/init'
 }
 
@@ -15,9 +16,18 @@ export const authFail = (errors) => (dispatch) => {
   })
 }
 
-export const authSuccess = (user) => (dispatch) => {
+export const authSuccess = (user, token) => (dispatch) => {
   dispatch({
     type: AuthFormActions.SUCCESS,
-    user: user
+    user: user,
+    apiToken: token
+  })
+}
+
+export const updateAuthData = (user, message) => (dispatch) => {
+  dispatch({
+    type: AuthFormActions.UPDATE_AUTH_DATA,
+    user: user,
+    message: message
   })
 }
