@@ -7,6 +7,9 @@ import HeaderContainer from 'containers/organizers/header'
 import { connect } from 'react-redux'
 import Navigator from 'helpers/history'
 import ProfilePage from 'pages/OrganizerPages/ProfilePage'
+import CreateTournamentPage from 'pages/OrganizerPages/CreateTournamentPage'
+
+import { initMessageState } from 'services/organizers/message/actions'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -31,6 +34,7 @@ class OrganizerLayout extends Component {
             <Switch>
               <Route exact path={Routes.organizers.HOMEPAGE} component={ProfilePage}/>
               <Route exact path={Routes.organizers.MY_PROFILE} component={ProfilePage}/>
+              <Route exact path={Routes.organizers.CREATE_TOURNAMENT} component={CreateTournamentPage}/>
             </Switch>
           </Content>
         </Layout>

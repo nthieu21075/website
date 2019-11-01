@@ -12,7 +12,7 @@ const reduxFormField = Component => ({ required, input, meta, children, hasFeedb
       hasFeedback={hasFeedback}
       help={hasError && meta.error}
     >
-      <Component {...input} {...rest} options={options} addonBefore={addonBefore} defaultValue={defaultValue} children={children} />
+      <Component {...input} {...rest} options={options} defaultValue={defaultValue} rows={4} children={children} />
     </Form.Item>
   )
 }

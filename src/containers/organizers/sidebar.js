@@ -16,6 +16,9 @@ class SideBarContainer extends Component {
       case 'myProfile':
         Navigator.push(Routes.organizers.MY_PROFILE)
         return
+      case 'createTournament':
+        Navigator.push(Routes.organizers.CREATE_TOURNAMENT)
+        return
       default:
         return
     }

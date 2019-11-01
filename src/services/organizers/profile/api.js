@@ -11,7 +11,7 @@ export const updateProfile =
     const { email, address, location, name, organizerName, phoneNumber } = values
     const params = { email: email, address: address, location: location, name: name, organizerName: organizerName, phoneNumber: phoneNumber }
 
-    API().post('api/origanizer/update-profile', params).then(function (response) {
+    API().post('api/organizer/update-profile', params).then(function (response) {
       const apiResponse = response.data
       if (response.status == 200) {
         if (apiResponse.code != 200){
@@ -35,7 +35,7 @@ export const updatePassword =
     const { currentPassword, newPassword } = values
     const params = { currentPassword: currentPassword, newPassword: newPassword }
 
-    API().post('api/origanizer/update-password', params).then(function (response) {
+    API().post('api/organizer/update-password', params).then(function (response) {
       const apiResponse = response.data
       console.log(apiResponse)
       console.log(response)

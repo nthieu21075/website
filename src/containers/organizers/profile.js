@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { notification } from 'antd'
 import ProfileInfoForm from 'components/organizers/profileForm'
 import ChangePasswordForm from 'components/organizers/changePasswordForm'
-import { updateProfile, updatePassword } from 'services/origanizers/profile/api'
+import { updateProfile, updatePassword } from 'services/organizers/profile/api'
 
 const { Title } = Typography
 const { Content } = Layout
