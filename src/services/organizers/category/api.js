@@ -1,4 +1,4 @@
-import API from 'global/apiConfig'
+import { Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { updateCategoryData } from './actions'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
@@ -6,7 +6,7 @@ import Navigator from 'helpers/history'
 
 export const getCategories = () => {
   return dispatch => {
-    API().get('api/categories').then(function (response) {
+    Api().get('api/categories').then(function (response) {
       const apiResponse = response.data
 
       if (response.status == 200) {

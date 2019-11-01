@@ -61,6 +61,15 @@ const CreateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
       <Field
         hasFeedback
         required={true}
+        label="Team Number"
+        name="team"
+        component={reduxAntFormField(Input)}
+        placeholder="Team Number"
+        validate={[ required(), numericality() ]}
+      />
+      <Field
+        hasFeedback
+        required={true}
         label="Category"
         name="categoryId"
         component={reduxAntFormField(Select)}

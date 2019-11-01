@@ -6,6 +6,7 @@ import { notification } from 'antd'
 import CreateTournamentForm from 'components/organizers/tournaments/createForm'
 import { getCategories } from 'services/organizers/category/api'
 import { initMessageState } from 'services/organizers/message/actions'
+import { createTournament } from 'services/organizers/tournaments/api'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -57,7 +58,7 @@ class CreateTournamentContainer extends Component {
 let FormDecorator = reduxForm({
   form: 'origanizerCreateTournamentForm',
   destroyOnUnmount: false,
-  // onSubmit: createTournament
+  onSubmit: createTournament
 })(CreateTournamentForm)
 
 FormDecorator = connect(
