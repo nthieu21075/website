@@ -48,6 +48,8 @@ const tailFormItemLayout = {
   }
 }
 
+const dateFormat = 'DD/MM/YYYY'
+
 const CreateForm = ({ handleSubmit, pristine, submitting, initialValues: {categories} }) => {
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit} style={{width: '100%'}}>
@@ -82,10 +84,11 @@ const CreateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
       <Field
         hasFeedback
         label="From - To"
-        name="originationDate"
+        name="orginationDate"
         component={reduxAntFormField(RangePicker)}
         placeholder={["From", "To"]}
         validate={[ required() ]}
+        dateFormat={dateFormat}
       />
       <Field
         label="Short Description"

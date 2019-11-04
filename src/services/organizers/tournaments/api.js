@@ -7,13 +7,14 @@ import Navigator from 'helpers/history'
 
 export const createTournament =
   (values, dispatch, props) => {
-    const { name, categoryId, shortDescription, description, image, team, originationDate } = values
+    const { name, categoryId, shortDescription, description, image, team, originationDate, publish } = values
     let bodyFormData = new FormData()
     bodyFormData.append('name', name)
     bodyFormData.append('categoryId', categoryId)
     bodyFormData.append('shortDescription', shortDescription)
     bodyFormData.append('description', description)
     bodyFormData.append('team', team)
+    bodyFormData.append('publish', publish)
     bodyFormData.append('startDate', originationDate[0])
     bodyFormData.append('endDate', originationDate[1])
     if (image) {
@@ -65,3 +66,45 @@ export const getTournament = (id) => {
     })
   }
 }
+
+export const updateTournament =
+  (values, dispatch, props) => {
+    const { name, categoryId, shortDescription, description, image, team, originationDate, publish } = values
+    let bodyFormData = new FormData()
+
+    bodyFormData.append('id', props.initialValues.id)
+    bodyFormData.append('name', name)
+    bodyFormData.append('categoryId', categoryId)
+    bodyFormData.append('shortDescription', shortDescription)
+    bodyFormData.append('description', description)
+    bodyFormData.append('team', team)
+    bodyFormData.append('publish', publish)
+    bodyFormData.append('startDate', originationDate[0])
+    bodyFormData.append('endDate', originationDate[1])
+    console.log(image)
+    if (image) {
+      if (image.file.status == 'removed') {
+        bodyFormData.append('removeImage', true)
+      } else {
+        bodyFormData.append('image', image.file)
+      }
+    }
+
+    ApiFormData().post('api/organizer/tournament/update', bodyFormData).then(function (response) {
+      const apiResponse = response.data
+      console.log(response)
+      if (response.status == 200) {
+        if (apiResponse.code != 200){
+          dispatch(messageError(apiResponse.message))
+        } else {
+          dispatch(messageSuccess('Update Tournament successfully'))
+        }
+      } else {
+        dispatch(messageError(response.statusText))
+      }
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }

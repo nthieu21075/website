@@ -2,6 +2,7 @@ import isEmpty from 'lodash/isEmpty'
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Icon, Form, Button, message, Modal, Upload } from 'antd';
+import _ from 'lodash'
 
 const AntUpload = ({
   children,
@@ -58,18 +59,21 @@ class AntUploadFormField extends Component {
   constructor(props) {
     super(props)
     const { imageUrl } = props
-    let fileList = []
-
-    if (imageUrl) {
-      fileList.push(setFileList(process.env.API_DOMAIN_URL + imageUrl))
-    }
-
-    this.state = {
+    let state = {
       confirmLoading: false,
-      fileList: fileList,
-      imageUrl: process.env.API_DOMAIN_URL + imageUrl,
+      fileList: [],
+      imageUrl: '',
       previewImage: false
     }
+
+    if (imageUrl != '') {
+      state = _.merge(state, {
+        fileList: [setFileList(process.env.API_DOMAIN_URL + imageUrl)],
+        imageUrl: process.env.API_DOMAIN_URL + imageUrl
+      })
+    }
+
+    this.state = state
 
     this.beforeUpload = this.beforeUpload.bind(this)
     this.getBase64 = this.getBase64.bind(this)
@@ -79,7 +83,6 @@ class AntUploadFormField extends Component {
   }
 
   beforeUpload(file, fileList) {
-    console.log(file)
     const isJPG = file.type === 'image/jpeg'
     const isPNG = file.type === 'image/png'
     const isGIF = file.type === 'image/gif'

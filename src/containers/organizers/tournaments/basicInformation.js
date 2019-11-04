@@ -16,7 +16,6 @@ class BasicInformationContainer extends Component {
 
   componentDidMount() {
     const { dispatch, params } = this.props
-    dispatch(reset('origanizerUpdateTournamentForm'))
     dispatch(getCategories())
     dispatch(getTournament(params.id))
   }
@@ -36,9 +35,10 @@ let FormDecorator = reduxForm({
   form: 'origanizerUpdateTournamentForm',
   destroyOnUnmount: false,
   enableReinitialize: true,
-  // onSubmit: updateTournament
+  onSubmit: updateTournament
 })(UpdateForm)
 
+const dateFormat = 'DD/MM/YYYY'
 
 const ininValueDetault = (state) => {
   const basicInformation = state.organizers.tournamentPage.basicInformation
@@ -46,13 +46,19 @@ const ininValueDetault = (state) => {
   let defaultValue = {
     categories: categories.data,
     originationDate: [],
-    imageUrl: ''
+    imageUrl: '',
+    publish: false
   }
 
   if (_.size(basicInformation) > 0) {
+    const startDate = moment(basicInformation.startDate).format(dateFormat)
+    const endDate = moment(basicInformation.endDate).format(dateFormat)
+
     defaultValue = _.merge(defaultValue, {
+      publish: basicInformation.publish,
+      id: basicInformation.id,
       name: basicInformation.name,
-      originationDate: [moment(basicInformation.startDate),  moment(basicInformation.endDate)],
+      originationDate: [moment(startDate, dateFormat), moment(endDate, dateFormat)],
       categoryId: basicInformation.category.id,
       team: basicInformation.team,
       shortDescription: basicInformation.shortDescription,

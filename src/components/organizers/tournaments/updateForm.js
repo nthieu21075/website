@@ -6,7 +6,9 @@ import {
   Button,
   AutoComplete,
   Upload,
-  DatePicker
+  DatePicker,
+  Switch,
+  Icon
 } from 'antd'
 
 import { required, numericality } from 'redux-form-validators'
@@ -48,7 +50,8 @@ const tailFormItemLayout = {
   }
 }
 
-const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {categories, imageUrl} }) => {
+const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {categories, imageUrl, publish, originationDate} }) => {
+
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit} style={{width: '100%'}}>
       <Field
@@ -69,6 +72,15 @@ const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
       />
       <Field
         hasFeedback
+        label='Publish'
+        name='publish'
+        component={reduxAntFormField(Switch)}
+        defaultChecked={publish}
+        checkedChildren={<Icon type="check" />}
+        unCheckedChildren={<Icon type="close" />}
+      />
+      <Field
+        hasFeedback
         label='Category'
         name='categoryId'
         component={reduxAntFormField(Select)}
@@ -86,6 +98,10 @@ const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
         component={reduxAntFormField(RangePicker)}
         placeholder={['From', 'To']}
         validate={[ required() ]}
+        dateFormat={'DD/MM/YYYY'}
+        defaultValue={originationDate}
+        onFocus={e => e.preventDefault()}
+        onBlur={e => e.preventDefault()}
       />
       <Field
         label='Short Description'
@@ -98,7 +114,6 @@ const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
         name='description'
         component={reduxAntFormField(TextArea)}
         placeholder='Description'
-        validate={[]}
       />
       <AntUploadFormField
         label='Image'

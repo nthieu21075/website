@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Spin, Tabs, Icon, Layout } from 'antd'
 import BasicInformationContainer from 'containers/organizers/tournaments/basicInformation'
+import { initTourmanetState } from 'services/organizers/tournaments/actions'
 
 const { TabPane } = Tabs
 const { Content } = Layout
@@ -21,11 +22,8 @@ class TournamentDetailPage extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(initTourmanetState())
     console.log('page detail did mount')
-  }
-
-  componentDidUpdate() {
-    console.log(123123123)
   }
 
   render() {
