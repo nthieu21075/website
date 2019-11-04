@@ -47,13 +47,27 @@ const AntUpload = ({
   )
 }
 
+const setFileList = (imageUrl) => ({
+  uid: '-1',
+  name: '',
+  status: 'done',
+  url: imageUrl
+})
+
 class AntUploadFormField extends Component {
   constructor(props) {
     super(props)
+    const { imageUrl } = props
+    let fileList = []
+
+    if (imageUrl) {
+      fileList.push(setFileList(process.env.API_DOMAIN_URL + imageUrl))
+    }
+
     this.state = {
       confirmLoading: false,
-      fileList: [],
-      imageUrl: '',
+      fileList: fileList,
+      imageUrl: process.env.API_DOMAIN_URL + imageUrl,
       previewImage: false
     }
 
@@ -65,13 +79,16 @@ class AntUploadFormField extends Component {
   }
 
   beforeUpload(file, fileList) {
+    console.log(file)
     const isJPG = file.type === 'image/jpeg'
     const isPNG = file.type === 'image/png'
     const isGIF = file.type === 'image/gif'
     const isLt2MB = file.size / 2048000 <= 1
 
     if ((isJPG || isPNG || isGIF) && isLt2MB) {
-      this.getBase64(file, imageUrl => this.setState({ imageUrl }));
+      this.getBase64(file, (imageUrl) => {
+        return this.setState({ imageUrl: imageUrl, fileList: [setFileList(imageUrl)] })
+      })
       return false
     }
 
@@ -88,11 +105,12 @@ class AntUploadFormField extends Component {
 
   getBase64(img, callback) {
     const reader = new FileReader();
-    reader.addEventListener('load', () =>
-      this.setState({ imageUrl: reader.result })
-    );
+    reader.addEventListener('load', () => {
+        return this.setState({ imageUrl: reader.result, fileList: [setFileList(reader.result)] })
+      }
+    )
     reader.readAsDataURL(img)
-  };
+  }
 
   handleCancel() {
     this.setState({ previewImage: false })
@@ -103,13 +121,14 @@ class AntUploadFormField extends Component {
   }
 
   handleRemove() {
-    this.setState({ imageUrl: '' })
+    this.setState({ imageUrl: '', fileList: [] })
   }
 
   render() {
     const { name, label, validate } = this.props
     return (
       <Field
+        fileList={this.state.fileList}
         name={name}
         label={label}
         beforeUpload={this.beforeUpload}

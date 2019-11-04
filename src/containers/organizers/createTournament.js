@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import { Layout, Typography, Pagination } from 'antd'
+import { Layout, Typography  } from 'antd'
 import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
-import { notification } from 'antd'
 import CreateTournamentForm from 'components/organizers/tournaments/createForm'
 import { getCategories } from 'services/organizers/category/api'
-import { initMessageState } from 'services/organizers/message/actions'
 import { createTournament } from 'services/organizers/tournaments/api'
 import { showAlert } from 'helpers/alert'
 

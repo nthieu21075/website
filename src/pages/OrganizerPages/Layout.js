@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import Navigator from 'helpers/history'
 import ProfilePage from 'pages/OrganizerPages/ProfilePage'
 import CreateTournamentPage from 'pages/OrganizerPages/CreateTournamentPage'
+import TournamentDetailPage from 'pages/OrganizerPages/TournamentDetailPage'
 
 import { initMessageState } from 'services/organizers/message/actions'
 
@@ -35,6 +36,7 @@ class OrganizerLayout extends Component {
               <Route exact path={Routes.organizers.HOMEPAGE} component={ProfilePage}/>
               <Route exact path={Routes.organizers.MY_PROFILE} component={ProfilePage}/>
               <Route exact path={Routes.organizers.CREATE_TOURNAMENT} component={CreateTournamentPage}/>
+              <Route exact path={Routes.organizers.TOURNAMENT_DETAIL} component={TournamentDetailPage}/>
             </Switch>
           </Content>
         </Layout>

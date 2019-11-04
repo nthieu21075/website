@@ -1,7 +1,9 @@
-import { ApiFormData } from 'global/apiConfig'
+import { ApiFormData, Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
+import { updateBasicInformation } from 'services/organizers/tournaments/actions'
 import { reset } from 'redux-form'
+import Navigator from 'helpers/history'
 
 export const createTournament =
   (values, dispatch, props) => {
@@ -27,6 +29,7 @@ export const createTournament =
         } else {
           dispatch(reset('origanizerCreateTournamentForm'))
           dispatch(messageSuccess('Create Tournament successfully'))
+          Navigator.push('/organizer/tournament/' + apiResponse.data.id)
         }
       } else {
         dispatch(messageError(response.statusText))
@@ -37,3 +40,28 @@ export const createTournament =
       throw new SubmissionError({ _error: error.message })
     })
   }
+
+export const getTournament = (id) => {
+  return dispatch => {
+    Api().get('api/organizer/tournament/' + id).then(function (response) {
+      const apiResponse = response.data
+
+      if (response.status == 200) {
+        if (apiResponse.code == 400){
+          Navigator.push('/organizer/tournamens')
+          dispatch(messageError(apiResponse.message))
+        } else if (apiResponse.code == 200){
+          dispatch(updateBasicInformation(apiResponse.data.basicInformation))
+        } else {
+          dispatch(messageError(apiResponse.message))
+        }
+      } else {
+        dispatch(messageError(response.statusText))
+      }
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}

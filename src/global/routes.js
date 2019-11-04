@@ -15,6 +15,7 @@ export default {
   organizers: {
     HOMEPAGE: '/organizer',
     MY_PROFILE: '/organizer/my-profile',
-    CREATE_TOURNAMENT: '/organizer/create-tournament'
+    CREATE_TOURNAMENT: '/organizer/create-tournament',
+    TOURNAMENT_DETAIL: '/organizer/tournament/:id'
   }
 }
