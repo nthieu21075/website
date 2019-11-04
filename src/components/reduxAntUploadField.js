@@ -14,6 +14,7 @@ const AntUpload = ({
   ...props
 }) => {
   const hasError = touched && invalid
+
   return (
     <Form.Item
       label={label}

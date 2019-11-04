@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import { Layout, Typography, Pagination } from 'antd'
 import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
-import { notification } from 'antd'
 import ProfileInfoForm from 'components/organizers/profileForm'
 import ChangePasswordForm from 'components/organizers/changePasswordForm'
 import { updateProfile, updatePassword } from 'services/organizers/profile/api'
+import { showAlert } from 'helpers/alert'
 
 const { Title } = Typography
 const { Content } = Layout
 
 const contentStyled = {
   padding: '24px',
+  marginBottom: '24px',
   minHeight: 280,
   display: 'flex',
   alignItems: 'center',
@@ -30,15 +31,7 @@ class ProfileContainer extends Component {
   }
 
   componentDidUpdate() {
-    const { authentication } = this.props
-
-    if (authentication.errors) {
-      notification['error']({ message: authentication.errors })
-    }
-
-    if (authentication.success) {
-      notification['success']({ message: authentication.success })
-    }
+    showAlert(this.props)
   }
 
   render() {
@@ -80,7 +73,7 @@ ProfileInfoFormDecorator = connect(
 )(ProfileInfoFormDecorator)
 
 const mapStateToProps = (state) => ({
-  authentication: state.authentication
+  message: state.organizers.message
 })
 
 export default connect(mapStateToProps)(ProfileContainer)

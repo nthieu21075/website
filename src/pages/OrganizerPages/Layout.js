@@ -30,7 +30,7 @@ class OrganizerLayout extends Component {
         <SideBarContainer/>
         <Layout>
           <HeaderContainer/>
-          <Content style={{ margin: '24px 16px 0', height: '100%' }}>
+          <Content style={{ margin: '24px', height: '100%' }}>
             <Switch>
               <Route exact path={Routes.organizers.HOMEPAGE} component={ProfilePage}/>
               <Route exact path={Routes.organizers.MY_PROFILE} component={ProfilePage}/>

@@ -4,6 +4,10 @@ import { Form } from "antd"
 const reduxFormField = Component => ({ required, input, meta, children, hasFeedback, label, addonBefore, options, defaultValue, ...rest }) => {
   const hasError = meta.invalid && meta.error && meta.touched
 
+  if (defaultValue) {
+    rest.defaultValue = defaultValue
+  }
+
   return (
     <Form.Item
       required={required}
@@ -12,7 +16,7 @@ const reduxFormField = Component => ({ required, input, meta, children, hasFeedb
       hasFeedback={hasFeedback}
       help={hasError && meta.error}
     >
-      <Component {...input} {...rest} options={options} defaultValue={defaultValue} rows={4} children={children} />
+      <Component {...input} {...rest} options={options} rows={4} children={children} />
     </Form.Item>
   )
 }

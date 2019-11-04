@@ -4,7 +4,7 @@
 import { CategoryActions } from './actions'
 
 const initialState = {
-  categories: []
+  data: []
 }
 
 const categoryReducer = (state = initialState, action) => {
@@ -12,7 +12,7 @@ const categoryReducer = (state = initialState, action) => {
     case CategoryActions.UPDATE_DATA: {
       return {
         ...state,
-        categories: action.categories
+        data: action.categories
       }
     }
 

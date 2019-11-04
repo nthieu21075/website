@@ -7,12 +7,14 @@ import CreateTournamentForm from 'components/organizers/tournaments/createForm'
 import { getCategories } from 'services/organizers/category/api'
 import { initMessageState } from 'services/organizers/message/actions'
 import { createTournament } from 'services/organizers/tournaments/api'
+import { showAlert } from 'helpers/alert'
 
 const { Title } = Typography
 const { Content } = Layout
 
 const contentStyled = {
-  padding: '24px',
+  padding: 24,
+  marginBottom: 24,
   minHeight: 280,
   display: 'flex',
   alignItems: 'center',
@@ -32,17 +34,7 @@ class CreateTournamentContainer extends Component {
   }
 
   componentDidUpdate() {
-    const { message: { error, success } } = this.props
-
-    if (error) {
-      notification['error']({ message: error })
-      this.props.dispatch(initMessageState())
-    }
-
-    if (success) {
-      notification['success']({ message: success })
-      this.props.dispatch(initMessageState())
-    }
+    showAlert(this.props)
   }
 
   render() {
@@ -58,19 +50,21 @@ class CreateTournamentContainer extends Component {
 let FormDecorator = reduxForm({
   form: 'origanizerCreateTournamentForm',
   destroyOnUnmount: false,
+  enableReinitialize: true,
   onSubmit: createTournament
 })(CreateTournamentForm)
 
 FormDecorator = connect(
   (state) => ({
     initialValues: {
-      categories: state.organizerCategory.categories
+      categories: state.organizers.categories.data,
+      originationDate: []
     }
   })
 )(FormDecorator)
 
 const mapStateToProps = (state) => ({
-  message: state.organizerMessage
+  message: state.organizers.message
 })
 
 export default connect(mapStateToProps)(CreateTournamentContainer)

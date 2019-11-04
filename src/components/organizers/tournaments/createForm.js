@@ -5,7 +5,8 @@ import {
   Select,
   Button,
   AutoComplete,
-  Upload
+  Upload,
+  DatePicker
 } from 'antd'
 
 import { required, numericality } from 'redux-form-validators'
@@ -13,8 +14,9 @@ import { Field, reduxForm } from 'redux-form'
 import reduxAntFormField from 'components/reduxAntFormField'
 import AntUploadFormField from 'components/reduxAntUploadField'
 
-const { Option } = Select;
+const { Option } = Select
 const { TextArea } = Input
+const { RangePicker } = DatePicker
 
 const formItemLayout = {
   labelCol: {
@@ -51,7 +53,6 @@ const CreateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
     <Form {...formItemLayout} onSubmit={handleSubmit} style={{width: '100%'}}>
       <Field
         hasFeedback
-        required={true}
         label="Name"
         name="name"
         component={reduxAntFormField(Input)}
@@ -60,7 +61,6 @@ const CreateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
       />
       <Field
         hasFeedback
-        required={true}
         label="Team Number"
         name="team"
         component={reduxAntFormField(Input)}
@@ -69,7 +69,6 @@ const CreateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
       />
       <Field
         hasFeedback
-        required={true}
         label="Category"
         name="categoryId"
         component={reduxAntFormField(Select)}
@@ -80,6 +79,14 @@ const CreateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
           return (<Option value={data.id} key={index}>{data.name}</Option>)
         })}
       </Field>
+      <Field
+        hasFeedback
+        label="From - To"
+        name="originationDate"
+        component={reduxAntFormField(RangePicker)}
+        placeholder={["From", "To"]}
+        validate={[ required() ]}
+      />
       <Field
         label="Short Description"
         name="shortDescription"

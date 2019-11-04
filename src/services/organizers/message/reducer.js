@@ -1,6 +1,3 @@
-/**
- The quantity of the products that the user has.
- */
 import { MessageActions } from './actions'
 
 const initialState = {

@@ -1,9 +1,8 @@
-import qs from 'qs'
 import { Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
-import { authFail, updateAuthData, updateMsg } from 'services/authentication/actions'
+import { messageError, messageSuccess } from 'services/organizers/message/actions'
+import { updateAuthData } from 'services/authentication/actions'
 import Navigator from 'helpers/history'
-import { store, persistor } from 'stores/store/index'
 import { reset } from 'redux-form'
 
 export const updateProfile =
@@ -15,13 +14,13 @@ export const updateProfile =
       const apiResponse = response.data
       if (response.status == 200) {
         if (apiResponse.code != 200){
-          dispatch(authFail(apiResponse.message))
+          dispatch(messageError(apiResponse.message))
         } else {
           dispatch(updateAuthData(apiResponse.data.user))
-          dispatch(updateMsg('Update profile successfully'))
+          dispatch(messageSuccess('Update profile successfully'))
         }
       } else {
-        dispatch(authFail({ error: response.statusText }))
+        dispatch(messageError(response.statusText))
       }
       return Promise.resolve()
     })
@@ -41,13 +40,13 @@ export const updatePassword =
       console.log(response)
       if (response.status == 200) {
         if (apiResponse.code != 200){
-          dispatch(authFail(apiResponse.message))
+          dispatch(messageError(apiResponse.message))
         } else {
           dispatch(reset('origanizerChangePasswordForm'))
-          dispatch(updateMsg('Update password successfully'))
+          dispatch(messageSuccess('Update password successfully'))
         }
       } else {
-        dispatch(authFail({ error: response.statusText }))
+        dispatch(messageError(response.statusText))
       }
       return Promise.resolve()
     })
