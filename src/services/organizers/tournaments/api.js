@@ -81,7 +81,7 @@ export const updateTournament =
     bodyFormData.append('publish', publish)
     bodyFormData.append('startDate', originationDate[0])
     bodyFormData.append('endDate', originationDate[1])
-    console.log(image)
+
     if (image) {
       if (image.file.status == 'removed') {
         bodyFormData.append('removeImage', true)
@@ -92,7 +92,7 @@ export const updateTournament =
 
     ApiFormData().post('api/organizer/tournament/update', bodyFormData).then(function (response) {
       const apiResponse = response.data
-      console.log(response)
+
       if (response.status == 200) {
         if (apiResponse.code != 200){
           dispatch(messageError(apiResponse.message))

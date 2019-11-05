@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Spin, Tabs, Icon, Layout } from 'antd'
 import BasicInformationContainer from 'containers/organizers/tournaments/basicInformation'
+import TeamManagementContainer from 'containers/organizers/tournaments/teamManagement'
 import { initTourmanetState } from 'services/organizers/tournaments/actions'
 
 const { TabPane } = Tabs
@@ -36,7 +37,7 @@ class TournamentDetailPage extends Component {
               <BasicInformationContainer params={params}/>
             </TabPane>
             <TabPane tab='Teams Management' key='2'>
-              Teams Management
+              <TeamManagementContainer/>
             </TabPane>
             <TabPane tab='Schedule Management' key='3'>
               Schedule Management
