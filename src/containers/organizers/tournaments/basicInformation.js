@@ -4,10 +4,9 @@ import _ from 'lodash'
 import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
 import UpdateForm from 'components/organizers/tournaments/updateForm'
-import { getTournament } from 'services/organizers/tournaments/api'
+import { getBasicInformation } from 'services/organizers/tournaments/api'
 import { getCategories } from 'services/organizers/category/api'
 import { updateTournament } from 'services/organizers/tournaments/api'
-import { showAlert } from 'helpers/alert'
 
 class BasicInformationContainer extends Component {
   constructor(props) {
@@ -17,11 +16,7 @@ class BasicInformationContainer extends Component {
   componentDidMount() {
     const { dispatch, params } = this.props
     dispatch(getCategories())
-    dispatch(getTournament(params.id))
-  }
-
-  componentDidUpdate() {
-    showAlert(this.props)
+    dispatch(getBasicInformation(params.id))
   }
 
   render() {
@@ -61,6 +56,7 @@ const ininValueDetault = (state) => {
       originationDate: [moment(startDate, dateFormat), moment(endDate, dateFormat)],
       categoryId: basicInformation.category.id,
       team: basicInformation.team,
+      teamOfTable: basicInformation.teamOfTable,
       shortDescription: basicInformation.shortDescription,
       description: basicInformation.description,
       imageUrl: basicInformation.imageUrl
@@ -72,8 +68,6 @@ const ininValueDetault = (state) => {
 
 FormDecorator = connect(ininValueDetault)(FormDecorator)
 
-const mapStateToProps = (state) => ({
-  message: state.organizers.message
-})
+const mapStateToProps = (state) => ({})
 
 export default connect(mapStateToProps)(BasicInformationContainer)

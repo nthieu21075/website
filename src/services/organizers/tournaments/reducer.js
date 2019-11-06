@@ -5,7 +5,11 @@ import { TournamentActions } from './actions'
 
 const initialState = {
   isLoading: true,
-  basicInformation: {}
+  basicInformation: {},
+  teamManagement: {
+    teams: [],
+    table: []
+  }
 }
 
 const tournamentReducer = (state = initialState, action) => {
@@ -15,6 +19,21 @@ const tournamentReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         basicInformation: action.data
+      }
+    }
+
+    case TournamentActions.UPDATE_TEAM_MANAGEMENT: {
+      return {
+        ...state,
+        isLoading: false,
+        teamManagement: action.data
+      }
+    }
+
+    case TournamentActions.UPDATE_LOADINNG: {
+      return {
+        ...state,
+        isLoading: true
       }
     }
 

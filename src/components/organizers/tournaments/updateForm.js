@@ -72,6 +72,14 @@ const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
       />
       <Field
         hasFeedback
+        label="Number Team in table"
+        name="teamOfTable"
+        component={reduxAntFormField(Input)}
+        placeholder="Number Team in table"
+        validate={[ required(), numericality() ]}
+      />
+      <Field
+        hasFeedback
         label='Publish'
         name='publish'
         component={reduxAntFormField(Switch)}

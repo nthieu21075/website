@@ -1,34 +1,43 @@
 import React, { Component } from 'react'
-import moment from 'moment'
-import _ from 'lodash'
-import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
-import updateTeamForm from 'components/organizers/tournaments/updateTeamForm'
+import { Row, Col, Button, Icon, message, Popconfirm } from 'antd'
 import AllTableContainer from 'containers/organizers/tournaments/allTable'
 import AllTeamContainer from 'containers/organizers/tournaments/allTeam'
+import { loadingTourmanetState } from 'services/organizers/tournaments/actions'
+import { getTeamManagement, generateTable } from 'services/organizers/tournaments/api'
 
-import { updateTeam } from 'services/organizers/tournaments/api'
-import { showAlert } from 'helpers/alert'
-import { Row, Col } from 'antd'
+const text = 'Are you sure want to auto generate table. All schedule will be delete?';
 
 class TeamManagementContainer extends Component {
   constructor(props) {
     super(props)
+    this.autoGenerateTable = this.autoGenerateTable.bind(this)
   }
 
   componentDidMount() {
     const { dispatch, params } = this.props
+    dispatch(loadingTourmanetState())
+    dispatch(getTeamManagement(params.id))
   }
 
-  componentDidUpdate() {
-    showAlert(this.props)
+  autoGenerateTable() {
+    const { dispatch, params } = this.props
+    dispatch(loadingTourmanetState())
+    dispatch(generateTable(params.id))
   }
 
   render() {
     return (
       <Row>
         <Col span={24}>
-          <FormDecorator/>
+          <div style={buttonWrapperStyled}>
+           <Popconfirm placement="top" title={text} onConfirm={this.autoGenerateTable} okText="Yes" cancelText="No">
+              <Button type='primary' shape='round'>
+                <Icon type="sync" spin />
+                Auto Generate Table
+              </Button>
+            </Popconfirm>
+          </div>
         </Col>
         <Col span={24}>
           <AllTeamContainer/>
@@ -39,32 +48,14 @@ class TeamManagementContainer extends Component {
   }
 }
 
-let FormDecorator = reduxForm({
-  form: 'origanizerSetupTeamForm',
-  destroyOnUnmount: false,
-  enableReinitialize: true,
-  onSubmit: updateTeam
-})(updateTeamForm)
-
-const ininValueDetault = (state) => {
-  const basicInformation = state.organizers.tournamentPage.basicInformation
-  let defaultValue = {
-    teamNumberOfTable: 0
-  }
-
-  if (_.size(basicInformation) > 0) {
-    defaultValue = _.merge(defaultValue, {
-      teamNumberOfTable: basicInformation.teamNumberOfTable
-    })
-  }
-
-  return { initialValues: defaultValue }
-}
-
-FormDecorator = connect(ininValueDetault)(FormDecorator)
-
-const mapStateToProps = (state) => ({
-  message: state.organizers.message
-})
+const mapStateToProps = (state) => ({})
 
 export default connect(mapStateToProps)(TeamManagementContainer)
+
+const buttonWrapperStyled = {
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: '10px 0'
+}

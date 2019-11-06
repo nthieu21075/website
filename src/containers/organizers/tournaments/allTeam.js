@@ -1,65 +1,41 @@
 import React, { Component } from 'react'
-import { Layout, Typography, Card, Row, Col } from 'antd'
-import { reduxForm, reset } from 'redux-form'
+import _ from 'lodash'
 import { connect } from 'react-redux'
-import { showAlert } from 'helpers/alert'
-import testImage from 'public/images/category.jpg'
-import { Table, Divider, Tag, Button } from 'antd'
+import { Layout, Card, Button, Typography, Row, Col } from 'antd'
 
-const { Column, ColumnGroup } = Table
-const { Title } = Typography
+const { Title, Text } = Typography
 const { Content } = Layout
-const { Meta } = Card
 
 class AllTeamContainer extends Component {
   constructor(props) {
     super(props)
   }
 
-  componentDidMount() {
-  }
-
-  componentDidUpdate() {
-  }
-
   render() {
+    const { teams } = this.props
+
     return (
       <Content style={contentStyled}>
         <Title level={3} style={{ textAlign: 'center', marginTop: 10 }}>All Team</Title>
         <div style={buttonWrapperStyled}>
-          <Button type="primary" icon="plus"> Add team </Button>
-          <Button type="danger" icon="minus" style={{ marginLeft: 10}}> Remove team </Button>
+          <Button type='primary' icon='plus'> Add team </Button>
+          <Button type='danger' icon='minus' style={{ marginLeft: 10}}> Remove team </Button>
         </div>
         <div style={teamWrapperStyled}>
-          <Row gutter={20} type="flex" justify="space-around">
-            <Card
-              hoverable
-              style={teamInfoStyled}
-              cover={<img src={testImage} style={teamLogoStyled} />}
-            >
-              <Meta title="Team 1"/>
-            </Card>
-            <Card
-              hoverable
-              style={teamInfoStyled}
-              cover={<img src={testImage} style={teamLogoStyled} />}
-            >
-              <Meta title="Team 1"/>
-            </Card>
-            <Card
-              hoverable
-              style={teamInfoStyled}
-              cover={<img src={testImage} style={teamLogoStyled} />}
-            >
-              <Meta title="Team 1"/>
-            </Card>
-            <Card
-              hoverable
-              style={teamInfoStyled}
-              cover={<img src={testImage} style={teamLogoStyled} />}
-            >
-              <Meta title="Team 1"/>
-            </Card>
+          <Row gutter={20} type='flex' justify='center'>
+            { _.map(teams, (team, index) => {
+              return (
+                <Card
+                  key={'team' + index}
+                  bodyStyle={teamInfoBodyStyled}
+                  hoverable
+                  style={teamInfoStyled}
+                >
+                  <img src={process.env.API_DOMAIN_URL + team.logo} style={teamLogoStyled} />
+                  <Text strong>{team.name}</Text>
+                </Card>
+              )
+            })}
           </Row>
         </div>
       </Content>
@@ -68,7 +44,7 @@ class AllTeamContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  message: state.organizers.message
+  teams: state.organizers.tournamentPage.teamManagement.teams
 })
 
 export default connect(mapStateToProps)(AllTeamContainer)
@@ -85,13 +61,20 @@ const contentStyled = {
 }
 
 const teamInfoStyled = {
-  width: 150,
-  marginTop: 15
+  width: 200,
+  margin: 15
+}
+
+const teamInfoBodyStyled = {
+  display: 'flex',
+  padding: '0'
 }
 
 const teamLogoStyled = {
-  width: 150,
-  height: 100
+  width: 50,
+  height: 50,
+  objectFit: 'cover',
+  marginRight: 5
 }
 
 const teamWrapperStyled = {
@@ -103,6 +86,6 @@ const teamWrapperStyled = {
 const buttonWrapperStyled = {
   width: '100%',
   display: 'flex',
-  'justifyContent': 'flex-end',
-  'margin': '10px 0'
+  justifyContent: 'flex-end',
+  margin: '10px 0'
 }

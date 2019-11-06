@@ -1,7 +1,7 @@
 import { ApiFormData, Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
-import { updateBasicInformation } from 'services/organizers/tournaments/actions'
+import { updateBasicInformation, updateTeamManagement } from 'services/organizers/tournaments/actions'
 import { reset } from 'redux-form'
 import Navigator from 'helpers/history'
 import { checkApiResponse } from 'helpers/apiResponse'
@@ -38,9 +38,9 @@ export const createTournament =
     })
   }
 
-export const getTournament = (id) => {
+export const getBasicInformation = (id) => {
   return dispatch => {
-    Api().get('api/organizer/tournament/' + id).then(function (response) {
+    Api().get('api/organizer/tournament/basic-info/' + id).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -58,9 +58,29 @@ export const getTournament = (id) => {
   }
 }
 
+export const getTeamManagement = (id) => {
+  return dispatch => {
+    Api().get('/api/organizer/tournament/team-management-info/' + id).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateTeamManagement(apiResponse.data))
+      }, () => {
+        Navigator.push('/organizer/tournamens')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
 export const updateTournament =
   (values, dispatch, props) => {
-    const { name, categoryId, shortDescription, description, image, team, originationDate, publish } = values
+    const { name, categoryId, shortDescription, description, image, team, originationDate, publish, teamOfTable } = values
     let bodyFormData = new FormData()
 
     bodyFormData.append('id', props.initialValues.id)
@@ -69,6 +89,7 @@ export const updateTournament =
     bodyFormData.append('shortDescription', shortDescription)
     bodyFormData.append('description', description)
     bodyFormData.append('team', team)
+    bodyFormData.append('teamOfTable', teamOfTable)
     bodyFormData.append('publish', publish)
     bodyFormData.append('startDate', originationDate[0])
     bodyFormData.append('endDate', originationDate[1])
@@ -95,3 +116,23 @@ export const updateTournament =
       throw new SubmissionError({ _error: error.message })
     })
   }
+
+export const generateTable = (id) => {
+  return dispatch => {
+    Api().post('/api/organizer/tournament/generate-table', { id: id }).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateTeamManagement(apiResponse.data))
+      }, () => {
+        Navigator.push('/organizer/tournamens')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}

@@ -3,26 +3,30 @@ import { Layout, Typography, Card, Row, Col } from 'antd'
 import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
 import { showAlert } from 'helpers/alert'
-import testImage from 'public/images/category.jpg'
-import { Table, Divider, Tag, Button } from 'antd'
+import { Table, Divider, Tag, Button, Avatar } from 'antd'
+import _ from 'lodash'
 
 const { Column, ColumnGroup } = Table
 const { Title } = Typography
 const { Content } = Layout
 const { Meta } = Card
 
+const tableTeam = ({name, logo}) => {
+  return (
+    <div>
+      <Avatar src={process.env.API_DOMAIN_URL + logo } style={{ marginRight: 8 }} />
+      {name}
+    </div>
+  )
+}
+
 class AllTableContainer extends Component {
   constructor(props) {
     super(props)
   }
 
-  componentDidMount() {
-  }
-
-  componentDidUpdate() {
-  }
-
   render() {
+    const { tables } = this.props
     return (
       <Content style={contentStyled}>
         <Title level={3} style={{ textAlign: 'center', marginTop: 10 }}>Team Table</Title>
@@ -31,25 +35,22 @@ class AllTableContainer extends Component {
           <Button type="danger" icon="minus" style={{ marginLeft: 10}}> Remove team </Button>
           <Button type="danger" icon="left" style={{ marginLeft: 10}}> Move team </Button>
         </div>
-        <Row gutter={24} type="flex" justify="space-around">
-          <Table dataSource={data} style={{ margin: 25 }} pagination={false} bordered={true}>
-            <ColumnGroup title="Table A">
-              <Column title="Team" dataIndex="team" key="team" />
-              <Column title="MP" dataIndex="mp" key="mp" />
-              <Column title="Win" dataIndex="win" key="win" />
-              <Column title="Lose" dataIndex="lose" key="lose" />
-              <Column title="Point" dataIndex="point" key="point" />
-            </ColumnGroup>
-          </Table>
-          <Table dataSource={data} style={{ margin: 25 }} pagination={false} bordered={true}>
-            <ColumnGroup title="Table B">
-              <Column title="Team" dataIndex="team" key="team" />
-              <Column title="MP" dataIndex="mp" key="mp" />
-              <Column title="Win" dataIndex="win" key="win" />
-              <Column title="Lose" dataIndex="lose" key="lose" />
-              <Column title="Point" dataIndex="point" key="point" />
-            </ColumnGroup>
-          </Table>
+        <Row type="flex" justify="center" style={{width: '100%'}}>
+          { _.map(tables, (table, index) => {
+            return (
+              <Col xs={{span: 20}} md={{span: 20}} sm={{span: 20}} lg={{span: 20}} xl={{span: 11}} key={index}>
+                <Table dataSource={table.teams} style={{ margin: 25 }} pagination={false} bordered={true}>
+                  <ColumnGroup title={table.name}>
+                    <Column title="" dataIndex="info" render={tableTeam}/>
+                    <Column title="MP" dataIndex="wp" />
+                    <Column title="Win" dataIndex="win" />
+                    <Column title="Lose" dataIndex="lose" />
+                    <Column title="Point" dataIndex="point" />
+                  </ColumnGroup>
+                </Table>
+              </Col>
+            )
+          })}
         </Row>
       </Content>
     )
@@ -57,7 +58,7 @@ class AllTableContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  message: state.organizers.message
+  tables: state.organizers.tournamentPage.teamManagement.tables
 })
 
 export default connect(mapStateToProps)(AllTableContainer)
