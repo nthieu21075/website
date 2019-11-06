@@ -1,9 +1,10 @@
 import { Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
-import { messageError, messageSuccess } from 'services/organizers/message/actions'
+import { messageSuccess } from 'services/organizers/message/actions'
 import { updateAuthData } from 'services/authentication/actions'
 import Navigator from 'helpers/history'
 import { reset } from 'redux-form'
+import { checkApiResponse } from 'helpers/apiResponse'
 
 export const updateProfile =
   (values, dispatch, props) => {
@@ -12,16 +13,12 @@ export const updateProfile =
 
     Api().post('api/organizer/update-profile', params).then(function (response) {
       const apiResponse = response.data
-      if (response.status == 200) {
-        if (apiResponse.code != 200){
-          dispatch(messageError(apiResponse.message))
-        } else {
-          dispatch(updateAuthData(apiResponse.data.user))
-          dispatch(messageSuccess('Update profile successfully'))
-        }
-      } else {
-        dispatch(messageError(response.statusText))
-      }
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateAuthData(apiResponse.data.user))
+        dispatch(messageSuccess('Update profile successfully'))
+      })
+
       return Promise.resolve()
     })
     .catch(function (error) {
@@ -36,18 +33,12 @@ export const updatePassword =
 
     Api().post('api/organizer/update-password', params).then(function (response) {
       const apiResponse = response.data
-      console.log(apiResponse)
-      console.log(response)
-      if (response.status == 200) {
-        if (apiResponse.code != 200){
-          dispatch(messageError(apiResponse.message))
-        } else {
-          dispatch(reset('origanizerChangePasswordForm'))
-          dispatch(messageSuccess('Update password successfully'))
-        }
-      } else {
-        dispatch(messageError(response.statusText))
-      }
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(reset('origanizerChangePasswordForm'))
+        dispatch(messageSuccess('Update password successfully'))
+      })
+
       return Promise.resolve()
     })
     .catch(function (error) {

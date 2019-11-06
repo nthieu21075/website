@@ -4,6 +4,7 @@ import { messageError, messageSuccess } from 'services/organizers/message/action
 import { updateBasicInformation } from 'services/organizers/tournaments/actions'
 import { reset } from 'redux-form'
 import Navigator from 'helpers/history'
+import { checkApiResponse } from 'helpers/apiResponse'
 
 export const createTournament =
   (values, dispatch, props) => {
@@ -24,17 +25,12 @@ export const createTournament =
     ApiFormData().post('api/organizer/tournament/create', bodyFormData).then(function (response) {
       const apiResponse = response.data
 
-      if (response.status == 200) {
-        if (apiResponse.code != 200){
-          dispatch(messageError(apiResponse.message))
-        } else {
-          dispatch(reset('origanizerCreateTournamentForm'))
-          dispatch(messageSuccess('Create Tournament successfully'))
-          Navigator.push('/organizer/tournament/' + apiResponse.data.id)
-        }
-      } else {
-        dispatch(messageError(response.statusText))
-      }
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(reset('origanizerCreateTournamentForm'))
+        dispatch(messageSuccess('Create Tournament successfully'))
+        Navigator.push('/organizer/tournament/' + apiResponse.data.id)
+      })
+
       return Promise.resolve()
     })
     .catch(function (error) {
@@ -47,18 +43,13 @@ export const getTournament = (id) => {
     Api().get('api/organizer/tournament/' + id).then(function (response) {
       const apiResponse = response.data
 
-      if (response.status == 200) {
-        if (apiResponse.code == 400){
-          Navigator.push('/organizer/tournamens')
-          dispatch(messageError(apiResponse.message))
-        } else if (apiResponse.code == 200){
-          dispatch(updateBasicInformation(apiResponse.data.basicInformation))
-        } else {
-          dispatch(messageError(apiResponse.message))
-        }
-      } else {
-        dispatch(messageError(response.statusText))
-      }
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateBasicInformation(apiResponse.data.basicInformation))
+      }, () => {
+        Navigator.push('/organizer/tournamens')
+        dispatch(messageError(apiResponse.message))
+      })
+
       return Promise.resolve()
     })
     .catch(function (error) {
@@ -93,15 +84,11 @@ export const updateTournament =
     ApiFormData().post('api/organizer/tournament/update', bodyFormData).then(function (response) {
       const apiResponse = response.data
 
-      if (response.status == 200) {
-        if (apiResponse.code != 200){
-          dispatch(messageError(apiResponse.message))
-        } else {
-          dispatch(messageSuccess('Update Tournament successfully'))
-        }
-      } else {
-        dispatch(messageError(response.statusText))
-      }
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(messageSuccess('Update Tournament successfully'))
+      })
+
       return Promise.resolve()
     })
     .catch(function (error) {

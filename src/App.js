@@ -13,6 +13,9 @@ import history from 'helpers/history'
 // Authentication Pages
 import LoginPage from 'pages/LoginPage'
 import RegisterPage from 'pages/RegisterPage'
+
+//Error Pages
+import ErrorPage from 'pages/ErrorPage'
 // User Pages
 import UserLayout from 'pages/UserPages/Layout'
 // Organiser Pages
@@ -28,6 +31,27 @@ const App = () => (
             <Route exact path={Routes.REGISTER_PAGE} component={RegisterPage} />
             <Route exact path={Routes.LOGIN_PAGE} component={LoginPage} />
             <Route path='/organizer' component={OrganizerLayout} />
+            <Route path='/500'>
+              <ErrorPage
+                status="500"
+                title="500"
+                message="Sorry, the server is wrong."
+              />
+            </Route>
+            <Route path='/404'>
+              <ErrorPage
+                status="404"
+                title="404"
+                message="Sorry, the page you visited does not exist."
+              />
+            </Route>
+            <Route path='/403'>
+              <ErrorPage
+                status="403"
+                title="403"
+                message="Sorry, you are not authorized to access this page."
+              />
+            </Route>
             <Route path='/' component={UserLayout} />
           </Switch>
         </ScrollToTop>

@@ -2,14 +2,13 @@ import { Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { authFail, authSuccess } from './actions'
 import Navigator from 'helpers/history'
-const qs = require('qs')
 
 export const submitLogin =
   (values, dispatch, props) => {
     const { email, password } = values
     const params = { email: email, password: password }
 
-    Api().post('api/login', qs.stringify(params)).then(function (response) {
+    Api().post('api/login', params).then(function (response) {
       const apiResponse = response.data
 
       if (response.status == 200) {
@@ -39,7 +38,7 @@ export const submitRegister =
     const { email, password, name } = values
     const params = { name: name, email: email, password: password }
 
-    Api().post('api/register', qs.stringify(params)).then(function (response) {
+    Api().post('api/register', params).then(function (response) {
       const apiResponse = response.data
 
       if (response.status == 200) {
