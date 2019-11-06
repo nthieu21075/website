@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { Layout, Card, Button, Typography, Row, Col } from 'antd'
-
+import AddTeamToTournamentContainer from 'containers/organizers/tournaments/addTeamToTournament'
 const { Title, Text } = Typography
 const { Content } = Layout
 
@@ -18,7 +18,7 @@ class AllTeamContainer extends Component {
       <Content style={contentStyled}>
         <Title level={3} style={{ textAlign: 'center', marginTop: 10 }}>All Team</Title>
         <div style={buttonWrapperStyled}>
-          <Button type='primary' icon='plus'> Add team </Button>
+          <AddTeamToTournamentContainer/>
           <Button type='danger' icon='minus' style={{ marginLeft: 10}}> Remove team </Button>
         </div>
         <div style={teamWrapperStyled}>

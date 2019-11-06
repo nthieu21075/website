@@ -26,7 +26,7 @@ class TournamentDetailContainner extends Component {
     const { params, isLoading } = this.props
     return (
       <Spin spinning={isLoading}>
-        <Tabs defaultActiveKey='basicInfo'>
+        <Tabs defaultActiveKey='teamManagement'>
           <TabPane tab='Basic Information' key='basicInfo'>
             <BasicInformationContainer params={params}/>
           </TabPane>
