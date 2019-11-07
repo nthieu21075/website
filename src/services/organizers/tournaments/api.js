@@ -105,9 +105,9 @@ export const updateTournament =
     ApiFormData().post('api/organizer/tournament/update', bodyFormData).then(function (response) {
       const apiResponse = response.data
 
-
       checkApiResponse(response, apiResponse, dispatch, () => {
         dispatch(messageSuccess('Update Tournament successfully'))
+        dispatch(updateBasicInformation(apiResponse.data.basicInformation))
       })
 
       return Promise.resolve()
@@ -186,6 +186,27 @@ export const removeTeam = (tournamentTeamIds, tournamentId, callback) => {
 
       checkApiResponse(response, apiResponse, dispatch, () => {
         dispatch(removeTournamentTeam(tournamentTeamIds))
+        callback()
+      }, () => {
+        Navigator.push('/organizer/tournaments')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const addToTeamTable = (tournamentId, teamIds, tableId, callback) => {
+  return dispatch => {
+    Api().post('/api/organizer/tournament/add-team-to-table', { id: tournamentId, teamIds: teamIds, tableId: tableId }).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateTeamManagement(apiResponse.data))
         callback()
       }, () => {
         Navigator.push('/organizer/tournaments')

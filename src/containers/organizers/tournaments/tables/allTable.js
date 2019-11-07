@@ -37,7 +37,7 @@ class AllTableContainer extends Component {
         <Row type="flex" justify="center" style={{width: '100%'}}>
           { _.map(tables, (table, index) => {
             return (
-              <Col xs={{span: 20}} md={{span: 20}} sm={{span: 20}} lg={{span: 20}} xl={{span: 11}} key={index}>
+              <Col xs={{span: 24}} md={{span: 24}} sm={{span: 24}} lg={{span: 24}} xl={{span: 12}} key={index}>
                 <Table dataSource={table.teams} style={{ margin: 25 }} pagination={false} bordered={true}>
                   <ColumnGroup title={table.name}>
                     <Column title="" dataIndex="info" render={tableTeam}/>

@@ -1,24 +1,37 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import { Modal, Button, Transfer } from 'antd'
-import { getAvailbaleTeam, addTeam } from 'services/organizers/tournaments/api'
-import TeamTransferContainer from './teamTransfer'
+import { Modal, Button, Transfer, Select, message } from 'antd'
+import { addToTeamTable } from 'services/organizers/tournaments/api'
+
+const { Option } = Select
 
 class AddTeamToTableContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      tableId: null,
       visible: false,
       confirmLoading: false,
       targetKeys: [],
-      availableTeam: []
+      selectedKeys: []
     }
 
     this.showModal = this.showModal.bind(this)
     this.handleOk = this.handleOk.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
-    this.updateAvailableTeam = this.updateAvailableTeam.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
+    this.handleCancel = this.handleCancel.bind(this)
+    this.handleSelectTable = this.handleSelectTable.bind(this)
+  }
+
+  handleChange(nextTargetKeys, direction, moveKeys) {
+    this.setState({ targetKeys: nextTargetKeys })
+  }
+
+  handleSelectChange(sourceSelectedKeys, targetSelectedKeys) {
+    this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] })
   }
 
   showModal() {
@@ -26,66 +39,86 @@ class AddTeamToTableContainer extends Component {
   }
 
   handleOk() {
-    const { dispatch, basicInformation: { id } } = this.props
-    const { targetKeys } = this.state
+    let { tableId, targetKeys } = this.state
+    const { dispatch, basicInformation, tables } = this.props
+    const tableOptions = listAvailableTable(basicInformation, tables)
+
+    if (tableOptions.length == 0) {
+      message.error('All table is full')
+      return
+    }
+
+    if (targetKeys.length == 0) {
+      message.error(`Please transfer team to table`)
+      return
+    }
+
+    if (tableId == null) {
+      tableId = tableOptions[0].id
+    }
+
+    const currentTable = _.filter(tableOptions, item => item.id === tableId)
     this.setState({ confirmLoading: true })
 
-    setTimeout(() => {
-      this.setState({ visible: false, confirmLoading: false, targetKeys: [] })
-    }, 500)
-  }
-
-  handleCancel() {
-    this.setState({ visible: false, targetKeys: [] })
-  }
-
-  componentWillUpdate() {
-    if (this.state.availableTeam.length == 0 && this.props.teams.length > 0) {
-      this.setState({ availableTeam: this.props.teams })
+    if (targetKeys.length > currentTable[0].limit) {
+       message.error(`Only can add ${currentTable.limit} team to table ${currentTable.name}`)
+    } else {
+      setTimeout(() => {
+        dispatch(addToTeamTable(basicInformation.id, targetKeys, tableId, () => {
+          this.setState({ visible: false, confirmLoading: false, selectedKeys: [], targetKeys: [] })
+        }))
+      }, 500)
     }
   }
 
-  updateAvailableTeam(selectedItem) {
-    console.log('updateAvailableTeam')
-    console.log(selectedItem)
+  handleCancel() {
+    this.setState({ visible: false, selectedKeys: [], targetKeys: [] })
+  }
+
+  handleSelectTable(value) {
+    this.setState({ tableId: value.key })
   }
 
   render() {
-    const { tables, basicInformation } = this.props
-    const { visible, confirmLoading, targetKeys, availableTeam } = this.state
-    const listTable = listAvailableTable(basicInformation, tables)
+    const { visible, confirmLoading, targetKeys, selectedKeys } = this.state
+    const { teams, basicInformation, tables  } = this.props
+    const tableOptions = listAvailableTable(basicInformation, tables)
 
     return (
       <div>
-        <Button type='primary' icon='plus' onClick={this.showModal}> Add team to Table</Button>
+        <Button type='primary' icon='plus' style={{ marginLeft: 10}} onClick={this.showModal}>Add Team to Table </Button>
         <Modal
-          title="Add team to Table"
+          title="Add Team to Table"
           visible={visible}
           onOk={this.handleOk}
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
         >
-          {_.map(listTable, (table, index) => {
-            return <TeamTransferContainer table={table} availableTeam={availableTeam} key={index} onChange={this.updateAvailableTeam}/>
-          })}
+          <Select
+            style={{ width: '100%', marginBottom: 20 }}
+            labelInValue
+            defaultValue={{ key: tableOptions[0] ? tableOptions[0].id : '' }}
+            onChange={this.handleSelectTable}
+          >
+            {_.map(tableOptions, (table, index) => {
+              return <Option value={table.id} key={index}>{table.name}</Option>
+            })}
+          </Select>
+          <Transfer
+            style={transferStyled}
+            dataSource={teams}
+            titles={['Team', 'Table']}
+            targetKeys={targetKeys}
+            selectedKeys={selectedKeys}
+            onChange={this.handleChange}
+            onSelectChange={this.handleSelectChange}
+            render={item => item.name}
+            rowKey={item => item.tournamentTeamId}
+          />
         </Modal>
       </div>
     )
   }
-}
-
-const listAvailableTable = (basicInformation, tables) => {
-  let listTable = []
-
-  _.forEach(tables, (table) => {
-    if (table.teams.length < basicInformation.teamOfTable){
-      listTable.push({
-        name: table.name,
-        limit: basicInformation.teamOfTable - table.teams.length
-      })
-    }
-  })
-  return listTable
 }
 
 const mapStateToProps = (state) => ({
@@ -94,4 +127,25 @@ const mapStateToProps = (state) => ({
   basicInformation: state.organizers.tournamentPage.basicInformation
 })
 
+const listAvailableTable = (basicInformation, tables) => {
+  let listTable = []
+
+  _.forEach(tables, (table) => {
+    if (table.teams.length < basicInformation.teamOfTable){
+      listTable.push({
+        id: table.tableId,
+        name: table.name,
+        limit: basicInformation.teamOfTable - table.teams.length
+      })
+    }
+  })
+  return listTable
+}
+
 export default connect(mapStateToProps)(AddTeamToTableContainer)
+
+const transferStyled = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
