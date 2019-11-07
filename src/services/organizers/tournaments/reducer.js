@@ -73,6 +73,17 @@ const tournamentReducer = (state = initialState, action) => {
       }
     }
 
+    case TournamentActions.UPDATE_TOURNAMENT_TABLE: {
+      return {
+        ...state,
+        teamManagement: {
+          teams: state.teamManagement.teams,
+          tables: action.data,
+          availableTeam: state.teamManagement.availableTeam
+        }
+      }
+    }
+
     case TournamentActions.UPDATE_LOADINNG: {
       return {
         ...state,

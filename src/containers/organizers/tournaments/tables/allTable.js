@@ -3,10 +3,10 @@ import { Layout, Typography, Card, Row, Col } from 'antd'
 import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
 import { showAlert } from 'helpers/alert'
-import { Table, Divider, Tag, Button, Avatar } from 'antd'
 import _ from 'lodash'
 import AddTeamToTable from './addTeamToTable'
-import { removeTeamTable } from 'services/organizers/tournaments/api'
+import { removeTeamTable, moveTeamToAnotherTable } from 'services/organizers/tournaments/api'
+import { Table, Divider, Tag, Button, Avatar, Menu, Dropdown } from 'antd'
 
 const { Column, ColumnGroup } = Table
 const { Title } = Typography
@@ -22,17 +22,36 @@ const tableTeam = ({name, logo}) => {
   )
 }
 
+const moveTableMenu = (item, tables, click) => {
+  return (
+    <Menu onClick={(menuItem) => click(item.tableResultId, menuItem)}>
+      {_.map(tables, (table, index) => {
+        if (table.tableId == item.tableId) {
+          return ""
+        }
+
+        return <Menu.Item key={table.tableId}>{table.name}</Menu.Item>
+      })}
+    </Menu>
+  )
+}
+
 class AllTableContainer extends Component {
   constructor(props) {
     super(props)
 
     this.onRemoveTeam = this.onRemoveTeam.bind(this)
+    this.onMoveTeam = this.onMoveTeam.bind(this)
   }
 
   onRemoveTeam(item) {
-    console.log(item)
     const { basicInformation, dispatch } = this.props
     dispatch(removeTeamTable(basicInformation.id, item.tableResultId))
+  }
+
+  onMoveTeam(tableResultId, menuItem) {
+    const { basicInformation, dispatch } = this.props
+    dispatch(moveTeamToAnotherTable(basicInformation.id, tableResultId, menuItem.key))
   }
 
   render() {
@@ -57,7 +76,9 @@ class AllTableContainer extends Component {
                     <Column title="Actions" key="action" render={(item) => {
                       return (
                         <div>
-                          <Button type="primary" icon="double-left"/>
+                          <Dropdown overlay={moveTableMenu(item, tables, this.onMoveTeam)} trigger={['click']}>
+                            <Button type="primary" icon="double-left"/>
+                          </Dropdown>
                           <Button type="danger" icon="close" style={{ marginLeft: 10}} onClick={e => this.onRemoveTeam(item)}/>
                         </div>
                       )

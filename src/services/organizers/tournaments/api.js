@@ -1,7 +1,9 @@
 import { ApiFormData, Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
-import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addTournamentTeam, removeTournamentTeam } from 'services/organizers/tournaments/actions'
+import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addTournamentTeam, removeTournamentTeam,
+  updateTeamManagementTable
+} from 'services/organizers/tournaments/actions'
 import { reset } from 'redux-form'
 import Navigator from 'helpers/history'
 import { checkApiResponse } from 'helpers/apiResponse'
@@ -228,6 +230,26 @@ export const removeTeamTable = (tournamentId, tableResultId) => {
 
       checkApiResponse(response, apiResponse, dispatch, () => {
         dispatch(updateTeamManagement(apiResponse.data))
+      }, () => {
+        Navigator.push('/organizer/tournaments')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const moveTeamToAnotherTable = (tournamentId, tableResultId, tableId) => {
+  return dispatch => {
+    Api().post('/api/organizer/tournament/move-team-to-table', { id: tournamentId, tableResultId: tableResultId, tableId: tableId }).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateTeamManagementTable(apiResponse.data.tables))
       }, () => {
         Navigator.push('/organizer/tournaments')
         dispatch(messageError(apiResponse.message))
