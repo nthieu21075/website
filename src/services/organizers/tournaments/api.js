@@ -220,3 +220,23 @@ export const addToTeamTable = (tournamentId, teamIds, tableId, callback) => {
     })
   }
 }
+
+export const removeTeamTable = (tournamentId, tableResultId) => {
+  return dispatch => {
+    Api().post('/api/organizer/tournament/remove-team-to-table', { id: tournamentId, tableResultId: tableResultId }).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateTeamManagement(apiResponse.data))
+      }, () => {
+        Navigator.push('/organizer/tournaments')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}

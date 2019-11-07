@@ -6,6 +6,7 @@ import { showAlert } from 'helpers/alert'
 import { Table, Divider, Tag, Button, Avatar } from 'antd'
 import _ from 'lodash'
 import AddTeamToTable from './addTeamToTable'
+import { removeTeamTable } from 'services/organizers/tournaments/api'
 
 const { Column, ColumnGroup } = Table
 const { Title } = Typography
@@ -24,6 +25,14 @@ const tableTeam = ({name, logo}) => {
 class AllTableContainer extends Component {
   constructor(props) {
     super(props)
+
+    this.onRemoveTeam = this.onRemoveTeam.bind(this)
+  }
+
+  onRemoveTeam(item) {
+    console.log(item)
+    const { basicInformation, dispatch } = this.props
+    dispatch(removeTeamTable(basicInformation.id, item.tableResultId))
   }
 
   render() {
@@ -49,7 +58,7 @@ class AllTableContainer extends Component {
                       return (
                         <div>
                           <Button type="primary" icon="double-left"/>
-                          <Button type="danger" icon="close" style={{ marginLeft: 10}}/>
+                          <Button type="danger" icon="close" style={{ marginLeft: 10}} onClick={e => this.onRemoveTeam(item)}/>
                         </div>
                       )
                     }} />
@@ -65,7 +74,8 @@ class AllTableContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  tables: state.organizers.tournamentPage.teamManagement.tables
+  tables: state.organizers.tournamentPage.teamManagement.tables,
+  basicInformation: state.organizers.tournamentPage.basicInformation
 })
 
 export default connect(mapStateToProps)(AllTableContainer)

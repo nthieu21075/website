@@ -58,11 +58,10 @@ class AddTeamToTableContainer extends Component {
     }
 
     const currentTable = _.filter(tableOptions, item => item.id === tableId)
-    this.setState({ confirmLoading: true })
-
     if (targetKeys.length > currentTable[0].limit) {
-       message.error(`Only can add ${currentTable.limit} team to table ${currentTable.name}`)
+       message.error(`Only can add ${currentTable[0].limit} team to table ${currentTable[0].name}`)
     } else {
+      this.setState({ confirmLoading: true })
       setTimeout(() => {
         dispatch(addToTeamTable(basicInformation.id, targetKeys, tableId, () => {
           this.setState({ visible: false, confirmLoading: false, selectedKeys: [], targetKeys: [] })
@@ -105,6 +104,7 @@ class AddTeamToTableContainer extends Component {
             })}
           </Select>
           <Transfer
+            listStyle={{ width: '44%', height: 300 }}
             style={transferStyled}
             dataSource={teams}
             titles={['Team', 'Table']}
