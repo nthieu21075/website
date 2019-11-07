@@ -3,6 +3,7 @@ export const TournamentActions = {
   UPDATE_TEAM_MANAGEMENT: '@organizerTournament/update_team_management',
   UPDATE_AVAILABLE_TEAM: '@organizerTournament/update_availabel_team',
   ADD_AVAILABLE_TEAM: '@organizerTournament/add_availabel_team',
+  REMOVE_TOURNAMENT_TEAM: '@organizerTournament/remove_tournament_team',
   UPDATE_LOADINNG: '@organizerTournament/update_loading',
   INITIALIZE: '@organizerTournament/init'
 }
@@ -42,3 +43,11 @@ export const addTournamentTeam = (data) => (dispatch) => {
     data: data
   })
 }
+
+export const removeTournamentTeam = (data) => (dispatch) => {
+  dispatch({
+    type: TournamentActions.REMOVE_TOURNAMENT_TEAM,
+    data: data
+  })
+}
+

@@ -1,7 +1,7 @@
 import { ApiFormData, Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
-import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addTournamentTeam } from 'services/organizers/tournaments/actions'
+import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addTournamentTeam, removeTournamentTeam } from 'services/organizers/tournaments/actions'
 import { reset } from 'redux-form'
 import Navigator from 'helpers/history'
 import { checkApiResponse } from 'helpers/apiResponse'
@@ -179,3 +179,23 @@ export const addTeam = (teamIds, tournamentId, callback) => {
   }
 }
 
+export const removeTeam = (tournamentTeamIds, tournamentId, callback) => {
+  return dispatch => {
+    Api().post('/api/organizer/tournament/remove-team', { id: tournamentId, tournamentTeamIds: tournamentTeamIds }).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(removeTournamentTeam(tournamentTeamIds))
+        callback()
+      }, () => {
+        Navigator.push('/organizer/tournaments')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
