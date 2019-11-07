@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { Layout, Card, Button, Typography, Row, Col } from 'antd'
-import AddTeamToTournamentContainer from 'containers/organizers/tournaments/addTeamToTournament'
-import RemoveTeamFromTournamentContainer from 'containers/organizers/tournaments/removeTeamFromTournament'
+import AddTeamToTournamentContainer from './addTeamToTournament'
+import RemoveTeamFromTournamentContainer from './removeTeamFromTournament'
 const { Title, Text } = Typography
 const { Content } = Layout
 

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { showAlert } from 'helpers/alert'
 import { Table, Divider, Tag, Button, Avatar } from 'antd'
 import _ from 'lodash'
+import AddTeamToTable from './addTeamToTable'
 
 const { Column, ColumnGroup } = Table
 const { Title } = Typography
@@ -31,9 +32,7 @@ class AllTableContainer extends Component {
       <Content style={contentStyled}>
         <Title level={3} style={{ textAlign: 'center', marginTop: 10 }}>Team Table</Title>
         <div style={buttonWrapperStyled}>
-          <Button type="primary" icon="plus"> Add team </Button>
-          <Button type="danger" icon="minus" style={{ marginLeft: 10}}> Remove team </Button>
-          <Button type="danger" icon="left" style={{ marginLeft: 10}}> Move team </Button>
+          <AddTeamToTable/>
         </div>
         <Row type="flex" justify="center" style={{width: '100%'}}>
           { _.map(tables, (table, index) => {
@@ -46,6 +45,14 @@ class AllTableContainer extends Component {
                     <Column title="Win" dataIndex="win" />
                     <Column title="Lose" dataIndex="lose" />
                     <Column title="Point" dataIndex="point" />
+                    <Column title="Actions" key="action" render={(item) => {
+                      return (
+                        <div>
+                          <Button type="primary" icon="double-left"/>
+                          <Button type="danger" icon="close" style={{ marginLeft: 10}}/>
+                        </div>
+                      )
+                    }} />
                   </ColumnGroup>
                 </Table>
               </Col>

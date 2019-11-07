@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Button, Icon, message, Popconfirm } from 'antd'
-import AllTableContainer from 'containers/organizers/tournaments/allTable'
-import AllTeamContainer from 'containers/organizers/tournaments/allTeam'
+import AllTableContainer from './tables/allTable'
+import AllTeamContainer from './teams/allTeam'
 import { loadingTourmanetState } from 'services/organizers/tournaments/actions'
 import { getTeamManagement, generateTable } from 'services/organizers/tournaments/api'
 
