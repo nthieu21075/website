@@ -1,14 +1,13 @@
-/**
- The quantity of the products that the user has.
- */
 import { TournamentActions } from './actions'
+import _ from 'lodash'
 
 const initialState = {
   isLoading: true,
   basicInformation: {},
   teamManagement: {
     teams: [],
-    table: []
+    tables: [],
+    availableTeam: []
   }
 }
 
@@ -26,7 +25,35 @@ const tournamentReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        teamManagement: action.data
+        teamManagement: {
+          teams: action.data.teams,
+          tables: action.data.tables,
+          availableTeam: state.teamManagement.availableTeam
+        }
+      }
+    }
+
+    case TournamentActions.UPDATE_AVAILABLE_TEAM: {
+      return {
+        ...state,
+        isLoading: false,
+        teamManagement: {
+          teams: state.teamManagement.teams,
+          tables: state.teamManagement.tables,
+          availableTeam: action.data
+        }
+      }
+    }
+
+    case TournamentActions.ADD_AVAILABLE_TEAM: {
+      return {
+        ...state,
+        isLoading: false,
+        teamManagement: {
+          teams: _.concat(state.teamManagement.teams, action.data),
+          tables: state.teamManagement.tables,
+          availableTeam: state.teamManagement.availableTeam
+        }
       }
     }
 

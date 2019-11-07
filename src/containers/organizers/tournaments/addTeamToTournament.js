@@ -2,21 +2,12 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import { Modal, Button, Transfer } from 'antd'
-
-const mockData = [];
-for (let i = 0; i < 20; i++) {
-  mockData.push({
-    key: i.toString(),
-    title: `content${i + 1}`,
-    description: `description of content${i + 1}`
-  })
-}
+import { getAvailbaleTeam, addTeam } from 'services/organizers/tournaments/api'
 
 class AddTeamToTournamentContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ModalText: 'Content of the modal',
       visible: false,
       confirmLoading: false,
       targetKeys: [],
@@ -32,44 +23,45 @@ class AddTeamToTournamentContainer extends Component {
   }
 
   handleChange(nextTargetKeys, direction, moveKeys) {
-    this.setState({ targetKeys: nextTargetKeys });
-
-    console.log('targetKeys: ', nextTargetKeys);
-    console.log('direction: ', direction);
-    console.log('moveKeys: ', moveKeys);
+    this.setState({ targetKeys: nextTargetKeys })
   }
 
   handleSelectChange(sourceSelectedKeys, targetSelectedKeys) {
     this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] })
-
-    console.log('sourceSelectedKeys: ', sourceSelectedKeys);
-    console.log('targetSelectedKeys: ', targetSelectedKeys);
   }
 
   showModal() {
     this.setState({ visible: true })
+    const { dispatch, basicInformation} = this.props
+
+    if (_.size(basicInformation) > 0) {
+      dispatch(getAvailbaleTeam(basicInformation.category.id, basicInformation.id))
+    }
   }
 
   handleOk() {
-    this.setState({
-      ModalText: 'The modal will be closed after two seconds',
-      confirmLoading: true,
-    })
+    const { dispatch, basicInformation: { id } } = this.props
+    const { targetKeys } = this.state
+    this.setState({ confirmLoading: true })
 
     setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false,
-      });
-    }, 2000)
+      if (targetKeys.length > 0) {
+        dispatch(addTeam(targetKeys, id, () => {
+          this.setState({ visible: false, confirmLoading: false, selectedKeys: [], targetKeys: [] })
+        }))
+      } else {
+          this.setState({ visible: false, confirmLoading: false, selectedKeys: [], targetKeys: [] })
+      }
+    }, 500)
   }
 
   handleCancel() {
-    this.setState({ visible: false })
+    this.setState({ visible: false, selectedKeys: [], targetKeys: [] })
   }
 
   render() {
-    const { visible, ModalText, confirmLoading, targetKeys, selectedKeys } = this.state
+    const { visible, confirmLoading, targetKeys, selectedKeys } = this.state
+    const { availableTeam } = this.props
 
     return (
       <div>
@@ -83,13 +75,14 @@ class AddTeamToTournamentContainer extends Component {
         >
           <Transfer
             style={transferStyled}
-            dataSource={mockData}
+            dataSource={availableTeam}
             titles={['Team', 'Tournament']}
             targetKeys={targetKeys}
             selectedKeys={selectedKeys}
             onChange={this.handleChange}
             onSelectChange={this.handleSelectChange}
-            render={item => item.title}
+            render={item => item.name}
+            rowKey={item => item.id}
           />
         </Modal>
       </div>
@@ -98,7 +91,8 @@ class AddTeamToTournamentContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  teams: state.organizers.tournamentPage.teamManagement.teams
+  availableTeam: state.organizers.tournamentPage.teamManagement.availableTeam,
+  basicInformation: state.organizers.tournamentPage.basicInformation
 })
 
 export default connect(mapStateToProps)(AddTeamToTournamentContainer)

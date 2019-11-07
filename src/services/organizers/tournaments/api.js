@@ -1,7 +1,7 @@
 import { ApiFormData, Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
-import { updateBasicInformation, updateTeamManagement } from 'services/organizers/tournaments/actions'
+import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addTournamentTeam } from 'services/organizers/tournaments/actions'
 import { reset } from 'redux-form'
 import Navigator from 'helpers/history'
 import { checkApiResponse } from 'helpers/apiResponse'
@@ -46,7 +46,7 @@ export const getBasicInformation = (id) => {
       checkApiResponse(response, apiResponse, dispatch, () => {
         dispatch(updateBasicInformation(apiResponse.data.basicInformation))
       }, () => {
-        Navigator.push('/organizer/tournamens')
+        Navigator.push('/organizer/tournaments')
         dispatch(messageError(apiResponse.message))
       })
 
@@ -66,7 +66,7 @@ export const getTeamManagement = (id) => {
       checkApiResponse(response, apiResponse, dispatch, () => {
         dispatch(updateTeamManagement(apiResponse.data))
       }, () => {
-        Navigator.push('/organizer/tournamens')
+        Navigator.push('/organizer/tournaments')
         dispatch(messageError(apiResponse.message))
       })
 
@@ -125,7 +125,7 @@ export const generateTable = (id) => {
       checkApiResponse(response, apiResponse, dispatch, () => {
         dispatch(updateTeamManagement(apiResponse.data))
       }, () => {
-        Navigator.push('/organizer/tournamens')
+        Navigator.push('/organizer/tournaments')
         dispatch(messageError(apiResponse.message))
       })
 
@@ -136,3 +136,46 @@ export const generateTable = (id) => {
     })
   }
 }
+
+export const getAvailbaleTeam = (categoryId, tournamentId) => {
+  return dispatch => {
+    const url = `/api/organizer/tournament/${tournamentId}/available-team/${categoryId}`
+    Api().get(url).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateAvailableTeam(apiResponse.data))
+      }, () => {
+        Navigator.push('/organizer/tournaments')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const addTeam = (teamIds, tournamentId, callback) => {
+  return dispatch => {
+    Api().post('/api/organizer/tournament/add-team', { id: tournamentId, teamIds: teamIds }).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(addTournamentTeam(apiResponse.data))
+        callback()
+      }, () => {
+        Navigator.push('/organizer/tournaments')
+        dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
