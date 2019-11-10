@@ -1,5 +1,5 @@
-import _ from 'lodash'
-const teams = [
+import { singleElimination } from 'helpers/bracket'
+const teams = _.shuffle([
   {
     id: 1,
     name: 'Team 1'
@@ -31,95 +31,18 @@ const teams = [
   {
     id: 8,
     name: 'Team 8'
+  },
+  {
+    id: 9,
+    name: 'Team 9'
+  },
+  {
+    id: 10,
+    name: 'Team 10'
   }
-]
+])
 
-const matchData = () => {
-  const range = [0, 2, 4]
-  let arr = []
-  let matchNumber = _.sum(range) + 1
-
-  _.forEach(range, (index) => {
-    if (index == 0) {
-      arr.push({
-        id: 1,
-        name: 'Match ' + matchNumber,
-        scheduled: 1499540400000 + (matchNumber * 3600 * 24)
-      })
-    } else {
-      const matchRange = _.range(0, index, 1)
-      _.forEach(matchRange, (matchIndex) => {
-        matchNumber = matchNumber - 1
-        const matchId = matchIndex + index
-        const root = arr[parseInt(matchId / 2) - 1]
-
-        arr.push({
-          id: matchId,
-          name: 'Match ' + matchNumber,
-          scheduled: 1499540400000 + (matchId * 3600 * 24),
-          rootId: root.id
-        })
-      })
-    }
-  })
-
-  return arr
-}
-
-console.log(matchData())
-const bracket = (match, visitorSource = null, homeSource = null) => {
-  const visitorDisplayName = visitorSource ? visitorSource.name : match.name
-  const homeDisplayName = homeSource ? homeSource.name : match.name
-
-  return {
-    id: match.id,
-    name: match.name,
-    scheduled: match.scheduled,
-    sides: {
-      visitor: {
-        score: null,
-        team: null,
-        seed: {
-          sourceGame: visitorSource,
-          rank: 1,
-          displayName: 'Winner of ' + visitorDisplayName
-        }
-      },
-      home: {
-        score: null,
-        team: null,
-        seed: {
-          sourceGame: homeSource,
-          rank: 1,
-          displayName: 'Winner of ' + homeDisplayName
-        }
-      }
-    }
-  }
-}
-
-const range = _.range(0, (teams.length / 2) + 1, 2)
-const matches = (data, currentNode) => {
-  const child = _.filter(data, (elem) => {
-    return currentNode.id == elem.rootId
-  })
-
-  if (child.length == 0) {
-    return bracket(currentNode)
-  }
-
-  if (child.length == 1) {
-    return bracket(currentNode, matches(data,child[0]))
-  }
-
-  return bracket(currentNode, matches(data, child[0]), matches(data, child[1]))
-}
-
-// console.log(range)
-const data = matchData()
-export const aloneMatchData = matches(data, data[0])
-// listMatchData
-// console.log(aloneMatchData)
+export const aloneMatchData = singleElimination(teams)
 
 export const listMatchData = {
   "id": "35b0745d-ef13-4255-8c40-c9daa95e4cc4",
