@@ -28,8 +28,6 @@ class SideBarContainer extends Component {
       default:
         return
     }
-
-
   }
 
   render() {

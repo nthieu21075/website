@@ -2,13 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Row, Col } from 'antd'
 import { Bracket, BracketGame, BracketGenerator, Model } from 'react-tournament-bracket'
-import * as JSOG from 'jsog'
 import _ from 'lodash'
-import DEMO_DATA from 'global/scheduleDemoData'
-import { aloneMatchData, listMatchData } from 'global/1matchData'
-
-const GAMES = JSOG.decode(DEMO_DATA)
-const ROOT = aloneMatchData
+import { singleEliminationData } from 'global/1matchData'
+import { loadingTourmanetState } from 'services/organizers/tournaments/actions'
+import { getTeamManagement, generateTable } from 'services/organizers/tournaments/api'
 
 class ScheduleManagementContainer extends Component {
   constructor(props) {
@@ -25,8 +22,9 @@ class ScheduleManagementContainer extends Component {
   }
 
   componentDidMount() {
-    // const { dispatch, params } = this.props
-    // dispatch(loadingTourmanetState())
+    const { dispatch, params } = this.props
+    dispatch(loadingTourmanetState())
+    dispatch(getTeamManagement(params.id))
   }
 
 
@@ -51,6 +49,7 @@ class ScheduleManagementContainer extends Component {
 
   render() {
     const { homeOnTopState } = this.state
+    const { tables } = this.props
     const lineInfo =  {
       yOffset: -6,
       separation: 2,
@@ -66,22 +65,28 @@ class ScheduleManagementContainer extends Component {
     const roundSeparatorWidth = 13
 
     return (
-      <div className="scheduled" style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', overflow: 'scroll' }}>
-        <p>Bracket</p>
-        <Bracket
-          game={aloneMatchData}
-          homeOnTop={homeOnTopState}
-          GameComponent={this.gameComponent}
-          lineInfo={lineInfo}
-          gameDimensions={gameDimensions}
-          roundSeparatorWidth={roundSeparatorWidth}
-          svgPadding={svgPadding}
-        />
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', overflow: 'scroll' }}>
+        {_.map(tables, (table, index) => {
+          return (<div className="scheduled" style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', overflow: 'scroll' }} key={index}>
+            <h3>{table.name}</h3>
+            <Bracket
+              game={singleEliminationData(table)}
+              homeOnTop={homeOnTopState}
+              GameComponent={this.gameComponent}
+              lineInfo={lineInfo}
+              gameDimensions={gameDimensions}
+              roundSeparatorWidth={roundSeparatorWidth}
+              svgPadding={svgPadding}
+            />
+          </div>)
+        })}
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  tables: state.organizers.tournamentPage.teamManagement.tables
+})
 
 export default connect(mapStateToProps)(ScheduleManagementContainer)

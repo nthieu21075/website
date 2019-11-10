@@ -35,7 +35,7 @@ class TournamentDetailContainner extends Component {
             <TeamManagementContainer params={params}/>
           </TabPane>
           <TabPane tab='Schedule Management' key='scheduleManagement'>
-            <ScheduleManagementContainer/>
+            <ScheduleManagementContainer params={params}/>
           </TabPane>
         </Tabs>
       </Spin>
