@@ -36,6 +36,8 @@ const matchData = (range, bonusMatch) => {
     }
   })
 
+  console.log(bonusMatch)
+
   if (bonusMatch != 0) {
     const index = _.last(range) + 4
 
@@ -119,15 +121,28 @@ const assignTeamToMatch = (teams, matches)  => {
   return _.reverse(match)
 }
 
-export const singleElimination = (teams) => {
-  const matchTree = _.range(0, (teams.length / 2) + 1, 2)
-  let bonusMatch = 0
+const filterMatchTreeByRange = (range) => _.filter(range, (elem) => {
+  if (elem >= 8) {
+    return elem % 2 == 0 && elem % 4 == 0 && elem % 8 == 0
+  } else if (elem >= 4) {
+    return elem % 2 == 0 && elem % 4 == 0
+  } else {
+    return elem % 2 == 0
+  }
+})
 
+export const singleElimination = (teams) => {
+  let range = []
+  let bonusMatch = 0
   if (teams.length / 8 != 0) {
-    bonusMatch = teams.length - 8
+    const teamLength = teams.length
+    bonusMatch = teamLength % 8
+    range =  _.range(0, ((teamLength - bonusMatch) / 2) + 1, 2)
+  } else {
+    range = _.range(0, (teams.length / 2) + 1, 2)
   }
 
+  const matchTree = filterMatchTreeByRange(range)
   const data = assignTeamToMatch(teams, matchData(matchTree, bonusMatch))
-  console.log(data)
   return bracketTree(data, data[0])
 }
