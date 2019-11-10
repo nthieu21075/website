@@ -9,8 +9,8 @@ import Navigator from 'helpers/history'
 import ProfilePage from 'pages/OrganizerPages/ProfilePage'
 import CreateTournamentPage from 'pages/OrganizerPages/CreateTournamentPage'
 import TournamentDetailPage from 'pages/OrganizerPages/TournamentDetailPage'
+import ListTournamentPage from 'pages/OrganizerPages/ListTournamentPage'
 
-import { initMessageState } from 'services/organizers/message/actions'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -37,6 +37,7 @@ class OrganizerLayout extends Component {
               <Route exact path={Routes.organizers.MY_PROFILE} component={ProfilePage}/>
               <Route exact path={Routes.organizers.CREATE_TOURNAMENT} component={CreateTournamentPage}/>
               <Route exact path={Routes.organizers.TOURNAMENT_DETAIL} component={TournamentDetailPage}/>
+              <Route exact path={Routes.organizers.TOURNAMENTS} component={ListTournamentPage}/>
             </Switch>
           </Content>
         </Layout>

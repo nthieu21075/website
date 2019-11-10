@@ -5,7 +5,7 @@ const teams = (number) => _.shuffle(_.map(_.range(0, number, 1), (index) => ({
   }
 )))
 
-export const aloneMatchData = singleElimination(teams(15))
+export const aloneMatchData = singleElimination(teams(8))
 
 export const listMatchData = {
   "id": "35b0745d-ef13-4255-8c40-c9daa95e4cc4",

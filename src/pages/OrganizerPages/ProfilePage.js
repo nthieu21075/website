@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import ProfileContainer from 'containers/organizers/profile'
+import { connect } from 'react-redux'
+import { updateSideBarActive } from 'services/organizers/global/actions'
 
 class ProfilePage extends Component {
+  componentDidMount() {
+    this.props.dispatch(updateSideBarActive('myProfile'))
+  }
+
   render() {
     return (
       <ProfileContainer/>
@@ -9,4 +15,5 @@ class ProfilePage extends Component {
   }
 }
 
-export default ProfilePage
+const mapStateToProps = (state) => ({})
+export default connect(mapStateToProps)(ProfilePage)

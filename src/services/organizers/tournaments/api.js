@@ -2,7 +2,7 @@ import { ApiFormData, Api } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
 import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addTournamentTeam, removeTournamentTeam,
-  updateTeamManagementTable
+  updateTeamManagementTable, updateListTournament
 } from 'services/organizers/tournaments/actions'
 import { reset } from 'redux-form'
 import Navigator from 'helpers/history'
@@ -253,6 +253,23 @@ export const moveTeamToAnotherTable = (tournamentId, tableResultId, tableId) => 
       }, () => {
         Navigator.push('/organizer/tournaments')
         dispatch(messageError(apiResponse.message))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const getListTournament = (categoryId, tournamentId) => {
+  return dispatch => {
+    Api().get('/api/organizer/tournament/list').then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateListTournament(apiResponse.data))
       })
 
       return Promise.resolve()

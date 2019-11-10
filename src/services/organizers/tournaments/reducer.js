@@ -8,11 +8,26 @@ const initialState = {
     teams: [],
     tables: [],
     availableTeam: []
+  },
+  listTournament: {
+    loading: true,
+    data: []
   }
 }
 
 const tournamentReducer = (state = initialState, action) => {
+
   switch (action.type) {
+    case TournamentActions.UPDATE_LIST_TOURNAMENT: {
+      return {
+        ...state,
+        listTournament: {
+          loading: false,
+          data: action.data
+        }
+      }
+    }
+
     case TournamentActions.UPDATE_BASIC_INFORMATION: {
       return {
         ...state,

@@ -36,10 +36,11 @@ const matchData = (range, bonusMatch) => {
     }
   })
 
-  console.log(bonusMatch)
-
   if (bonusMatch != 0) {
-    const index = _.last(range) + 4
+    let index = _.last(range) + 2
+    if (range.length > 2){
+      index = _.last(range) + 4
+    }
 
     _.forEach(_.range(0, bonusMatch), (matchIndex) => {
       matchNumber = matchNumber - 1
@@ -132,15 +133,18 @@ const filterMatchTreeByRange = (range) => _.filter(range, (elem) => {
 })
 
 export const singleElimination = (teams) => {
+  const teamLength = teams.length
   let range = []
   let bonusMatch = 0
-  if (teams.length / 8 != 0) {
-    const teamLength = teams.length
+  if (teamLength >= 8) {
     bonusMatch = teamLength % 8
-    range =  _.range(0, ((teamLength - bonusMatch) / 2) + 1, 2)
+  } else if (teamLength >= 4){
+    bonusMatch = teamLength % 4
   } else {
-    range = _.range(0, (teams.length / 2) + 1, 2)
+    bonusMatch = teamLength % 2
   }
+
+  range =  _.range(0, ((teamLength - bonusMatch) / 2) + 1, 2)
 
   const matchTree = filterMatchTreeByRange(range)
   const data = assignTeamToMatch(teams, matchData(matchTree, bonusMatch))
