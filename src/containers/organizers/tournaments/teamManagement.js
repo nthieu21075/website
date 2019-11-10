@@ -40,8 +40,8 @@ class TeamManagementContainer extends Component {
           </div>
         </Col>
         <Col span={24}>
-          <AllTeamContainer/>
-          <AllTableContainer/>
+          <AllTeamContainer id={this.params.id}/>
+          <AllTableContainer id={this.params.id}/>
         </Col>
       </Row>
     )

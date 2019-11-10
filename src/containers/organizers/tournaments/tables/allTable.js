@@ -75,7 +75,7 @@ class AllTableContainer extends Component {
                     <Column title="Point" dataIndex="point" />
                     <Column title="Actions" key="action" render={(item) => {
                       return (
-                        <div>
+                        <div style={{ width: 75 }}>
                           <Dropdown overlay={moveTableMenu(item, tables, this.onMoveTeam)} trigger={['click']}>
                             <Button type="primary" icon="double-left"/>
                           </Dropdown>

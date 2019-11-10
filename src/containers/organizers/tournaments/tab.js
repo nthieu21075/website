@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Spin, Tabs, Icon, Layout } from 'antd'
-import BasicInformationContainer from 'containers/organizers/tournaments/basicInformation'
-import TeamManagementContainer from 'containers/organizers/tournaments/teamManagement'
 import { initTourmanetState } from 'services/organizers/tournaments/actions'
 import { showAlert } from 'helpers/alert'
+import BasicInformationContainer from 'containers/organizers/tournaments/basicInformation'
+import TeamManagementContainer from 'containers/organizers/tournaments/teamManagement'
+import ScheduleManagementContainer from 'containers/organizers/tournaments/scheduleManagement'
 
 const { TabPane } = Tabs
 const { Content } = Layout
@@ -25,8 +26,8 @@ class TournamentDetailContainner extends Component {
   render() {
     const { params, isLoading } = this.props
     return (
-      <Spin spinning={isLoading} size='large'>
-        <Tabs defaultActiveKey='basicInfo'>
+      <Spin spinning={false} size='large'>
+        <Tabs defaultActiveKey='scheduleManagement'>
           <TabPane tab='Basic Information' key='basicInfo'>
             <BasicInformationContainer params={params}/>
           </TabPane>
@@ -34,7 +35,7 @@ class TournamentDetailContainner extends Component {
             <TeamManagementContainer params={params}/>
           </TabPane>
           <TabPane tab='Schedule Management' key='scheduleManagement'>
-            Schedule Management
+            <ScheduleManagementContainer/>
           </TabPane>
         </Tabs>
       </Spin>
