@@ -7,7 +7,8 @@ const initialState = {
   teamManagement: {
     teams: [],
     tables: [],
-    availableTeam: []
+    availableTeam: [],
+    schedules: []
   },
   listTournament: {
     loading: true,
@@ -28,6 +29,19 @@ const tournamentReducer = (state = initialState, action) => {
       }
     }
 
+    case TournamentActions.UPDATE_SCHEDULE: {
+      return {
+        ...state,
+        loading: false,
+        teamManagement: {
+          teams: state.teamManagement.teams,
+          tables: state.teamManagement.tables,
+          availableTeam: state.teamManagement.availableTeam,
+          schedules: action.data
+        }
+      }
+    }
+
     case TournamentActions.UPDATE_BASIC_INFORMATION: {
       return {
         ...state,
@@ -43,7 +57,8 @@ const tournamentReducer = (state = initialState, action) => {
         teamManagement: {
           teams: action.data.teams,
           tables: action.data.tables,
-          availableTeam: state.teamManagement.availableTeam
+          availableTeam: state.teamManagement.availableTeam,
+          schedules: state.teamManagement.schedules
         }
       }
     }
@@ -55,7 +70,8 @@ const tournamentReducer = (state = initialState, action) => {
         teamManagement: {
           teams: state.teamManagement.teams,
           tables: state.teamManagement.tables,
-          availableTeam: action.data
+          availableTeam: action.data,
+          schedules: state.teamManagement.schedules
         }
       }
     }
@@ -67,7 +83,8 @@ const tournamentReducer = (state = initialState, action) => {
         teamManagement: {
           teams: _.concat(state.teamManagement.teams, action.data),
           tables: state.teamManagement.tables,
-          availableTeam: state.teamManagement.availableTeam
+          availableTeam: state.teamManagement.availableTeam,
+          schedules: state.teamManagement.schedules
         }
       }
     }
@@ -83,7 +100,8 @@ const tournamentReducer = (state = initialState, action) => {
         teamManagement: {
           teams: newTeams,
           tables: state.teamManagement.tables,
-          availableTeam: state.teamManagement.availableTeam
+          availableTeam: state.teamManagement.availableTeam,
+          schedules: state.teamManagement.schedules
         }
       }
     }
@@ -94,7 +112,8 @@ const tournamentReducer = (state = initialState, action) => {
         teamManagement: {
           teams: state.teamManagement.teams,
           tables: action.data,
-          availableTeam: state.teamManagement.availableTeam
+          availableTeam: state.teamManagement.availableTeam,
+          schedules: state.teamManagement.schedules
         }
       }
     }

@@ -35,7 +35,7 @@ class ListTournamentContainer extends Component {
   render() {
     const { listTournament } = this.props
 
-    let data = listTournament.data.length == 0 ? tournamentData : listTournament.data
+    let data = listTournament.loading ? tournamentData : listTournament.data
 
     return (
       <Content style={contentStyled}>

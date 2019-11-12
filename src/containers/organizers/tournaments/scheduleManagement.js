@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import { Row, Col } from 'antd'
 import { Bracket, BracketGame, BracketGenerator, Model } from 'react-tournament-bracket'
 import _ from 'lodash'
-import { singleEliminationData } from 'global/1matchData'
 import { loadingTourmanetState } from 'services/organizers/tournaments/actions'
-import { getTeamManagement, generateTable } from 'services/organizers/tournaments/api'
+import { getSchedule } from 'services/organizers/tournaments/schedule/api'
+import { singleElimination } from 'helpers/bracket'
 
 class ScheduleManagementContainer extends Component {
   constructor(props) {
@@ -17,14 +17,13 @@ class ScheduleManagementContainer extends Component {
     }
 
     this.gameComponent = this.gameComponent.bind(this)
-    this.gameComponent = this.gameComponent.bind(this)
     this.changeHoveredTeamId = this.changeHoveredTeamId.bind(this)
   }
 
   componentDidMount() {
     const { dispatch, params } = this.props
     dispatch(loadingTourmanetState())
-    dispatch(getTeamManagement(params.id))
+    dispatch(getSchedule(params.id))
   }
 
 
@@ -49,7 +48,7 @@ class ScheduleManagementContainer extends Component {
 
   render() {
     const { homeOnTopState } = this.state
-    const { tables } = this.props
+    const { schedules } = this.props
     const lineInfo =  {
       yOffset: -6,
       separation: 2,
@@ -66,11 +65,11 @@ class ScheduleManagementContainer extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', overflow: 'scroll' }}>
-        {_.map(tables, (table, index) => {
+        {_.map(schedules, (schedule, index) => {
           return (<div className="scheduled" style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', overflow: 'scroll' }} key={index}>
-            <h3>{table.name}</h3>
+            <h3>{schedule.table}</h3>
             <Bracket
-              game={singleEliminationData(table)}
+              game={singleElimination(schedule.matches)}
               homeOnTop={homeOnTopState}
               GameComponent={this.gameComponent}
               lineInfo={lineInfo}
@@ -86,7 +85,7 @@ class ScheduleManagementContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  tables: state.organizers.tournamentPage.teamManagement.tables
+  schedules: state.organizers.tournamentPage.teamManagement.schedules
 })
 
 export default connect(mapStateToProps)(ScheduleManagementContainer)

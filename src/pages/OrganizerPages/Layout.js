@@ -33,7 +33,7 @@ class OrganizerLayout extends Component {
           <HeaderContainer/>
           <Content style={{ margin: '24px', height: '100%' }}>
             <Switch>
-              <Route exact path={Routes.organizers.HOMEPAGE} component={ProfilePage}/>
+              <Route exact path={Routes.organizers.HOMEPAGE} component={ListTournamentPage}/>
               <Route exact path={Routes.organizers.MY_PROFILE} component={ProfilePage}/>
               <Route exact path={Routes.organizers.CREATE_TOURNAMENT} component={CreateTournamentPage}/>
               <Route exact path={Routes.organizers.TOURNAMENT_DETAIL} component={TournamentDetailPage}/>

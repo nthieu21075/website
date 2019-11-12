@@ -7,6 +7,7 @@ export const TournamentActions = {
   UPDATE_LOADINNG: '@organizerTournament/update_loading',
   UPDATE_TOURNAMENT_TABLE: '@organizerTournament/update_tournament_table',
   UPDATE_LIST_TOURNAMENT: '@organizerTournament/update_list_tournament',
+  UPDATE_SCHEDULE: '@organizerTournament/update_schedule',
   INITIALIZE: '@organizerTournament/init'
 }
 
@@ -21,6 +22,13 @@ export const loadingTourmanetState = () => (dispatch) => {
 export const updateBasicInformation = (data) => (dispatch) => {
   dispatch({
     type: TournamentActions.UPDATE_BASIC_INFORMATION,
+    data: data
+  })
+}
+
+export const updateSchedule = (data) => (dispatch) => {
+  dispatch({
+    type: TournamentActions.UPDATE_SCHEDULE,
     data: data
   })
 }

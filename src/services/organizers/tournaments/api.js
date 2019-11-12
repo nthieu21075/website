@@ -7,6 +7,7 @@ import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addT
 import { reset } from 'redux-form'
 import Navigator from 'helpers/history'
 import { checkApiResponse } from 'helpers/apiResponse'
+import moment from 'moment'
 
 export const createTournament =
   (values, dispatch, props) => {
@@ -18,8 +19,8 @@ export const createTournament =
     bodyFormData.append('description', description)
     bodyFormData.append('team', team)
     bodyFormData.append('publish', publish)
-    bodyFormData.append('startDate', originationDate[0])
-    bodyFormData.append('endDate', originationDate[1])
+    bodyFormData.append('startDate', moment(originationDate[0]))
+    bodyFormData.append('endDate', moment(originationDate[1]))
     if (image) {
       bodyFormData.append('image', image.file)
     }
@@ -93,8 +94,8 @@ export const updateTournament =
     bodyFormData.append('team', team)
     bodyFormData.append('teamOfTable', teamOfTable)
     bodyFormData.append('publish', publish)
-    bodyFormData.append('startDate', originationDate[0])
-    bodyFormData.append('endDate', originationDate[1])
+    bodyFormData.append('startDate', moment(originationDate[0]))
+    bodyFormData.append('endDate', moment(originationDate[1]))
 
     if (image) {
       if (image.file.status == 'removed') {
