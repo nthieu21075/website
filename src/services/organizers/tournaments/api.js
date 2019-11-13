@@ -1,4 +1,4 @@
-import { ApiFormData, Api } from 'global/apiConfig'
+import { organierApiFormData, organierApi } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageError, messageSuccess } from 'services/organizers/message/actions'
 import { updateBasicInformation, updateTeamManagement, updateAvailableTeam, addTournamentTeam, removeTournamentTeam,
@@ -25,7 +25,7 @@ export const createTournament =
       bodyFormData.append('image', image.file)
     }
 
-    ApiFormData().post('api/organizer/tournament/create', bodyFormData).then(function (response) {
+    organierApiFormData().post('api/organizer/tournament/create', bodyFormData).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -43,7 +43,7 @@ export const createTournament =
 
 export const getBasicInformation = (id) => {
   return dispatch => {
-    Api().get('api/organizer/tournament/basic-info/' + id).then(function (response) {
+    organierApi().get('api/organizer/tournament/basic-info/' + id).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -63,7 +63,7 @@ export const getBasicInformation = (id) => {
 
 export const getTeamManagement = (id) => {
   return dispatch => {
-    Api().get('/api/organizer/tournament/team-management-info/' + id).then(function (response) {
+    organierApi().get('/api/organizer/tournament/team-management-info/' + id).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -105,7 +105,7 @@ export const updateTournament =
       }
     }
 
-    ApiFormData().post('api/organizer/tournament/update', bodyFormData).then(function (response) {
+    organierApiFormData().post('api/organizer/tournament/update', bodyFormData).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -122,7 +122,7 @@ export const updateTournament =
 
 export const generateTable = (id) => {
   return dispatch => {
-    Api().post('/api/organizer/tournament/generate-table', { id: id }).then(function (response) {
+    organierApi().post('/api/organizer/tournament/generate-table', { id: id }).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -143,7 +143,7 @@ export const generateTable = (id) => {
 export const getAvailbaleTeam = (categoryId, tournamentId) => {
   return dispatch => {
     const url = `/api/organizer/tournament/${tournamentId}/available-team/${categoryId}`
-    Api().get(url).then(function (response) {
+    organierApi().get(url).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -163,7 +163,7 @@ export const getAvailbaleTeam = (categoryId, tournamentId) => {
 
 export const addTeam = (teamIds, tournamentId, callback) => {
   return dispatch => {
-    Api().post('/api/organizer/tournament/add-team', { id: tournamentId, teamIds: teamIds }).then(function (response) {
+    organierApi().post('/api/organizer/tournament/add-team', { id: tournamentId, teamIds: teamIds }).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -184,7 +184,7 @@ export const addTeam = (teamIds, tournamentId, callback) => {
 
 export const removeTeam = (tournamentTeamIds, tournamentId, callback) => {
   return dispatch => {
-    Api().post('/api/organizer/tournament/remove-team', { id: tournamentId, tournamentTeamIds: tournamentTeamIds }).then(function (response) {
+    organierApi().post('/api/organizer/tournament/remove-team', { id: tournamentId, tournamentTeamIds: tournamentTeamIds }).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -205,7 +205,7 @@ export const removeTeam = (tournamentTeamIds, tournamentId, callback) => {
 
 export const addToTeamTable = (tournamentId, teamIds, tableId, callback) => {
   return dispatch => {
-    Api().post('/api/organizer/tournament/add-team-to-table', { id: tournamentId, teamIds: teamIds, tableId: tableId }).then(function (response) {
+    organierApi().post('/api/organizer/tournament/add-team-to-table', { id: tournamentId, teamIds: teamIds, tableId: tableId }).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -226,7 +226,7 @@ export const addToTeamTable = (tournamentId, teamIds, tableId, callback) => {
 
 export const removeTeamTable = (tournamentId, tableResultId) => {
   return dispatch => {
-    Api().post('/api/organizer/tournament/remove-team-to-table', { id: tournamentId, tableResultId: tableResultId }).then(function (response) {
+    organierApi().post('/api/organizer/tournament/remove-team-to-table', { id: tournamentId, tableResultId: tableResultId }).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -246,7 +246,7 @@ export const removeTeamTable = (tournamentId, tableResultId) => {
 
 export const moveTeamToAnotherTable = (tournamentId, tableResultId, tableId) => {
   return dispatch => {
-    Api().post('/api/organizer/tournament/move-team-to-table', { id: tournamentId, tableResultId: tableResultId, tableId: tableId }).then(function (response) {
+    organierApi().post('/api/organizer/tournament/move-team-to-table', { id: tournamentId, tableResultId: tableResultId, tableId: tableId }).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
@@ -266,7 +266,7 @@ export const moveTeamToAnotherTable = (tournamentId, tableResultId, tableId) => 
 
 export const getListTournament = (categoryId, tournamentId) => {
   return dispatch => {
-    Api().get('/api/organizer/tournament/list').then(function (response) {
+    organierApi().get('/api/organizer/tournament/list').then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {

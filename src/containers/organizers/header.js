@@ -3,7 +3,7 @@ import { Affix } from 'antd'
 import { connect } from 'react-redux'
 import NavBar from 'components/organizers/nav'
 import Notification from 'components/organizers/notification'
-import { initAuthState } from 'services/authentication/actions'
+import { initAuthState } from 'services/organizers/authentication/actions'
 import Navigator from 'helpers/history'
 
 class HeaderContainer extends Component {

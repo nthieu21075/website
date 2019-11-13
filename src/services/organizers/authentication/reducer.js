@@ -4,29 +4,18 @@
 import { AuthFormActions } from './actions'
 
 const initialState = {
-  user: {},
-  errors: null,
-  success: null,
   logged: false,
-  apiToken: ''
+  apiToken: '',
+  data: null
 }
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case AuthFormActions.ERROR: {
-      return {
-        ...state,
-        errors: action.errors,
-        success: null
-      }
-    }
-
     case AuthFormActions.SUCCESS: {
       return {
         ...state,
         apiToken: action.apiToken,
-        user: action.user,
-        errors: null,
+        data: action.data,
         logged: true
       }
     }
@@ -34,15 +23,7 @@ const authReducer = (state = initialState, action) => {
     case AuthFormActions.UPDATE_AUTH_DATA: {
       return {
         ...state,
-        user: action.user,
-        errors: null
-      }
-    }
-
-    case AuthFormActions.UPDATE_MSG: {
-      return {
-        ...state,
-        success: action.message,
+        data: action.data,
         errors: null
       }
     }

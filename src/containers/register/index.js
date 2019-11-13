@@ -5,21 +5,13 @@ import { Card } from 'tabler-react'
 import { reduxForm } from 'redux-form'
 import { required, email, length, confirmation } from 'redux-form-validators'
 import { notification } from 'antd'
-import { submitRegister } from 'services/authentication/api'
-import { initAuthState } from 'services/authentication/actions'
+import { submitRegister } from 'services/users/authentication/api'
+import { initAuthState } from 'services/users/authentication/actions'
 import RegisterForm from 'components/register/registerForm'
 
 class RegisterContainer extends Component {
   componentDidMount() {
     this.props.dispatch(initAuthState())
-  }
-
-  componentDidUpdate() {
-    const { authentication } = this.props
-
-    if (authentication.errors) {
-      notification['error']({ message: authentication.errors })
-    }
   }
 
   render() {
@@ -39,8 +31,6 @@ const DecoratedLoginForm = reduxForm({
 })(RegisterForm)
 
 
-const mapStateToProps = (state) => ({
-  authentication: state.authentication
-})
+const mapStateToProps = (state) => ({})
 
 export default connect(mapStateToProps)(RegisterContainer)

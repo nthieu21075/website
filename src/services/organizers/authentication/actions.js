@@ -10,31 +10,17 @@ export const initAuthState = () => (dispatch) => {
   dispatch({ type: AuthFormActions.INITIALIZE })
 }
 
-export const authFail = (errors) => (dispatch) => {
-  dispatch({
-    type: AuthFormActions.ERROR,
-    errors: errors
-  })
-}
-
-export const authSuccess = (user, token) => (dispatch) => {
+export const authSuccess = (data, token) => (dispatch) => {
   dispatch({
     type: AuthFormActions.SUCCESS,
-    user: user,
+    data: data,
     apiToken: token
   })
 }
 
-export const updateAuthData = (user) => (dispatch) => {
+export const updateAuthData = (data) => (dispatch) => {
   dispatch({
     type: AuthFormActions.UPDATE_AUTH_DATA,
-    user: user
-  })
-}
-
-export const updateMsg = (message) => (dispatch) => {
-  dispatch({
-    type: AuthFormActions.UPDATE_MSG,
-    message: message
+    data: data
   })
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Affix } from 'antd'
 import NavBar from 'components/users/navbar'
 import Notification from 'components/users/notification'
-import { initAuthState } from 'services/authentication/actions'
+import { initAuthState } from 'services/users/authentication/actions'
 import Navigator from 'helpers/history'
 
 class HeaderContainer extends Component {
@@ -50,12 +50,12 @@ class HeaderContainer extends Component {
 
   render() {
     const { authentication } = this.props
-    const { logged, user } = authentication
+    const { logged, data } = authentication
 
     return (
       <Affix offsetTop={0}>
         <div>
-          <NavBar user={user} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo}/>
+          <NavBar user={data} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo}/>
           <Notification onClose={this.onCloseNotification} visible={this.state.visibleNotification} />
         </div>
       </Affix>
@@ -64,7 +64,7 @@ class HeaderContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  authentication: state.authentication
+  authentication: state.users.auth
 })
 
 export default connect(mapStateToProps)(HeaderContainer)

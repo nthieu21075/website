@@ -4,20 +4,12 @@ import { Card } from 'tabler-react'
 import { reduxForm } from 'redux-form'
 import { notification } from 'antd'
 import LoginForm from 'components/login/loginForm'
-import { submitLogin } from 'services/authentication/api'
-import { initAuthState } from 'services/authentication/actions'
+import { submitLogin } from 'services/users/authentication/api'
+import { initAuthState } from 'services/users/authentication/actions'
 
 class LoginContainer extends Component {
   componentDidMount() {
     this.props.dispatch(initAuthState())
-  }
-
-  componentDidUpdate() {
-    const { authentication } = this.props
-
-    if (authentication.errors) {
-      notification['error']({ message: authentication.errors })
-    }
   }
 
   render() {
@@ -36,9 +28,6 @@ const DecoratedLoginForm = reduxForm({
   onSubmit: submitLogin
 })(LoginForm)
 
-
-const mapStateToProps = (state) => ({
-  authentication: state.authentication
-})
+const mapStateToProps = (state) => ({})
 
 export default connect(mapStateToProps)(LoginContainer)
