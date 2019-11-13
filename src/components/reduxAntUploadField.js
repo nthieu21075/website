@@ -32,7 +32,7 @@ const AntUpload = ({
         loading={false}
         showUploadList={true}
       >
-        {!imageUrl ? (
+        {(imageUrl == undefined || imageUrl == '') ? (
           <div>
             <Icon type='cloud-upload-o' style={{ fontSize: 40 }} />
             <div style={{ fontSize: 11 }}>
@@ -58,19 +58,12 @@ const setFileList = (imageUrl) => ({
 class AntUploadFormField extends Component {
   constructor(props) {
     super(props)
-    const { imageUrl } = props
     let state = {
       confirmLoading: false,
       fileList: [],
       imageUrl: '',
-      previewImage: false
-    }
-
-    if (imageUrl != '') {
-      state = _.merge(state, {
-        fileList: [setFileList(process.env.API_DOMAIN_URL + imageUrl)],
-        imageUrl: process.env.API_DOMAIN_URL + imageUrl
-      })
+      previewImage: false,
+      defaultImage: ''
     }
 
     this.state = state
@@ -127,8 +120,18 @@ class AntUploadFormField extends Component {
     this.setState({ imageUrl: '', fileList: [] })
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.defaultImageUrl !== this.state.imageUrl && nextProps.defaultImageUrl) {
+      this.setState({
+        fileList: [setFileList(process.env.API_DOMAIN_URL + nextProps.defaultImageUrl)],
+        imageUrl: nextProps.defaultImageUrl
+      })
+    }
+  }
+
   render() {
     const { name, label, validate } = this.props
+    const { imageUrl } = this.state
     return (
       <Field
         fileList={this.state.fileList}
@@ -138,7 +141,7 @@ class AntUploadFormField extends Component {
         disabled={this.state.confirmLoading}
         component={AntUpload}
         handleCancel={this.handleCancel}
-        imageUrl={this.state.imageUrl}
+        imageUrl={imageUrl &&  imageUrl != '' ? process.env.API_DOMAIN_URL + imageUrl : imageUrl}
         onPreview={this.handlePreview}
         onRemove={this.handleRemove}
         previewImage={this.state.previewImage}

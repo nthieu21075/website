@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import CreateTournamentForm from 'components/organizers/tournaments/createForm'
 import { getCategories } from 'services/organizers/category/api'
 import { createTournament } from 'services/organizers/tournaments/api'
-import { showAlert } from 'helpers/alert'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -31,10 +30,6 @@ class CreateTournamentContainer extends Component {
     this.props.dispatch(getCategories())
   }
 
-  componentDidUpdate() {
-    showAlert(this.props)
-  }
-
   render() {
     return (
       <Content style={contentStyled}>
@@ -56,13 +51,13 @@ FormDecorator = connect(
   (state) => ({
     initialValues: {
       categories: state.organizers.categories.data,
-      originationDate: []
+      originationDate: [],
+      categoryId: state.organizers.categories.data.length > 0 ? state.organizers.categories.data[0].id : 0
     }
   })
 )(FormDecorator)
 
 const mapStateToProps = (state) => ({
-  message: state.organizers.message
 })
 
 export default connect(mapStateToProps)(CreateTournamentContainer)

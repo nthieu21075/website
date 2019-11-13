@@ -1,9 +1,9 @@
 export const AuthFormActions = {
-  ERROR: '@authForm/error',
-  SUCCESS: '@authForm/success',
-  UPDATE_AUTH_DATA: '@authForm/updateData',
-  UPDATE_MSG: '@authForm/updateMsg',
-  INITIALIZE: '@authForm/init'
+  ERROR: '@organizerAuthForm/error',
+  SUCCESS: '@organizerAuthForm/success',
+  UPDATE_AUTH_DATA: '@organizerAuthForm/updateData',
+  UPDATE_MSG: '@organizerAuthForm/updateMsg',
+  INITIALIZE: '@organizerAuthForm/init'
 }
 
 export const initAuthState = () => (dispatch) => {

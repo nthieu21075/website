@@ -20,6 +20,7 @@ import ErrorPage from 'pages/ErrorPage'
 import UserLayout from 'pages/UserPages/Layout'
 // Organiser Pages
 import OrganizerLayout from 'pages/OrganizerPages/Layout'
+import OrganizerLoginPage from 'pages/OrganizerPages/LoginPage'
 
 const App = () => (
   <Provider store={store}>
@@ -30,6 +31,7 @@ const App = () => (
           <Switch>
             <Route exact path={Routes.REGISTER_PAGE} component={RegisterPage} />
             <Route exact path={Routes.LOGIN_PAGE} component={LoginPage} />
+            <Route exact path={Routes.organizers.LOGIN} component={OrganizerLoginPage}/>
             <Route path='/organizer' component={OrganizerLayout} />
             <Route path='/500'>
               <ErrorPage

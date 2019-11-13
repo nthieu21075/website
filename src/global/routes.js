@@ -13,6 +13,7 @@ export default {
     TOURNAMENTS_PAGE
   },
   organizers: {
+    LOGIN: '/organizer/login',
     HOMEPAGE: '/organizer',
     MY_PROFILE: '/organizer/my-profile',
     CREATE_TOURNAMENT: '/organizer/create-tournament',

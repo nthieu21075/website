@@ -126,7 +126,7 @@ const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {catego
       <AntUploadFormField
         label='Image'
         name='image'
-        imageUrl={imageUrl}
+        defaultImageUrl={imageUrl}
       />
       <Form.Item {...tailFormItemLayout}>
         <Button type='primary' loading={submitting} htmlType='submit'>Save</Button>

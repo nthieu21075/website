@@ -10,7 +10,7 @@ import ProfilePage from 'pages/OrganizerPages/ProfilePage'
 import CreateTournamentPage from 'pages/OrganizerPages/CreateTournamentPage'
 import TournamentDetailPage from 'pages/OrganizerPages/TournamentDetailPage'
 import ListTournamentPage from 'pages/OrganizerPages/ListTournamentPage'
-
+import { showAlert } from 'helpers/alert'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -18,11 +18,15 @@ class OrganizerLayout extends Component {
   constructor(props) {
     super(props)
 
-    const { authentication: { user } }= this.props
+    const { authentication: { data } }= this.props
 
-    if (!user.type || user.type != 'organizer'){
-      Navigator.push('/login')
+    if (!data){
+      Navigator.push(Routes.organizers.LOGIN)
     }
+  }
+
+  componentDidUpdate() {
+    showAlert(this.props)
   }
 
   render() {
@@ -47,7 +51,8 @@ class OrganizerLayout extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  authentication: state.authentication
+  authentication: state.organizers.auth,
+  message: state.organizers.message
 })
 
 export default connect(mapStateToProps)(OrganizerLayout)

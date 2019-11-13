@@ -25,7 +25,7 @@ export const userApiFormData = () => {
 }
 
 export const organierApi = (type) => {
-  const apiToken = store.getState().authentication.apiToken
+  const apiToken = store.getState().organizers.auth.apiToken
 
   return axios.create({
     baseURL: process.env.API_DOMAIN_URL,
@@ -36,7 +36,7 @@ export const organierApi = (type) => {
 }
 
 export const organierApiFormData = () => {
-  const apiToken = store.getState().authentication.apiToken
+  const apiToken = store.getState().organizers.auth.apiToken
 
   return axios.create({
     baseURL: process.env.API_DOMAIN_URL,

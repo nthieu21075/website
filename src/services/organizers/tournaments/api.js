@@ -29,6 +29,7 @@ export const createTournament =
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateBasicInformation({}))
         dispatch(reset('origanizerCreateTournamentForm'))
         dispatch(messageSuccess('Create Tournament successfully'))
         Navigator.push('/organizer/tournament/' + apiResponse.data.id)

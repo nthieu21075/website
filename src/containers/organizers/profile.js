@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import ProfileInfoForm from 'components/organizers/profileForm'
 import ChangePasswordForm from 'components/organizers/changePasswordForm'
 import { updateProfile, updatePassword } from 'services/organizers/profile/api'
-import { showAlert } from 'helpers/alert'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -28,10 +27,6 @@ class ProfileContainer extends Component {
 
   componentDidMount() {
     this.props.dispatch(reset('origanizerChangePasswordForm'))
-  }
-
-  componentDidUpdate() {
-    showAlert(this.props)
   }
 
   render() {
@@ -60,20 +55,21 @@ let ProfileInfoFormDecorator = reduxForm({
 })(ProfileInfoForm)
 
 ProfileInfoFormDecorator = connect(
-  ({authentication: { user }}) => ({
-    initialValues: {
-      email: user.email,
-      name: user.name,
-      address: user.address,
-      phoneNumber: user.phoneNumber,
-      organizerName: user.organizerName,
-      location: user.location
-    }
-  })
+  (state) => {
+    const user =  state.organizers.auth.data
+    return ({
+      initialValues: {
+        email: user.email,
+        name: user.name,
+        address: user.address,
+        phoneNumber: user.phoneNumber,
+        organizerName: user.organizerName,
+        location: user.location
+      }
+    })
+  }
 )(ProfileInfoFormDecorator)
 
-const mapStateToProps = (state) => ({
-  message: state.organizers.message
-})
+const mapStateToProps = (state) => ({})
 
 export default connect(mapStateToProps)(ProfileContainer)
