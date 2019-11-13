@@ -47,7 +47,13 @@ const bracketTree = (data, currentNode) => {
     return bracket(currentNode, bracketTree(data, child[0]), bracketTree(data, child[1]))
 }
 
-export const singleElimination = (data) => bracketTree(data, data[0])
+export const singleElimination = (data) => {
+    if (data.length == 0){
+        return []
+    }
+
+    return bracketTree(data, data[0])
+}
 
 // const assignToGames = (players) => {
 //     // Round the number of players up to nearest multiple of 2.

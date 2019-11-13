@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 // Users
 import userAuthReducer from 'services/users/authentication/reducer'
 import userMessageReducer from 'services/users/message/reducer'
+import userCategoryReducer from 'services/users/category/reducer'
 
 // Oganizer
 import organizerAuthReducer from 'services/organizers/authentication/reducer'
@@ -16,6 +17,7 @@ export default combineReducers({
   users: combineReducers({
     auth: userAuthReducer,
     message: userMessageReducer,
+    categories: userCategoryReducer,
   }),
   organizers: combineReducers({
     auth: organizerAuthReducer,

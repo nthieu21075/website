@@ -1,31 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Row, Col, Carousel, List, Skeleton, Card, Typography } from 'antd'
 import CategoriesList from 'components/users/home/categoriesList'
-import categoryImage from 'public/images/category.jpg'
-
-const data = [
-  {
-    title: 'Leage of Legend 1',
-    src: categoryImage
-  },
-  {
-    title: 'Leage of Legend 2',
-    src: categoryImage
-  },
-  {
-    title: 'Leage of Legend 3',
-    src: categoryImage
-  },
-  {
-    title: 'Leage of Legend 4',
-    src: categoryImage
-  }
-]
 
 const { Title } = Typography
 
 class CategoriesContainer extends Component {
   render() {
+    const { categories } = this.props
+
     return (
       <div style={{ margin: '30px 0' }}>
         <Row type="flex" justify="center">
@@ -33,12 +16,16 @@ class CategoriesContainer extends Component {
         </Row>
         <CategoriesList
           grid={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }}
-          data={data}
-          loading={false}
+          data={categories}
+          loading={categories.length == 0}
         />
       </div>
     )
   }
 }
 
-export default CategoriesContainer
+const mapStateToProps = (state) => ({
+  categories: state.users.categories.data
+})
+
+export default connect(mapStateToProps)(CategoriesContainer)

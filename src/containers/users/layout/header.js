@@ -5,6 +5,8 @@ import NavBar from 'components/users/navbar'
 import Notification from 'components/users/notification'
 import { initAuthState } from 'services/users/authentication/actions'
 import Navigator from 'helpers/history'
+import { getCategories } from 'services/users/category/api'
+import _ from 'lodash'
 
 class HeaderContainer extends Component {
   constructor(props) {
@@ -19,6 +21,11 @@ class HeaderContainer extends Component {
   }
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
+    if (_.includes(key, 'categoryItem')) {
+      Navigator.push('/tournaments/' + item.props.id)
+      return
+    }
+
     switch(key) {
       case 'logout':
         this.props.dispatch(initAuthState())
@@ -48,14 +55,18 @@ class HeaderContainer extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.dispatch(getCategories())
+  }
+
   render() {
-    const { authentication } = this.props
+    const { authentication, categories } = this.props
     const { logged, data } = authentication
 
     return (
       <Affix offsetTop={0}>
         <div>
-          <NavBar user={data} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo}/>
+          <NavBar user={data} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo} categories={categories}/>
           <Notification onClose={this.onCloseNotification} visible={this.state.visibleNotification} />
         </div>
       </Affix>
@@ -64,7 +75,8 @@ class HeaderContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  authentication: state.users.auth
+  authentication: state.users.auth,
+  categories: state.users.categories
 })
 
 export default connect(mapStateToProps)(HeaderContainer)

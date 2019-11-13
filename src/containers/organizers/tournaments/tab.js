@@ -19,10 +19,6 @@ class TournamentDetailContainner extends Component {
     this.props.dispatch(initTourmanetState())
   }
 
-  componentDidUpdate() {
-    showAlert(this.props)
-  }
-
   render() {
     const { params, isLoading } = this.props
     return (
@@ -44,8 +40,7 @@ class TournamentDetailContainner extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  isLoading: state.organizers.tournamentPage.isLoading,
-  message: state.organizers.message
+  isLoading: state.organizers.tournamentPage.isLoading
 })
 
 export default connect(mapStateToProps)(TournamentDetailContainner)

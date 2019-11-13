@@ -2,7 +2,8 @@ import { organierApi } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { updateSchedule } from 'services/organizers/tournaments/actions'
 import { checkApiResponse } from 'helpers/apiResponse'
-import moment from 'moment'
+import { loadingTourmanetState } from 'services/organizers/tournaments/actions'
+import { messageError, messageSuccess } from 'services/organizers/message/actions'
 
 export const getSchedule = (id) => {
   return dispatch => {
@@ -20,3 +21,23 @@ export const getSchedule = (id) => {
     })
   }
 }
+
+export const generate =
+  (values, dispatch, props) => {
+    const { scheduleType } = values
+
+    dispatch(loadingTourmanetState())
+    organierApi().post('/api/organizer/tournament/generate-schedule', { id: props.initialValues.id, scheduleType: scheduleType }).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(messageSuccess('Generate Schedule successfully'))
+        dispatch(updateSchedule(apiResponse.data))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }

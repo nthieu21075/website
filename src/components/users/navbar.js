@@ -52,27 +52,20 @@ const registerItem = () => (
   </Menu.Item>
 )
 
-const categoriesItem = () => (
+const categoriesItem = (categories) => (
   <SubMenu
     style={{ float: 'right' }}
     title={<span className="submenu-title-wrapper">Categories</span>}
   >
-    <Menu.ItemGroup key='category' title="Sports">
-      <Menu.Item key="subCategory:1">Football</Menu.Item>
-      <Menu.Item key="subCategory:2">Basketball</Menu.Item>
-      <Menu.Item key="subCategory:3">Volleyball</Menu.Item>
-    </Menu.ItemGroup>
-    <Menu.ItemGroup key='category_1' title="ESports">
-      <Menu.Item key="subCategory:4">League of legend</Menu.Item>
-      <Menu.Item key="subCategory:5">Dota</Menu.Item>
-      <Menu.Item key="subCategory:6">Dota 2</Menu.Item>
-    </Menu.ItemGroup>
+    {_.map(categories.data, (category) => {
+      return <Menu.Item key={'categoryItem' + category.id} id={category.id}>{category.name}</Menu.Item>
+    })}
   </SubMenu>
 )
 
 class AuthNav extends Component {
   render() {
-    const { user, onClick } = this.props
+    const { user, onClick, categories } = this.props
     return (
       <Menu mode="horizontal" style={{ height: '60px', lineHeight: '60px' }} onClick={onClick}>
         <Menu.Item key='logo' className='header-logo menu-none-hover'>
@@ -84,7 +77,7 @@ class AuthNav extends Component {
         {_.size(user) > 0 && userInfo(user)}
         {_.size(user) == 0 && loginItem()}
         {_.size(user) == 0 && registerItem()}
-        {categoriesItem()}
+        {categoriesItem(categories)}
         <Menu.Item key='pitches' style={menuItemStyled}>
           <Link to='/'>Pitches</Link>
         </Menu.Item>

@@ -29,9 +29,9 @@ class TournamenItem extends Component {
           bordered={bordered}
           onClick={e => Navigator.push('/organizer/tournament/' + item.id)}
         >
-          <img alt="error" src={process.env.API_DOMAIN_URL + item.src} style={{width: '100%'}} />
+          <img alt="error" src={process.env.API_DOMAIN_URL + item.src} style={{width: '100%', height: 150, objectFit: 'contain'}} />
           <Title level={4} style={titleStyled}>{item.title}</Title>
-          <Paragraph>{item.description}</Paragraph>
+          <Paragraph style={{ height: 70 }}>{item.description}</Paragraph>
           <div style={footerStyled}>
             <Text strong>Organize By:</Text>
             <Text code>{item.organizer}</Text>

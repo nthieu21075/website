@@ -14,7 +14,7 @@ class UserLayout extends Component {
         <Switch>
           <Route exact path={Routes.users.HOME_PAGE} component={HomePage} />
           <Route exact path={Routes.users.PROFILE_PAGE} component={ProfilePage} />
-          <Route exact path={Routes.users.TOURNAMENTS_PAGE} component={TournamentsPage} />
+          <Route exact path={Routes.users.TOURNAMENTS_PAGE + '/:id'} component={TournamentsPage} />
         </Switch>
       </div>
     )
