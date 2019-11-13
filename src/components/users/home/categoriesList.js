@@ -16,7 +16,7 @@ class CategoriesList extends Component {
             <Card loading={loading}
               onClick={  e=> Navigator.push('/tournaments/' + item.id)}
               type="inner"
-              cover={ <img alt="error" src={process.env.API_DOMAIN_URL + item.imageUrl} style={{ height: 100, objectFit: 'cover' }} /> }
+              cover={ <img alt="error" src={process.env.API_DOMAIN_URL + item.imageUrl} style={{ height: 130, objectFit: 'cover' }} /> }
               bodyStyle={{ padding: '15px' }}
             >
               <Card.Meta title={item.name} style={{ textAlign: 'center' }}/>

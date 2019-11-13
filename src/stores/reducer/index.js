@@ -5,6 +5,7 @@ import { reducer as formReducer } from 'redux-form'
 import userAuthReducer from 'services/users/authentication/reducer'
 import userMessageReducer from 'services/users/message/reducer'
 import userCategoryReducer from 'services/users/category/reducer'
+import userTournamentReducer from 'services/users/tournaments/reducer'
 
 // Oganizer
 import organizerAuthReducer from 'services/organizers/authentication/reducer'
@@ -18,6 +19,7 @@ export default combineReducers({
     auth: userAuthReducer,
     message: userMessageReducer,
     categories: userCategoryReducer,
+    tournaments: userTournamentReducer
   }),
   organizers: combineReducers({
     auth: organizerAuthReducer,

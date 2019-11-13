@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Typography, Avatar } from 'antd'
-
+import Navigator from 'helpers/history'
 const { Paragraph, Title, Text } = Typography
 
 const footerStyled = {
@@ -11,8 +11,20 @@ const footerStyled = {
 }
 
 const titleStyled = {
+  fontSize: 18,
+  fontWeight: 'bold',
+  width: '100%',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
   textAlign: 'center',
-  margin: '10px 0 5px 0'
+  margin: '10px 0 5px 0',
+  whiteSpace: 'nowrap'
+}
+
+const imageStyled = {
+  height: 150,
+  width: '100%',
+  objectFit: 'cover'
 }
 
 class TournamenItem extends Component {
@@ -20,14 +32,14 @@ class TournamenItem extends Component {
     const { item, loading, bordered, className } = this.props
 
     return (
-      <div className={className}>
+      <div className={className} style={{ cursor: 'pointer' }} onClick={ e => Navigator.push('tournament/' + item.id) }>
         <Card loading={loading}
           type="inner"
           bodyStyle={{ padding: '12px' }}
           bordered={bordered}
         >
-          <img alt="error" src={item.src}/>
-          <Title level={4} style={titleStyled}>{item.title}</Title>
+          <img alt="error" src={process.env.API_DOMAIN_URL + item.src} style={imageStyled} />
+          <div style={titleStyled}>{item.title}</div>
           <Paragraph>{item.description}</Paragraph>
           <div style={footerStyled}>
             <Text strong>Organize By:</Text>

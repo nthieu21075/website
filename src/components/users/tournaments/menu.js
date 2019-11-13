@@ -7,18 +7,17 @@ const { Sider } = Layout
 
 class TournamentMenu extends Component {
   render() {
-    const { onClick, items } = this.props
-    const activeMenu = _.map(items, 'key')
-    console.log(activeMenu)
+    const { onClick, items, activeMenu } = this.props
+
     return (
       <Sider width={200} style={{ background: '#fff' }}>
         <Menu
           mode="inline"
-          defaultSelectedKeys={['all']}
-          defaultOpenKeys={activeMenu}
+          defaultSelectedKeys={activeMenu}
           style={{ height: '100%' }}
           onClick={onClick}
         >
+          <Menu.Item key='all'>All</Menu.Item>
           {_.map(items, item => {
             if (item.child && item.child.length > 0 ) {
               return (
@@ -32,7 +31,7 @@ class TournamentMenu extends Component {
                 </SubMenu>
               )
             } else {
-              return <Menu.Item key={item.key}>{item.title}</Menu.Item>
+              return <Menu.Item key={item.id.toString()}>{item.name}</Menu.Item>
             }
           })}
         </Menu>
