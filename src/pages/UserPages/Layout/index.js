@@ -5,8 +5,14 @@ import ProfilePage from 'pages/UserPages/ProfilePage'
 import TournamentsPage from 'pages/UserPages/TournamentsPage'
 import HeaderContainer from 'containers/users/layout/header'
 import Routes from 'global/routes'
+import { connect } from 'react-redux'
+import { showAlert } from 'helpers/userAlert'
 
 class UserLayout extends Component {
+  componentDidUpdate() {
+    showAlert(this.props)
+  }
+
   render() {
     return (
       <div style={{ height: '100%' }}>
@@ -21,4 +27,9 @@ class UserLayout extends Component {
   }
 }
 
-export default UserLayout
+
+const mapStateToProps = (state) => ({
+  message: state.users.message
+})
+
+export default connect(mapStateToProps)(UserLayout)

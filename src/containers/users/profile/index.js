@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ProfileInfoForm from 'components/users/profile/profileForm'
 import ChangePasswordForm from 'components/users/profile/changePasswordForm'
 import ProfileMenu from 'components/users/profile/menu'
 import ListTournament from 'components/users/listTournament'
 import { Layout, Breadcrumb, Typography, Pagination } from 'antd'
-import { reduxForm } from 'redux-form'
+import { reduxForm, reset } from 'redux-form'
 import { tournamentData } from 'global/fakeData'
+import { updateProfile, updatePassword } from 'services/users/profile/api'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -53,11 +55,16 @@ class ProfileContainer extends Component {
     this.onClickMenuItem = this.onClickMenuItem.bind(this)
   }
 
+  componentDidMount() {
+    this.props.dispatch(reset('changePasswordForm'))
+  }
+
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
     this.setState({ selectedItem: key })
   }
 
   render() {
+    const { userAuth } = this.props
     const { selectedItem } = this.state
     return (
       <Content style={{ padding: '0 50px' }}>
@@ -66,7 +73,7 @@ class ProfileContainer extends Component {
           <Breadcrumb.Item>Profile</Breadcrumb.Item>
         </Breadcrumb>
         <Layout style={{ padding: '24px 0 0 0', background: '#fff' }}>
-          <ProfileMenu onClick={this.onClickMenuItem}/>
+          <ProfileMenu onClick={this.onClickMenuItem} userAuth={userAuth}/>
           {selectedItem == 'profile' && profileContent()}
           {selectedItem == 'changePassword' && changePasswordContent()}
           {selectedItem == 'tournament:rejected' && MyTournamentContent()}
@@ -78,19 +85,37 @@ class ProfileContainer extends Component {
   }
 }
 
-const ProfileInfoFormDecorator = reduxForm({
+let ProfileInfoFormDecorator = reduxForm({
   form: 'profileForm',
   enableReinitialize: true,
-  initialValues: {
-    email: "b@b.com",
-    name: "Jack Ly",
-  }
+  destroyOnUnmount: false,
+  onSubmit: updateProfile
 })(ProfileInfoForm)
 
 const ChangePasswordFormDecorator = reduxForm({
   form: 'changePasswordForm',
+  enableReinitialize: true,
+  destroyOnUnmount: false,
+  onSubmit: updatePassword
 })(ChangePasswordForm)
 
+ProfileInfoFormDecorator = connect(
+  (state) => {
+    const user =  state.users.auth.data
+    return ({
+      initialValues: {
+        email: user.email,
+        name: user.name,
+        address: user.address,
+        phoneNumber: user.phoneNumber,
+        location: user.location
+      }
+    })
+  }
+)(ProfileInfoFormDecorator)
 
+const mapStateToProps = (state) => ({
+  userAuth: state.users.auth.data
+})
 
-export default ProfileContainer
+export default connect(mapStateToProps)(ProfileContainer)

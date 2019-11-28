@@ -7,7 +7,7 @@ const { Title } = Typography
 
 class ProfileMenu extends Component {
   render() {
-    const { onClick } = this.props
+    const { onClick, userAuth } = this.props
 
     return (
       <Sider width={200} style={{ background: '#fff' }}>
@@ -20,7 +20,7 @@ class ProfileMenu extends Component {
         >
           <div className="profile-avatar-wrapper">
             <Avatar size={80} icon="user" />
-            <Title level={4}>Jack ly</Title>
+            <Title level={4}>{userAuth.name}</Title>
           </div>
           <SubMenu
             key="profileInfo"

@@ -17,8 +17,7 @@ const contentStyled = {
   minHeight: 280,
   display: 'flex',
   alignItems: 'center',
-  flexDirection: 'column',
-  justifyContent: 'center'
+  flexDirection: 'column'
 }
 
 class TournamentsContainer extends Component {
@@ -47,17 +46,16 @@ class TournamentsContainer extends Component {
       <Content>
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>Tournaments</Breadcrumb.Item>
-          <Breadcrumb.Item>Sports</Breadcrumb.Item>
+          <Breadcrumb.Item>Categories</Breadcrumb.Item>
         </Breadcrumb>
         <Layout style={{ padding: '0', background: '#fff' }}>
           <Menu items={categories} activeMenu={activeMenu} onClick={this.onClickMenuItem}/>
           <Content style={contentStyled}>
-            <Title level={3} style={{ textAlign: 'center' }}>Tournaments</Title>
+            <Title level={3} style={{ textAlign: 'center', marginTop: 20 }}>Tournaments</Title>
             {
               tournaments.length == 0 ?
               (<Title level={4} style={{ textAlign: 'center' }}>There are no tournaments found</Title>) : (<ListTournament
-                grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 4}}
+                grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 3}}
                 loading={false}
                 bordered={true}
                 data={tournaments}

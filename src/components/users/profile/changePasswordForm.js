@@ -67,7 +67,7 @@ const ChangePasswordForm = props => {
         validate={[ required(), length({ min: 6 }) ]}
       />
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" disabled={pristine || submitting} htmlType="submit">Save</Button>
+        <Button type="primary" loading={submitting} htmlType="submit">Save</Button>
       </Form.Item>
     </Form>
   )

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import { Card, Typography, Avatar } from 'antd'
+import { Card, Typography, Avatar, Icon, Button } from 'antd'
 import Navigator from 'helpers/history'
+import moment from 'moment'
 const { Paragraph, Title, Text } = Typography
 
 const footerStyled = {
   display: 'flex',
-  fontSize: '10px',
-  justifyContent: 'flex-end',
-  alignItems: 'center'
+  fontSize: '13px',
+  alignItems: 'center',
+  marginTop: 5
 }
 
 const titleStyled = {
@@ -44,7 +45,17 @@ class TournamenItem extends Component {
           <div style={footerStyled}>
             <Text strong>Organize By:</Text>
             <Text code>{item.organizer}</Text>
-            <Avatar size={22} icon="user" />
+          </div>
+          <div style={footerStyled}>
+            <Text strong>Date:</Text>
+            <Text code>{`${moment(item.startDate).format("DD/MM/YYYY")} - ${moment(item.endDate).format("DD/MM/YYYY")}`}</Text>
+          </div>
+          <div style={footerStyled}>
+            <Text strong>Team:</Text>
+            <Text code>{`${item.currentTeam} / ${item.team}`}</Text>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button type='primary' style={{ marginTop: 15 }} >Join Tournament</Button>
           </div>
         </Card>
       </div>

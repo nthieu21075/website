@@ -5,7 +5,6 @@ import { userCheckApiResponse } from 'helpers/apiResponse'
 
 export const getTournaments = (id) => {
   return dispatch => {
-    console.log(id)
     userApi().get(`/api/user/tournaments/${id}`).then(function (response) {
       const apiResponse = response.data
 
@@ -15,7 +14,6 @@ export const getTournaments = (id) => {
         } else {
           dispatch(updateTournament(apiResponse.data))
         }
-
       })
 
       return Promise.resolve()

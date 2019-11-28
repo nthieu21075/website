@@ -14,43 +14,9 @@ import {
 import { required, email, numericality } from 'redux-form-validators'
 import { Field, reduxForm } from 'redux-form'
 import reduxAntFormField from 'components/reduxAntFormField'
+import {residences} from 'global/fakeData'
 
-const { Option } = Select;
-
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-]
+const { Option } = Select
 
 const formItemLayout = {
   labelCol: {
@@ -86,7 +52,7 @@ const prefixSelector = () => (
 )
 
 const RegistrationForm = props => {
-  const { handleSubmit, pristine, submitting } = props
+  const { handleSubmit, pristine, submitting, initialValues: {location} } = props
 
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit} style={{width: '100%'}}>
@@ -121,7 +87,8 @@ const RegistrationForm = props => {
         hasFeedback
         required={true}
         label="City/District"
-        name="city"
+        name="location"
+        defaultValue={location}
         options={residences}
         component={reduxAntFormField(Cascader)}
         placeholder="City/District"
@@ -138,7 +105,7 @@ const RegistrationForm = props => {
         validate={[ required(), numericality() ]}
       />
       <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" disabled={pristine || submitting} htmlType="submit">Save</Button>
+        <Button type="primary" disabled={submitting} htmlType="submit">Save</Button>
       </Form.Item>
     </Form>
   )
