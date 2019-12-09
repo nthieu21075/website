@@ -1,7 +1,8 @@
-import { userApi } from 'global/apiConfig'
+import { userApi, userApiFormData } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { messageSuccess } from 'services/users/message/actions'
 import { updateAuthData } from 'services/users/authentication/actions'
+import { updateUserTeamData } from 'services/users/profile/userTeamActions'
 import Navigator from 'helpers/history'
 import { reset } from 'redux-form'
 import { userCheckApiResponse } from 'helpers/apiResponse'
@@ -37,6 +38,34 @@ export const updatePassword =
       userCheckApiResponse(response, apiResponse, dispatch, () => {
         dispatch(reset('changePasswordForm'))
         dispatch(messageSuccess('Update password successfully'))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      console.log(error)
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+
+export const createTeam =
+  (values, dispatch, props) => {
+    const { categoryId, name, logo } = values
+    let bodyFormData = new FormData()
+    bodyFormData.append('name', name)
+    bodyFormData.append('categoryId', categoryId)
+
+    if (logo) {
+      bodyFormData.append('logo', logo.file)
+    }
+
+    userApiFormData().post('api/user/create-team', bodyFormData).then(function (response) {
+      const apiResponse = response.data
+
+      userCheckApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(reset('userCreateTeamForm'))
+        dispatch(updateUserTeamData(apiResponse.data))
+        dispatch(messageSuccess('Create team successfully'))
       })
 
       return Promise.resolve()

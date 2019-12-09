@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Layout } from 'antd'
-import ProfileContainer from 'containers/users/profile'
+import ProfileContainer from 'containers/users/profile/index'
 
 
 class HomePage extends Component {

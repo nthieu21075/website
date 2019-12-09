@@ -6,18 +6,24 @@ import Notification from 'components/users/notification'
 import { initAuthState } from 'services/users/authentication/actions'
 import Navigator from 'helpers/history'
 import { getCategories } from 'services/users/category/api'
+import CreateTeamDrawer from 'containers/users/profile/createTeam'
 import _ from 'lodash'
 
 class HeaderContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = { visibleNotification: false }
+    this.state = { visibleNotification: false, createTeam: false }
     this.onClickMenuItem = this.onClickMenuItem.bind(this)
     this.onCloseNotification = this.onCloseNotification.bind(this)
+    this.onCloseCreateTeam = this.onCloseCreateTeam.bind(this)
   }
 
   onCloseNotification() {
     this.setState({ visibleNotification: false })
+  }
+
+  onCloseCreateTeam() {
+    this.setState({ createTeam: false })
   }
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
@@ -49,6 +55,9 @@ class HeaderContainer extends Component {
       case 'logo':
         Navigator.push('/')
         return
+      case 'createTeam':
+        this.setState({ createTeam: true })
+        return
       default:
         Navigator.push('/tournaments')
         return
@@ -68,6 +77,7 @@ class HeaderContainer extends Component {
         <div>
           <NavBar user={data} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo} categories={categories}/>
           <Notification onClose={this.onCloseNotification} visible={this.state.visibleNotification} />
+          <CreateTeamDrawer onClose={this.onCloseCreateTeam} visible={this.state.createTeam}/>
         </div>
       </Affix>
     )
