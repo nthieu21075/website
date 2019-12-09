@@ -4,6 +4,7 @@ import ProfileInfoForm from 'components/users/profile/profileForm'
 import ChangePasswordForm from 'components/users/profile/changePasswordForm'
 import Menu from 'components/users/tournaments/menu'
 import ListTournament from 'components/users/listTournament'
+import ApplyTourmanentModal from 'containers/users/tournaments/applyForm'
 import { Layout, Breadcrumb, Typography, Pagination } from 'antd'
 import { tournamentData, tournamentCategories } from 'global/fakeData'
 import Navigator from 'helpers/history'
@@ -23,12 +24,18 @@ const contentStyled = {
 class TournamentsContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = { categoryId: null }
+    this.state = { categoryId: null, showJoinModal: false, categoryId: 0, tournamentId: 0 }
     this.onClickMenuItem = this.onClickMenuItem.bind(this)
+    this.joinTournament = this.joinTournament.bind(this)
   }
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
     Navigator.push('/tournaments/' + key)
+  }
+
+  joinTournament(categoryId, tournamentId) {
+    console.log(categoryId, tournamentId)
+    this.setState({ showJoinModal: true, categoryId: categoryId, tournamentId: tournamentId })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,6 +48,7 @@ class TournamentsContainer extends Component {
   render() {
     const { categories, params, tournaments } = this.props
     const activeMenu = [params.categoryId]
+    const { showJoinModal } = this.state
 
     return (
       <Content>
@@ -59,9 +67,13 @@ class TournamentsContainer extends Component {
                 loading={false}
                 bordered={true}
                 data={tournaments}
+                joinTournament={this.joinTournament}
               />)
             }
           </Content>
+          <ApplyTourmanentModal
+            visible={showJoinModal}
+          />
         </Layout>
       </Content>
     )

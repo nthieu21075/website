@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col, List, Typography } from 'antd'
 import TournamentItem from 'components/users/tournamentItem'
+import ApplyTourmanentModal from 'containers/users/tournaments/applyForm'
 import Slider from "react-slick"
 import _ from 'lodash'
 import { tournamentData } from 'global/fakeData'
@@ -39,8 +40,20 @@ const settings = {
 const { Title } = Typography
 
 class TournamentContainer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { categoryId: null, showJoinModal: false, tournamentId: 0 }
+    this.joinTournament = this.joinTournament.bind(this)
+  }
+
+  joinTournament(categoryId, tournamentId) {
+    console.log(categoryId, tournamentId)
+    this.setState({ showJoinModal: true, categoryId: categoryId, tournamentId: tournamentId })
+  }
+
   render() {
     const { title, autoPlay, infinite, slidesToShow } = this.props
+    const { showJoinModal, categoryId, tournamentId } = this.state
     settings['autoplay'] = autoPlay
     settings['infinite'] = infinite
     settings['slidesToShow'] = slidesToShow
@@ -52,9 +65,14 @@ class TournamentContainer extends Component {
         </Row>
         <Slider {...settings}>
           {_.map(tournamentData, (item, index) => {
-            return <TournamentItem key={index} item={item} loading={false} bordered={true} className={'carousel-item-padding'}/>
+            return <TournamentItem key={index} item={item} loading={false} bordered={true} className={'carousel-item-padding'} joinTournament={this.joinTournament}/>
           })}
         </Slider>
+        <ApplyTourmanentModal
+          visible={showJoinModal}
+          categoryId={categoryId}
+          tournamentId={tournamentId}
+        />
       </div>
     )
   }

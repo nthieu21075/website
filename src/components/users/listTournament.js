@@ -23,7 +23,7 @@ const itemStyled = {
 
 class ListTournament extends Component {
   render() {
-    const { grid, data, loading, bordered } = this.props
+    const { grid, data, loading, bordered, joinTournament } = this.props
 
     return (
       <List
@@ -35,6 +35,7 @@ class ListTournament extends Component {
               loading={loading}
               bordered={bordered}
               item={item}
+              joinTournament={joinTournament}
             />
           </List.Item>
         )}

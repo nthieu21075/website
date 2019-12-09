@@ -17,6 +17,7 @@ export const updateProfile =
 
       userCheckApiResponse(response, apiResponse, dispatch, () => {
         dispatch(updateAuthData(apiResponse.data.user))
+        dispatch(updateUserTeamData(apiResponse.data.userTeam))
         dispatch(messageSuccess('Update profile successfully'))
       })
 
@@ -75,3 +76,23 @@ export const createTeam =
       throw new SubmissionError({ _error: error.message })
     })
   }
+
+
+export const joinTournament = (tournamentId, teamId, callback) => {
+  return dispatch => {
+    userApi().post('/api/join-team', { tournamentId: tournamentId, teamId: teamId }).then(function (response) {
+      const apiResponse = response.data
+
+      userCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback()
+        dispatch(updateUserTeamData(apiResponse.data))
+        dispatch(messageSuccess('Join Tournament successfully. Please waiting organizer confirm!'))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
