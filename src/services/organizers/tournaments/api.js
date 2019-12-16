@@ -189,7 +189,7 @@ export const removeTeam = (tournamentTeamIds, tournamentId, callback) => {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
-        dispatch(removeTournamentTeam(tournamentTeamIds))
+        dispatch(removeTournamentTeam(apiResponse.data))
         callback()
       }, () => {
         Navigator.push('/organizer/tournaments')

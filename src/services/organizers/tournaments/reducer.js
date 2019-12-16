@@ -90,15 +90,11 @@ const tournamentReducer = (state = initialState, action) => {
     }
 
     case TournamentActions.REMOVE_TOURNAMENT_TEAM: {
-      const newTeams = _.dropWhile(state.teamManagement.teams, (team) => {
-        return _.includes(action.data, team.tournamentTeamId)
-      })
-
       return {
         ...state,
         isLoading: false,
         teamManagement: {
-          teams: newTeams,
+          teams: action.data,
           tables: state.teamManagement.tables,
           availableTeam: state.teamManagement.availableTeam,
           schedules: state.teamManagement.schedules
