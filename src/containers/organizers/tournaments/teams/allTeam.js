@@ -32,8 +32,10 @@ class AllTeamContainer extends Component {
                   hoverable
                   style={teamInfoStyled}
                 >
-                  <img src={process.env.API_DOMAIN_URL + team.logo} style={teamLogoStyled} />
-                  <Text strong>{team.name}</Text>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={process.env.API_DOMAIN_URL + team.logo} style={teamLogoStyled} />
+                    <Text strong>{team.name}</Text>
+                  </div>
                 </Card>
               )
             })}

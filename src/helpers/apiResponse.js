@@ -6,6 +6,7 @@ export const checkApiResponse = (requestResponse, apiResponse, dispatch, callbac
     if (requestResponse.status == 200) {
         switch (apiResponse.code) {
             case 401:
+                dispatch(messageError(apiResponse.message))
                 Navigator.push('/organizer/login')
                 break
             case 403:
@@ -33,6 +34,7 @@ export const userCheckApiResponse = (requestResponse, apiResponse, dispatch, cal
     if (requestResponse.status == 200) {
         switch (apiResponse.code) {
             case 401:
+                dispatch(userMessageError(apiResponse.message))
                 Navigator.push('/login')
                 break
             case 403:

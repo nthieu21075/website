@@ -25,6 +25,9 @@ class SideBarContainer extends Component {
       case 'unpublishTour':
         Navigator.push(Routes.organizers.TOURNAMENTS)
         return
+      case 'requestToJoinTournament':
+        Navigator.push(Routes.organizers.PENDING_REQUEST)
+        return
       default:
         return
     }

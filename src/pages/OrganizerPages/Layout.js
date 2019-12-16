@@ -10,6 +10,8 @@ import ProfilePage from 'pages/OrganizerPages/ProfilePage'
 import CreateTournamentPage from 'pages/OrganizerPages/CreateTournamentPage'
 import TournamentDetailPage from 'pages/OrganizerPages/TournamentDetailPage'
 import ListTournamentPage from 'pages/OrganizerPages/ListTournamentPage'
+import PendingRequestPage from 'pages/OrganizerPages/PendingRequestPage'
+
 import { showAlert } from 'helpers/alert'
 
 const { Header, Content, Footer, Sider } = Layout
@@ -42,6 +44,7 @@ class OrganizerLayout extends Component {
               <Route exact path={Routes.organizers.CREATE_TOURNAMENT} component={CreateTournamentPage}/>
               <Route exact path={Routes.organizers.TOURNAMENT_DETAIL} component={TournamentDetailPage}/>
               <Route exact path={Routes.organizers.TOURNAMENTS} component={ListTournamentPage}/>
+              <Route exact path={Routes.organizers.PENDING_REQUEST} component={PendingRequestPage}/>
             </Switch>
           </Content>
         </Layout>

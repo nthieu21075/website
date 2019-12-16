@@ -8,6 +8,7 @@ const { Sider } = Layout
 class SideBar extends Component {
   render() {
     const { onClick, activeLink } = this.props
+
     return (
       <Sider
         breakpoint="lg"
@@ -22,7 +23,7 @@ class SideBar extends Component {
         <Row type="flex" justify="center">
           <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ width: '60px', marginBottom: '10px' }}/>
         </Row>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={[activeLink]} onClick={onClick}>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={[activeLink]} selectedKeys={activeLink} onClick={onClick}>
           <Menu.Item key="myProfile">
             <Icon type="unordered-list" />
             <span className="nav-text">My profile</span>
@@ -46,6 +47,10 @@ class SideBar extends Component {
           <Menu.Item key="happeningMatch">
             <Icon type="unordered-list" />
             <span className="nav-text">Happening Match</span>
+          </Menu.Item>
+          <Menu.Item key="requestToJoinTournament">
+            <Icon type="unordered-list" />
+            <span className="nav-text">Pending Request</span>
           </Menu.Item>
         </Menu>
       </Sider>

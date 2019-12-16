@@ -18,6 +18,7 @@ export default {
     MY_PROFILE: '/organizer/my-profile',
     CREATE_TOURNAMENT: '/organizer/create-tournament',
     TOURNAMENT_DETAIL: '/organizer/tournament/:id',
-    TOURNAMENTS: '/organizer/tournaments'
+    TOURNAMENTS: '/organizer/tournaments',
+    PENDING_REQUEST: '/organizer/tournaments/pending-request'
   }
 }

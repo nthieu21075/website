@@ -16,7 +16,6 @@ const contentStyled = {
   minHeight: 280,
   display: 'flex',
   flexDirection: 'column',
-  background: '#fff'
 }
 
 class ListTournamentContainer extends Component {
@@ -39,7 +38,7 @@ class ListTournamentContainer extends Component {
 
     return (
       <Content style={contentStyled}>
-        <Title level={3} style={{ textAlign: 'center', marginTop: '15px' }}>List Tournament</Title>
+        <Title level={2} style={{ textAlign: 'center', margin: '30px 0' }}>List Tournament</Title>
         <Row type="flex" justify="center">
           <Col xs={{span: 23}} md={{span: 22}} sm={{span: 21}} lg={{span: 21}} xl={{span: 21}} style={{ paddingBottom: '100px' }}>
             <ListTournament

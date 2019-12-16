@@ -14,6 +14,7 @@ import categoryReducer from 'services/organizers/category/reducer'
 import globalReducer from 'services/organizers/global/reducer'
 import messageReducer from 'services/organizers/message/reducer'
 import tournamentReducer from 'services/organizers/tournaments/reducer'
+import pendingRequestReducer from 'services/organizers/tournaments/pendingRequest/reducer'
 
 export default combineReducers({
   users: combineReducers({
@@ -28,7 +29,8 @@ export default combineReducers({
     global: globalReducer,
     categories: categoryReducer,
     message: messageReducer,
-    tournamentPage: tournamentReducer
+    tournamentPage: tournamentReducer,
+    pendingRequests: pendingRequestReducer
   }),
   form: formReducer
 })

@@ -20,6 +20,10 @@ class TournamentDetailPage extends Component {
     this.props.dispatch(updateSideBarActive('unpublishTour'))
   }
 
+  componentDidUpdate() {
+    this.props.dispatch(updateSideBarActive('unpublishTour'))
+  }
+
   render() {
     const { match: { params } } = this.props
     return (
