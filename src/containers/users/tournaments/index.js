@@ -24,18 +24,22 @@ const contentStyled = {
 class TournamentsContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = { categoryId: null, showJoinModal: false, categoryId: 0, tournamentId: 0 }
+    this.state = { categoryId: null, showJoinModal: false, categoryId: 0, tournamentId: 0, teams: [] }
     this.onClickMenuItem = this.onClickMenuItem.bind(this)
     this.joinTournament = this.joinTournament.bind(this)
+    this.onCancel = this.onCancel.bind(this)
   }
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
     Navigator.push('/tournaments/' + key)
   }
 
-  joinTournament(categoryId, tournamentId) {
-    console.log(categoryId, tournamentId)
-    this.setState({ showJoinModal: true, categoryId: categoryId, tournamentId: tournamentId })
+  joinTournament(categoryId, tournamentId, teams) {
+    this.setState({ showJoinModal: true, categoryId: categoryId, tournamentId: tournamentId, teams: teams })
+  }
+
+  onCancel() {
+    this.setState({ showJoinModal: false, categoryId: 0, tournamentId: 0, teams: [] })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +52,7 @@ class TournamentsContainer extends Component {
   render() {
     const { categories, params, tournaments } = this.props
     const activeMenu = [params.categoryId]
-    const { showJoinModal } = this.state
+    const { showJoinModal, categoryId, tournamentId, teams } = this.state
 
     return (
       <Content>
@@ -73,6 +77,10 @@ class TournamentsContainer extends Component {
           </Content>
           <ApplyTourmanentModal
             visible={showJoinModal}
+            categoryId={categoryId}
+            teams={teams}
+            tournamentId={tournamentId}
+            onCancel={this.onCancel}
           />
         </Layout>
       </Content>

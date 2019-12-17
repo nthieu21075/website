@@ -32,6 +32,8 @@ class TournamenItem extends Component {
   render() {
     const { item, loading, bordered, className, joinTournament } = this.props
 
+    let currentTeam = _.filter(item.teams, function(item) { return item.status == 'approved' })
+
     return (
       <div className={className} style={{ cursor: 'pointer' }}>
         <Card loading={loading}
@@ -53,11 +55,11 @@ class TournamenItem extends Component {
             </div>
             <div style={footerStyled}>
               <Text strong>Team:</Text>
-              <Text code>{`${item.currentTeam} / ${item.team}`}</Text>
+              <Text code>{`${currentTeam.length} / ${item.team}`}</Text>
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button type='primary' style={{ marginTop: 15 }} onClick={e => joinTournament(item.categoryId, item.id)} >Join Tournament</Button>
+            <Button type='primary' style={{ marginTop: 15 }} onClick={e => joinTournament(item.categoryId, item.id, item.teams)} >Join Tournament</Button>
           </div>
         </Card>
       </div>

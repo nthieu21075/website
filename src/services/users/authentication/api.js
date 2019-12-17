@@ -3,6 +3,7 @@ import { SubmissionError } from 'redux-form'
 import Navigator from 'helpers/history'
 import { userCheckApiResponse } from 'helpers/apiResponse'
 import { authSuccess } from 'services/users/authentication/actions'
+import { updateUserTeamData } from 'services/users/profile/userTeamActions'
 
 export const submitLogin =
   (values, dispatch, props) => {
@@ -13,7 +14,10 @@ export const submitLogin =
       const apiResponse = response.data
 
       userCheckApiResponse(response, apiResponse, dispatch, () => {
+        console.log(apiResponse.data)
         dispatch(authSuccess(apiResponse.data.user, apiResponse.token))
+        dispatch(updateUserTeamData({team: apiResponse.data.team, tournamentTeam: apiResponse.data.tournamentTeam}))
+
         Navigator.push('/')
       })
 

@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { Modal, Button, Transfer, Radio } from 'antd'
 import { joinTournament } from 'services/users/profile/api'
+import Navigator from 'helpers/history'
 
 class ApplyFormContainer extends Component {
   constructor(props) {
@@ -36,16 +37,89 @@ class ApplyFormContainer extends Component {
   }
 
   render() {
-    const { visible, onCancel, userTeams, categoryId, tournamentId } = this.props
+    const { visible, onCancel, userTeams, categoryId, tournamentId, teams, tournamentTeam, authentication } = this.props
     const { confirmLoading } = this.state
 
-    let team = _.filter(userTeams, function(item) { return item.categoryId == categoryId && item.tournament_teams.length == 0 })
+    if (!authentication.logged) {
+      return (
+        <Modal
+          title="Warning"
+          visible={visible}
+          okButtonProps={{ style: { display: 'none' } }}
+          confirmLoading={confirmLoading}
+          onCancel={onCancel}
+        >
+          <div style={{ textAlign: 'center', marginBottom: 10, fontSize: 17, fontWeight: 'bold' }}>Please login to your account to join this tournament!!!</div>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Button shape="round" onClick={e => Navigator.push('/login')}>Login</Button>
+            <Button icon="plus" shape="round" style={{ background: 'green', color: 'white', marginLeft: 15 }} onClick={e => Navigator.push('/register')}>Create new account</Button>
+          </div>
+        </Modal>
+      )
+    }
+
+    let joinedTeam = _.filter(tournamentTeam, function(item) { return item.tournamentId == tournamentId && item.status == 'approved'})
+
+    if (joinedTeam.length > 0) {
+      return (
+        <Modal
+          title="Warning"
+          visible={visible}
+          okButtonProps={{ disabled: true }}
+          confirmLoading={confirmLoading}
+          onCancel={onCancel}
+        >
+          <div style={{ textAlign: 'center', marginBottom: 10, fontSize: 17, fontWeight: 'bold' }}>You have team joined this tournament!!</div>
+          <Radio.Group buttonStyle="solid" onChange={e => this.selectItem(e, tournamentId)}>
+            {
+              _.map(joinedTeam, (item, index) => {
+                return (<Radio.Button value={item.id} key={index}>{item.team.name}</Radio.Button>)
+              })
+            }
+          </Radio.Group>
+        </Modal>
+      )
+    }
+
+    joinedTeam = _.filter(tournamentTeam, function(item) { return item.tournamentId == tournamentId && item.status == 'pending'})
+
+    if (joinedTeam.length > 0) {
+      return (
+        <Modal
+          title="Warning"
+          visible={visible}
+          onOk={this.handleOk}
+          okButtonProps={{ disabled: true }}
+          confirmLoading={confirmLoading}
+          onCancel={onCancel}
+        >
+          <div style={{ textAlign: 'center', marginBottom: 10, fontSize: 17, fontWeight: 'bold' }}>Your request is waiting organizer approve!!</div>
+          <Radio.Group buttonStyle="solid" onChange={e => this.selectItem(e, tournamentId)}>
+            {
+              _.map(joinedTeam, (item, index) => {
+                return (<Radio.Button value={item.id} key={index}>{item.team.name}</Radio.Button>)
+              })
+            }
+          </Radio.Group>
+        </Modal>
+      )
+    }
+
+    joinedTeam = _.filter(tournamentTeam, function(item) { return item.tournamentId == tournamentId && item.status == 'canceled' })
+
+    let teamIds = _.map(joinedTeam, 'teamId')
+
+    let team = _.filter(userTeams, (item) => {
+      return (item.categoryId == categoryId && item.tournament_teams.length == 0) || _.includes(teamIds, item.id)
+    })
 
     return (
       <Modal
         title="Join to Tournament"
         visible={visible}
         onOk={this.handleOk}
+        okButtonProps={{ disabled: team.length == 0 }}
         confirmLoading={confirmLoading}
         onCancel={onCancel}
       >
@@ -69,7 +143,9 @@ class ApplyFormContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  userTeams: state.users.userTeam.data
+  userTeams: state.users.userTeam.data.team,
+  authentication: state.users.auth,
+  tournamentTeam: state.users.userTeam.data.tournamentTeam
 })
 
 export default connect(mapStateToProps)(ApplyFormContainer)
