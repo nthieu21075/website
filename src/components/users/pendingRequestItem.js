@@ -31,6 +31,17 @@ class PendingRequestItem extends Component {
   render() {
     const { item, loading, bordered, className } = this.props
 
+    if (loading) {
+      return (
+        <Card loading={loading}
+          type="inner"
+          bodyStyle={{ padding: '12px' }}
+          bordered={bordered}
+        >
+        </Card>
+      )
+    }
+
     return (
       <div className={className}>
         <Card loading={loading}
