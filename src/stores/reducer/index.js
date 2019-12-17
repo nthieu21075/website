@@ -7,6 +7,7 @@ import userMessageReducer from 'services/users/message/reducer'
 import userCategoryReducer from 'services/users/category/reducer'
 import userTournamentReducer from 'services/users/tournaments/reducer'
 import userTeamReducer from 'services/users/profile/userTeamReducer'
+import userPendingRequestReducer from 'services/users/profile/pendingRequest/reducer'
 
 // Oganizer
 import organizerAuthReducer from 'services/organizers/authentication/reducer'
@@ -22,7 +23,8 @@ export default combineReducers({
     message: userMessageReducer,
     categories: userCategoryReducer,
     tournaments: userTournamentReducer,
-    userTeam: userTeamReducer
+    userTeam: userTeamReducer,
+    pendingRequests: userPendingRequestReducer
   }),
   organizers: combineReducers({
     auth: organizerAuthReducer,

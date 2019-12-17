@@ -7,10 +7,16 @@ import HeaderContainer from 'containers/users/layout/header'
 import Routes from 'global/routes'
 import { connect } from 'react-redux'
 import { showAlert } from 'helpers/userAlert'
+import { getCategories } from 'services/users/category/api'
+import { userTeam } from 'services/users/tournaments/api'
 
 class UserLayout extends Component {
   componentDidUpdate() {
     showAlert(this.props)
+    this.props.dispatch(getCategories())
+    if (this.props.authentication.logged){
+      this.props.dispatch(userTeam())
+    }
   }
 
   render() {
@@ -29,7 +35,8 @@ class UserLayout extends Component {
 
 
 const mapStateToProps = (state) => ({
-  message: state.users.message
+  message: state.users.message,
+  authentication: state.users.auth
 })
 
 export default connect(mapStateToProps)(UserLayout)

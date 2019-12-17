@@ -17,7 +17,6 @@ export const updateProfile =
 
       userCheckApiResponse(response, apiResponse, dispatch, () => {
         dispatch(updateAuthData(apiResponse.data.user))
-        dispatch(updateUserTeamData(apiResponse.data.userTeam))
         dispatch(messageSuccess('Update profile successfully'))
       })
 

@@ -6,6 +6,8 @@ import Notification from 'components/users/notification'
 import { initAuthState } from 'services/users/authentication/actions'
 import Navigator from 'helpers/history'
 import { getCategories } from 'services/users/category/api'
+import { userTeam } from 'services/users/tournaments/api'
+
 import CreateTeamDrawer from 'containers/users/profile/createTeam'
 import _ from 'lodash'
 
@@ -62,10 +64,6 @@ class HeaderContainer extends Component {
         Navigator.push('/tournaments')
         return
     }
-  }
-
-  componentDidMount() {
-    this.props.dispatch(getCategories())
   }
 
   render() {

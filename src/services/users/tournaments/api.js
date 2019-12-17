@@ -2,6 +2,7 @@ import { userApi } from 'global/apiConfig'
 import { SubmissionError } from 'redux-form'
 import { updateRecommendTournament, updateTournament } from './actions'
 import { userCheckApiResponse } from 'helpers/apiResponse'
+import { updateUserTeamData } from 'services/users/profile/userTeamActions'
 
 export const getTournaments = (id) => {
   return dispatch => {
@@ -14,6 +15,23 @@ export const getTournaments = (id) => {
         } else {
           dispatch(updateTournament(apiResponse.data))
         }
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const userTeam = () => {
+  return dispatch => {
+    userApi().get(`/api/user/team`).then(function (response) {
+      const apiResponse = response.data
+
+      userCheckApiResponse(response, apiResponse, dispatch, () => {
+        dispatch(updateUserTeamData(apiResponse.data))
       })
 
       return Promise.resolve()

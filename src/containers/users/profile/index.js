@@ -4,10 +4,12 @@ import ProfileInfoForm from 'components/users/profile/profileForm'
 import ChangePasswordForm from 'components/users/profile/changePasswordForm'
 import ProfileMenu from 'components/users/profile/menu'
 import ListTournament from 'components/users/listTournament'
-import { Layout, Breadcrumb, Typography, Pagination } from 'antd'
+import { Layout, Breadcrumb, Typography, Pagination, Row, Col } from 'antd'
 import { reduxForm, reset } from 'redux-form'
 import { tournamentData } from 'global/fakeData'
 import { updateProfile, updatePassword } from 'services/users/profile/api'
+import { getPendingRequest } from 'services/users/profile/pendingRequest/api'
+import ListPendingRequest from 'components/users/listPendingRequest'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -17,8 +19,7 @@ const contentStyled = {
   minHeight: 280,
   display: 'flex',
   alignItems: 'center',
-  flexDirection: 'column',
-  justifyContent: 'center'
+  flexDirection: 'column'
 }
 
 const profileContent = () => (
@@ -35,18 +36,25 @@ const changePasswordContent = () => (
   </Content>
 )
 
-const MyTournamentContent = () => (
-  <Content style={contentStyled}>
-    <Title level={3} style={{ textAlign: 'center' }}>Pending Tournament</Title>
-    <ListTournament
-      grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3}}
-      loading={false}
-      bordered={true}
-      data={tournamentData}
-    />
-    <Pagination defaultCurrent={1} total={50} />
-  </Content>
-)
+const MyTournamentContent = (pendingRequests) => {
+  let data = pendingRequests.loading ? tournamentData : pendingRequests.data
+
+  return (
+    <Content style={contentStyled}>
+      <Title level={3} style={{ textAlign: 'center' }}>Pending Request to Join Tournament</Title>
+      <Row type="flex" justify="center">
+        <Col span='24'>
+          <ListPendingRequest
+            grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2 , xxl: 2}}
+            loading={pendingRequests.loading}
+            bordered={true}
+            data={data}
+          />
+        </Col>
+      </Row>
+    </Content>
+  )
+}
 
 class ProfileContainer extends Component {
   constructor(props) {
@@ -61,10 +69,14 @@ class ProfileContainer extends Component {
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
     this.setState({ selectedItem: key })
+    if (key == 'tournament:pending') {
+      this.props.dispatch(getPendingRequest())
+    }
   }
 
   render() {
-    const { userAuth } = this.props
+    const { pendingRequests, userAuth } = this.props
+
     const { selectedItem } = this.state
     return (
       <Content style={{ padding: '0 50px' }}>
@@ -76,9 +88,9 @@ class ProfileContainer extends Component {
           <ProfileMenu onClick={this.onClickMenuItem} userAuth={userAuth}/>
           {selectedItem == 'profile' && profileContent()}
           {selectedItem == 'changePassword' && changePasswordContent()}
-          {selectedItem == 'tournament:rejected' && MyTournamentContent()}
-          {selectedItem == 'tournament:pending' && MyTournamentContent()}
-          {selectedItem == 'tournament:happening' && MyTournamentContent()}
+          {selectedItem == 'tournament:rejected' && MyTournamentContent(pendingRequests)}
+          {selectedItem == 'tournament:pending' && MyTournamentContent(pendingRequests)}
+          {selectedItem == 'tournament:happening' && MyTournamentContent(pendingRequests)}
         </Layout>
       </Content>
     )
@@ -115,7 +127,8 @@ ProfileInfoFormDecorator = connect(
 )(ProfileInfoFormDecorator)
 
 const mapStateToProps = (state) => ({
-  userAuth: state.users.auth.data
+  userAuth: state.users.auth.data,
+  pendingRequests: state.users.pendingRequests,
 })
 
 export default connect(mapStateToProps)(ProfileContainer)
