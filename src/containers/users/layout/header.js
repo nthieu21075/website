@@ -60,6 +60,8 @@ class HeaderContainer extends Component {
       case 'createTeam':
         this.setState({ createTeam: true })
         return
+      case 'search':
+        return
       default:
         Navigator.push('/tournaments')
         return

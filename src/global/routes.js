@@ -3,6 +3,7 @@ const REGISTER_PAGE = '/register'
 const HOME_PAGE = '/'
 const PROFILE_PAGE = '/my-profile'
 const TOURNAMENTS_PAGE = '/tournaments'
+const TOURNAMENT_DETAIL_PAGE = '/tournament'
 
 export default {
   REGISTER_PAGE,
@@ -10,7 +11,8 @@ export default {
   users: {
     HOME_PAGE,
     PROFILE_PAGE,
-    TOURNAMENTS_PAGE
+    TOURNAMENTS_PAGE,
+    TOURNAMENT_DETAIL_PAGE
   },
   organizers: {
     LOGIN: '/organizer/login',

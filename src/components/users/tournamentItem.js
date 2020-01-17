@@ -23,7 +23,7 @@ const titleStyled = {
 }
 
 const imageStyled = {
-  height: 150,
+  height: 200,
   width: '100%',
   objectFit: 'cover'
 }

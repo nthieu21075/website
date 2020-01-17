@@ -1,66 +1,69 @@
 import React, { Component } from 'react'
 import { Icon, Button, Input, AutoComplete } from 'antd';
+import { connect } from 'react-redux'
+import { Typography } from 'antd';
+import _ from 'lodash'
+import Navigator from 'helpers/history'
+import { searchTourmanent } from 'services/users/tournaments/api'
 
+const { Text } = Typography;
 const { Option } = AutoComplete;
 
 class SearchContainer extends Component {
  constructor(props) {
     super(props)
     this.state = {
-      dataSource: []
+      dataSource: [],
+      value: ''
     }
 
     this.handleSearch = this.handleSearch.bind(this)
-    this.searchResult = this.searchResult.bind(this)
+    this.onSelect = this.onSelect.bind(this)
   }
 
   handleSearch(value) {
-    this.setState({
-      dataSource: value ? this.searchResult(value) : []
-    })
-  }
+    const { dispatch, params } = this.props
 
-  searchResult(query) {
-    return new Array(this.getRandomInt(5))
-      .join('.')
-      .split('.')
-      .map((item, idx) => ({
-        query,
-        category: `${query}${idx}`,
-        count: this.getRandomInt(200, 100)
+    if (value == '') {
+      this.setState({ value: '', dataSource: [{ empty: true, text: 'Not found any result with your key word'}]})
+    } else {
+      dispatch(searchTourmanent(value, (response) => {
+        if (response.length === 0) {
+          this.setState({ value: value, dataSource: [{ empty: true, text: 'Not Found any result with your key word'}]})
+        } else {
+          this.setState({ dataSource: response, value: value})
+        }
       }))
-  }
-
-  getRandomInt(max, min = 0) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
   }
 
   onSelect(value) {
-    console.log('onSelect', value);
+    Navigator.push('/tournament/' + value)
   }
 
   renderOption(item) {
+    if (item.empty) {
+      return (
+        <Option key={0} text={item.text}>
+          <div className="global-search-item" style={{ display: 'flex', alignItems: 'center' }}>
+            {item.text}
+          </div>
+        </Option>
+      )
+    }
     return (
-      <Option key={item.category} text={item.category}>
-        <div className="global-search-item">
-          <span className="global-search-item-desc">
-            Found {item.query} on
-            <a
-              href={`https://s.taobao.com/search?q=${item.query}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {item.category}
-            </a>
-          </span>
-          <span className="global-search-item-count">{item.count} results</span>
+      <Option key={item.id} text={item.name}>
+        <div className="global-search-item" style={{ display: 'flex', alignItems: 'center' }}>
+          <img src={process.env.API_DOMAIN_URL + item.mainImageUrl} style={{ width: 50, marginRight: 10 }}/>
+          <Text strong>{item.name}</Text>
         </div>
       </Option>
     )
   }
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, value } = this.state
+
     return (
       <div className="global-search-wrapper" style={{ width: 250 }}>
         <AutoComplete
@@ -70,8 +73,9 @@ class SearchContainer extends Component {
           dataSource={dataSource.map(this.renderOption)}
           onSelect={this.onSelect}
           onSearch={this.handleSearch}
-          placeholder="input here"
+          placeholder="Search..."
           optionLabelProp="text"
+          value={value}
         >
           <Input suffix={<Icon type="search" className="certain-category-icon" />} />
         </AutoComplete>
@@ -80,4 +84,8 @@ class SearchContainer extends Component {
   }
 }
 
-export default SearchContainer
+
+const mapStateToProps = (state) => ({
+})
+
+export default connect(mapStateToProps)(SearchContainer)

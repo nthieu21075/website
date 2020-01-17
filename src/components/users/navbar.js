@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Menu, Icon, Row, Avatar, Badge } from 'antd'
 import SearchContainer from 'containers/users/share/search'
 import _ from 'lodash'
+import logo from 'public/images/header_logo.svg'
 
 const { SubMenu } = Menu
 
@@ -56,24 +57,13 @@ const registerItem = () => (
   </Menu.Item>
 )
 
-const categoriesItem = (categories) => (
-  <SubMenu
-    style={{ float: 'right' }}
-    title={<span className="submenu-title-wrapper">Categories</span>}
-  >
-    {_.map(categories.data, (category) => {
-      return <Menu.Item key={'categoryItem' + category.id} id={category.id}>{category.name}</Menu.Item>
-    })}
-  </SubMenu>
-)
-
 class AuthNav extends Component {
   render() {
     const { user, onClick, categories } = this.props
     return (
       <Menu mode="horizontal" style={{ height: '60px', lineHeight: '60px' }} onClick={onClick}>
         <Menu.Item key='logo' className='header-logo menu-none-hover'>
-          <Avatar shape="square" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <img src={logo} style={{ width: 120 }} />
         </Menu.Item>
         <Menu.Item key='search' style={searchItemStyled} className='menu-none-hover'>
           <SearchContainer/>
@@ -81,10 +71,9 @@ class AuthNav extends Component {
         {_.size(user) > 0 && userInfo(user)}
         {_.size(user) == 0 && loginItem()}
         {_.size(user) == 0 && registerItem()}
-        {categoriesItem(categories)}
-        <Menu.Item key='pitches' style={menuItemStyled}>
-          <Link to='/'>Pitches</Link>
-        </Menu.Item>
+        {_.map(categories.data, (category) => {
+          return <Menu.Item key={'categoryItem' + category.id} style={categoryItemStyled} id={category.id}>{category.name}</Menu.Item>
+        })}
       </Menu>
     )
   }
@@ -96,10 +85,10 @@ const menuItemStyled = {
   alignItems: 'center'
 }
 
-const avatarItemStyled = {
-  float: 'left',
-  alignItems: 'center',
-  marginLeft: '5%'
+const categoryItemStyled = {
+  float: 'right',
+  display: 'flex',
+  alignItems: 'center'
 }
 
 const searchItemStyled = {
