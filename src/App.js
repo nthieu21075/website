@@ -22,6 +22,9 @@ import UserLayout from 'pages/UserPages/Layout'
 import OrganizerLayout from 'pages/OrganizerPages/Layout'
 import OrganizerLoginPage from 'pages/OrganizerPages/LoginPage'
 
+import AdminLoginPage from 'pages/AdminPages/LoginPage'
+import AdminLayout from 'pages/AdminPages/Layout'
+
 const App = () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
@@ -32,7 +35,9 @@ const App = () => (
             <Route exact path={Routes.REGISTER_PAGE} component={RegisterPage} />
             <Route exact path={Routes.LOGIN_PAGE} component={LoginPage} />
             <Route exact path={Routes.organizers.LOGIN} component={OrganizerLoginPage}/>
+            <Route exact path={Routes.admins.LOGIN} component={AdminLoginPage}/>
             <Route path='/organizer' component={OrganizerLayout} />
+            <Route path='/admins' component={AdminLayout} />
             <Route path='/500'>
               <ErrorPage
                 status="500"

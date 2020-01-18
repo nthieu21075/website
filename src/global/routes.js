@@ -25,5 +25,10 @@ export default {
     FINISHED_TOURNAMENT: '/organizer/tournaments/finished',
     HAPPENING_TOURNAMENT: '/organizer/tournaments/happening',
     HAPPENING_MATCH: '/organizer/tournaments/happening-match'
+  },
+  admins: {
+    LOGIN: '/admins/login',
+    ORGANIZERS: '/admins/organizers',
+    ORGANIZER_CREATE: '/admins/organizer-create'
   }
 }

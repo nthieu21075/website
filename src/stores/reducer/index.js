@@ -17,6 +17,11 @@ import messageReducer from 'services/organizers/message/reducer'
 import tournamentReducer from 'services/organizers/tournaments/reducer'
 import pendingRequestReducer from 'services/organizers/tournaments/pendingRequest/reducer'
 
+// Admin
+import adminAuthReducer from 'services/admins/authentication/reducer'
+import adminGlobalReducer from 'services/admins/global/reducer'
+import adminMessageReducer from 'services/admins/message/reducer'
+
 export default combineReducers({
   users: combineReducers({
     auth: userAuthReducer,
@@ -33,6 +38,11 @@ export default combineReducers({
     message: messageReducer,
     tournamentPage: tournamentReducer,
     pendingRequests: pendingRequestReducer
+  }),
+  admins: combineReducers({
+    auth: adminAuthReducer,
+    global: adminGlobalReducer,
+    message: adminMessageReducer
   }),
   form: formReducer
 })

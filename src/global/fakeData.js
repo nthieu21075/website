@@ -73,7 +73,7 @@ export const tournamentCategories = [
 
 export const residences = [
   {
-    value: 'hcm',
+    value: 'Thành phố Hồ Chí Minh',
     label: 'Thành phố Hồ Chí Minh',
     children: [
       {
