@@ -21,6 +21,9 @@ export default {
     CREATE_TOURNAMENT: '/organizer/create-tournament',
     TOURNAMENT_DETAIL: '/organizer/tournament/:id',
     TOURNAMENTS: '/organizer/tournaments',
-    PENDING_REQUEST: '/organizer/tournaments/pending-request'
+    PENDING_REQUEST: '/organizer/tournaments/pending-request',
+    FINISHED_TOURNAMENT: '/organizer/tournaments/finished',
+    HAPPENING_TOURNAMENT: '/organizer/tournaments/happening',
+    HAPPENING_MATCH: '/organizer/tournaments/happening-match'
   }
 }

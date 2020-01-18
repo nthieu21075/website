@@ -14,10 +14,10 @@ class SideBarContainer extends Component {
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
     this.props.dispatch(updateSideBarActive(key))
+
     switch(key) {
       case 'myProfile':
         Navigator.push(Routes.organizers.MY_PROFILE)
-        this.props.dispatch(updateSideBarActive('myProfile'))
         return
       case 'createTournament':
         Navigator.push(Routes.organizers.CREATE_TOURNAMENT)
@@ -27,6 +27,15 @@ class SideBarContainer extends Component {
         return
       case 'requestToJoinTournament':
         Navigator.push(Routes.organizers.PENDING_REQUEST)
+        return
+      case 'finishTournament':
+        Navigator.push(Routes.organizers.FINISHED_TOURNAMENT)
+        return
+      case 'happeningTournament':
+        Navigator.push(Routes.organizers.HAPPENING_TOURNAMENT)
+        return
+      case 'happeningMatch':
+        Navigator.push(Routes.organizers.HAPPENING_MATCH)
         return
       default:
         return

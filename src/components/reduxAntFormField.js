@@ -14,6 +14,7 @@ const reduxFormField = Component => ({ required, input, meta, children, hasFeedb
 
   if (defaultChecked) {
     rest.defaultChecked = defaultChecked
+    rest.checked = defaultChecked
   }
 
   return (

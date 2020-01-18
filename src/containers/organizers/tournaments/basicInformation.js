@@ -19,6 +19,12 @@ class BasicInformationContainer extends Component {
     dispatch(getBasicInformation(params.id))
   }
 
+  componentDidUpdate() {
+    const { dispatch, params } = this.props
+    dispatch(getCategories())
+    dispatch(getBasicInformation(params.id))
+  }
+
   render() {
     return (
       <FormDecorator/>

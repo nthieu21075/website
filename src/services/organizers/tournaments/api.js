@@ -265,13 +265,31 @@ export const moveTeamToAnotherTable = (tournamentId, tableResultId, tableId) => 
   }
 }
 
-export const getListTournament = (categoryId, tournamentId) => {
+export const getListTournament = (type, callback) => {
   return dispatch => {
-    organierApi().get('/api/organizer/tournament/list').then(function (response) {
+    organierApi().get(`/api/organizer/tournament/list/${type}`).then(function (response) {
       const apiResponse = response.data
 
       checkApiResponse(response, apiResponse, dispatch, () => {
+        callback()
         dispatch(updateListTournament(apiResponse.data))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const getHappeningMatch = (callback) => {
+  return dispatch => {
+    organierApi().get(`/api/organizer/tournament/happening-match`).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
       })
 
       return Promise.resolve()

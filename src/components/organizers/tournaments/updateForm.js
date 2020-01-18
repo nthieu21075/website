@@ -50,7 +50,8 @@ const tailFormItemLayout = {
   }
 }
 
-const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues: {categories, imageUrl, publish, originationDate} }) => {
+const UpdateForm = ({ handleSubmit, pristine, submitting, initialValues }) => {
+  const {categories, imageUrl, publish, originationDate} = initialValues
 
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit} style={{width: '100%'}}>

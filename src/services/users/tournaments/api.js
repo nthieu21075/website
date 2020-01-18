@@ -59,9 +59,9 @@ export const getTournamentDetail = (tournamentId, callback) => {
   }
 }
 
-export const searchTourmanent = (keyword, callback) => {
+export const searchTourmanent = (keyword, type, callback) => {
   return dispatch => {
-    userApi().get(`/api/user/search-tournament/${keyword}`).then(function (response) {
+    userApi().post(`/api/user/search-tournament`, { keyword: keyword, type: type }).then(function (response) {
       const apiResponse = response.data
 
       userCheckApiResponse(response, apiResponse, dispatch, () => {

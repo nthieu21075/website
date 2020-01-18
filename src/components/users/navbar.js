@@ -13,7 +13,7 @@ const userInfo = (user) => (
     style={lastMenuItemStyled}
     title={
       <span className="submenu-title-wrapper">
-        <Badge count={10}>
+        <Badge count={6}>
           <Avatar className="menu-user-logo" icon="user" />
         </Badge>
         {user.name}
@@ -66,7 +66,7 @@ class AuthNav extends Component {
           <img src={logo} style={{ width: 120 }} />
         </Menu.Item>
         <Menu.Item key='search' style={searchItemStyled} className='menu-none-hover'>
-          <SearchContainer/>
+          <SearchContainer type="user"/>
         </Menu.Item>
         {_.size(user) > 0 && userInfo(user)}
         {_.size(user) == 0 && loginItem()}

@@ -11,7 +11,7 @@ class Navbar extends Component {
     return (
       <Menu mode="horizontal" style={{ height: '60px', lineHeight: '60px' }} onClick={onClick}>
         <Menu.Item key='search' style={searchItemStyled} className='menu-none-hover'>
-          <SearchContainer/>
+          <SearchContainer type="organizer"/>
         </Menu.Item>
         <Menu.Item key="logout" style={lastMenuItemStyled}>
           <Icon type="logout"/>

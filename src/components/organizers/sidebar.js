@@ -34,13 +34,13 @@ class SideBar extends Component {
           </Menu.Item>
           <Menu.Item key="unpublishTour">
             <Icon type="unordered-list" />
-            <span className="nav-text">List Tournament</span>
+            <span className="nav-text">All Tournament</span>
           </Menu.Item>
-          <Menu.Item key="publishedTour">
+          <Menu.Item key="finishTournament">
             <Icon type="unordered-list" />
             <span className="nav-text">Finished Tournament</span>
           </Menu.Item>
-          <Menu.Item key="happeningTour">
+          <Menu.Item key="happeningTournament">
             <Icon type="unordered-list" />
             <span className="nav-text">Happening Tournament</span>
           </Menu.Item>

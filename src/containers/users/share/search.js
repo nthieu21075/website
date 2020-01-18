@@ -22,12 +22,12 @@ class SearchContainer extends Component {
   }
 
   handleSearch(value) {
-    const { dispatch, params } = this.props
+    const { dispatch, params, type } = this.props
 
     if (value == '') {
       this.setState({ value: '', dataSource: [{ empty: true, text: 'Not found any result with your key word'}]})
     } else {
-      dispatch(searchTourmanent(value, (response) => {
+      dispatch(searchTourmanent(value, type, (response) => {
         if (response.length === 0) {
           this.setState({ value: value, dataSource: [{ empty: true, text: 'Not Found any result with your key word'}]})
         } else {
@@ -38,7 +38,11 @@ class SearchContainer extends Component {
   }
 
   onSelect(value) {
-    Navigator.push('/tournament/' + value)
+    if (this.props.type == 'organizer') {
+      Navigator.push('/organizer/tournament/' + value)
+    } else {
+      Navigator.push('/tournament/' + value)
+    }
   }
 
   renderOption(item) {

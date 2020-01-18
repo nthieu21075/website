@@ -36,12 +36,12 @@ const changePasswordContent = () => (
   </Content>
 )
 
-const MyTournamentContent = (pendingRequests) => {
+const MyTournamentContent = (pendingRequests, title) => {
   let data = pendingRequests.loading ? tournamentData : pendingRequests.data
 
   return (
     <Content style={contentStyled}>
-      <Title level={3} style={{ textAlign: 'center' }}>Pending Request to Join Tournament</Title>
+      <Title level={3} style={{ textAlign: 'center' }}>{title}</Title>
       <Row type="flex" justify="center">
         <Col span='24'>
           <ListPendingRequest
@@ -88,9 +88,9 @@ class ProfileContainer extends Component {
           <ProfileMenu onClick={this.onClickMenuItem} userAuth={userAuth}/>
           {selectedItem == 'profile' && profileContent()}
           {selectedItem == 'changePassword' && changePasswordContent()}
-          {selectedItem == 'tournament:rejected' && MyTournamentContent(pendingRequests)}
-          {selectedItem == 'tournament:pending' && MyTournamentContent(pendingRequests)}
-          {selectedItem == 'tournament:happening' && MyTournamentContent(pendingRequests)}
+          {selectedItem == 'tournament:rejected' && MyTournamentContent({ loading: false, data: [] }, 'Rejected request to Join Tournament')}
+          {selectedItem == 'tournament:pending' && MyTournamentContent(pendingRequests, 'Pending Request to Join Tournament')}
+          {selectedItem == 'tournament:finished' && MyTournamentContent({ loading: false, data: [] }, 'Finished Tournament')}
         </Layout>
       </Content>
     )

@@ -21,29 +21,34 @@ const contentStyled = {
 class ListTournamentContainer extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      loading: true
+    }
   }
 
   componentDidMount() {
-    this.props.dispatch(getListTournament())
-  }
+    const { dispatch, type } = this.props
 
-  componentDidUpdate() {
-    showAlert(this.props)
+    dispatch(getListTournament(type, () =>
+      this.setState({ loading: false })
+    ))
   }
 
   render() {
-    const { listTournament } = this.props
+    const { listTournament, title } = this.props
+    const { loading } = this.state
 
-    let data = listTournament.loading ? tournamentData : listTournament.data
+    let data = loading ? tournamentData : listTournament.data
 
     return (
       <Content style={contentStyled}>
-        <Title level={2} style={{ textAlign: 'center', margin: '30px 0' }}>List Tournament</Title>
+        <Title level={2} style={{ textAlign: 'center', margin: '30px 0' }}>{title ? title : 'List Tournament'}</Title>
         <Row type="flex" justify="center">
           <Col xs={{span: 23}} md={{span: 22}} sm={{span: 21}} lg={{span: 21}} xl={{span: 21}} style={{ paddingBottom: '100px' }}>
             <ListTournament
               grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2 , xxl: 3}}
-              loading={listTournament.loading}
+              loading={loading}
               bordered={true}
               data={data}
             />

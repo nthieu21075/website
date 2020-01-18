@@ -43,9 +43,9 @@ class ProfileMenu extends Component {
               </span>
             }
           >
-            <Menu.Item key="tournament:happening">Finished</Menu.Item>
-            <Menu.Item key="tournament:pending">Awaiting moderation</Menu.Item>
-            <Menu.Item key="tournament:rejected">Rejected</Menu.Item>
+            <Menu.Item key="tournament:finished">Finished</Menu.Item>
+            <Menu.Item key="tournament:pending">Pending Request</Menu.Item>
+            <Menu.Item key="tournament:rejected">Rejected Request</Menu.Item>
           </SubMenu>
         </Menu>
       </Sider>
