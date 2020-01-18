@@ -62,7 +62,7 @@ class TournamentDetailContainer extends Component {
                       return (
                         <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20px' }} key={index}>
                           <Title level={2} style={{ textAlign: 'center' }}>{table.name}</Title>
-                          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'wrap row' }}>
                             { _.map(table.matches, (match, matchIndex) => {
                               return (
                                 <Card
@@ -70,7 +70,7 @@ class TournamentDetailContainer extends Component {
                                   onClick={e=> console.log('click')}
                                   type="inner"
                                   bodyStyle={{ padding: '15px' }}
-                                  style ={{ width: '450px', margin: '0 20px' }}
+                                  style ={{ width: '450px', margin: '10px 20px' }}
                                 >
                                   <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{match.name}</div>
                                   <div style={{ textAlign: 'center', fontSize: '15px', marginBottom: 15 }}>{moment(match.scheduled).format('DD-MM-YYYY HH:mm')}</div>
@@ -99,7 +99,7 @@ class TournamentDetailContainer extends Component {
                                           <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
                                         </div>
                                       )
-                                      : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${table.matches[matchIndex - 1].name}`}</div>)
+                                      : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${table.matches[matchIndex - 1] ? table.matches[matchIndex - 1].name : ''}`}</div>)
                                     }
                                   </div>
                                 </Card>

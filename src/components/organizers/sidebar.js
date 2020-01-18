@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom"
 import { Layout, Menu, Icon, Row } from 'antd'
 import _ from 'lodash'
-
+import logo from 'public/images/logo.svg'
 const { Sider } = Layout
 
 class SideBar extends Component {
@@ -21,7 +21,7 @@ class SideBar extends Component {
         }}
       >
         <Row type="flex" justify="center">
-          <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{ width: '60px', marginBottom: '10px' }}/>
+          <img src={logo} style={{ width: '150px', margin: '20px 0' }}/>
         </Row>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={[activeLink]} selectedKeys={activeLink} onClick={onClick}>
           <Menu.Item key="myProfile">

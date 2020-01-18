@@ -49,16 +49,19 @@ class HappeningMatchContainer extends Component {
             <Tabs defaultActiveKey="1" style={{ width: '100%' }}>
               { _.map(data, (tournament, tournamentIndex) => {
                 return (
-                  <TabPane tab={tournament.name} key={tournamentIndex}>
+                  <TabPane tab={tournament.name} key={tournament.id * 2.9}>
                     { _.map(tournament.tables, (table, index) => {
                       return (
-                        <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20px' }} key={index}>
+                        <div style={{ display: 'flex', flexDirection: 'column', margin: '20px' }} key={index}>
                           <Title level={2} style={{ textAlign: 'center' }}>{table.name}</Title>
                           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             { _.map(table.matches, (match, matchIndex) => {
+                              if (!match.visitorTeam || !match.homeTeam) {
+                                return (<div/>)
+                              }
                               return (
                                 <Card
-                                  key={matchIndex * index + 1}
+                                  key={match.id * 1.9}
                                   onClick={e=> console.log('click')}
                                   type="inner"
                                   bodyStyle={{ padding: '15px' }}

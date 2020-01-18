@@ -42,7 +42,7 @@ const MyTournamentContent = (pendingRequests, title) => {
   return (
     <Content style={contentStyled}>
       <Title level={3} style={{ textAlign: 'center' }}>{title}</Title>
-      <Row type="flex" justify="center">
+      <Row type="flex" justify="center" style={{ width: '100%' }}>
         <Col span='24'>
           <ListPendingRequest
             grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2 , xxl: 2}}

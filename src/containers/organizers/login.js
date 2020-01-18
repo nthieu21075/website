@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Card } from 'tabler-react'
 import { reduxForm } from 'redux-form'
 import { notification } from 'antd'
-import LoginForm from 'components/login/loginForm'
+import LoginForm from 'components/organizers/login'
 import { submitLogin } from 'services/organizers/authentication/api'
 import { initAuthState } from 'services/organizers/authentication/actions'
 
