@@ -28,6 +28,9 @@ class SideBarContainer extends Component {
       case 'categories':
         Navigator.push(Routes.admins.CATEGORIES)
         return
+      case 'manual':
+        Navigator.push(Routes.admins.MANUAL)
+        return
       default:
         return
     }

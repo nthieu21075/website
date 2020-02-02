@@ -35,6 +35,7 @@ export default {
     PITCHES: '/admins/pitches',
     PITCH_CREATE: '/admins/pitch-create',
     CATEGORIES: '/admins/categories',
-    CATEGORY_CREATE: '/admins/category-create'
+    CATEGORY_CREATE: '/admins/category-create',
+    MANUAL: '/admins/manual'
   }
 }

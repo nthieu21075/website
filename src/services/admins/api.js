@@ -37,6 +37,38 @@ export const getReferees = (callback) => {
   }
 }
 
+export const getManual = (callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/manual').then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const removeManual = (id, callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/remove-manual/' + id).then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
 export const createOrganizer =
   (values, dispatch, props) => {
     const { email, address, location, name, organizerName, phoneNumber, password } = values
