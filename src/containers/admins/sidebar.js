@@ -19,6 +19,9 @@ class SideBarContainer extends Component {
       case 'organizers':
         Navigator.push(Routes.admins.ORGANIZERS)
         return
+      case 'referees':
+        Navigator.push(Routes.admins.REFEREES)
+        return
       default:
         return
     }

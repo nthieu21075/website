@@ -22,10 +22,10 @@ class HeaderContainer extends Component {
     switch(key) {
       case 'logout':
         this.props.dispatch(initAuthState())
-        Navigator.push('/organizer/login')
+        Navigator.push('/admins/login')
         return
       default:
-        Navigator.push('/organizer/login')
+        Navigator.push('/admins/login')
         return
     }
   }

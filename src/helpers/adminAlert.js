@@ -30,7 +30,9 @@ const successAlert = (messages) => (dispatch) => {
 
 export const showAlert = (props) => {
     const { message: { errors, success }, dispatch } = props
+
     if (errors) {
+        console.log(123123123)
         dispatch(errorAlert(errors))
     }
 

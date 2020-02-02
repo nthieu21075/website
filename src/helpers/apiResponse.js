@@ -37,13 +37,13 @@ export const adminCheckApiResponse = (requestResponse, apiResponse, dispatch, ca
         switch (apiResponse.code) {
             case 401:
                 dispatch(adminMessageError(apiResponse.message))
-                Navigator.push('/amdins/login')
+                Navigator.push('/admins/login')
                 break
             case 403:
-                Navigator.push('/amdins/403')
+                Navigator.push('/admins/403')
                 break;
             case 404:
-                Navigator.push('/amdins/404')
+                Navigator.push('/admins/404')
                 break;
             case 409:
                 dispatch(adminMessageError(apiResponse.message))
@@ -56,7 +56,7 @@ export const adminCheckApiResponse = (requestResponse, apiResponse, dispatch, ca
                 break;
         }
     } else {
-        Navigator.push('/amdins/500')
+        Navigator.push('/admins/500')
     }
 }
 

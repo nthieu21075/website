@@ -29,6 +29,8 @@ export default {
   admins: {
     LOGIN: '/admins/login',
     ORGANIZERS: '/admins/organizers',
-    ORGANIZER_CREATE: '/admins/organizer-create'
+    ORGANIZER_CREATE: '/admins/organizer-create',
+    REFEREES: '/admins/referees',
+    REFEREE_CREATE: '/admins/referee-create'
   }
 }

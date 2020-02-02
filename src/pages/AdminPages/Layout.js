@@ -8,8 +8,10 @@ import { connect } from 'react-redux'
 import Navigator from 'helpers/history'
 import OrganizersPage from 'pages/AdminPages/OrganizersPage'
 import CreateOrganizerPage from 'pages/AdminPages/CreateOrganizerPage'
+import RefereesPage from 'pages/AdminPages/RefereesPage'
+import CreateRefereePage from 'pages/AdminPages/CreateRefereePage'
 
-import { showAlert } from 'helpers/alert'
+import { showAlert } from 'helpers/adminAlert'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -38,6 +40,8 @@ class AdminsLayout extends Component {
             <Switch>
               <Route exact path={Routes.admins.ORGANIZERS} component={OrganizersPage}/>
               <Route exact path={Routes.admins.ORGANIZER_CREATE} component={CreateOrganizerPage}/>
+              <Route exact path={Routes.admins.REFEREES} component={RefereesPage}/>
+              <Route exact path={Routes.admins.REFEREE_CREATE} component={CreateRefereePage}/>
             </Switch>
           </Content>
         </Layout>

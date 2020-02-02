@@ -1,7 +1,8 @@
 import { GlobalActions } from './actions'
 
 const initialState = {
-  sideBarActive: 'organizers'
+  sideBarActive: 'organizers',
+  categories: []
 }
 
 const globalReducer = (state = initialState, action) => {
@@ -15,6 +16,13 @@ const globalReducer = (state = initialState, action) => {
 
     case GlobalActions.INITIALIZE: {
       return initialState
+    }
+
+    case GlobalActions.UPDATE_CATEGORIES: {
+      return {
+        ...state,
+        categories: action.data
+      }
     }
 
     default: {

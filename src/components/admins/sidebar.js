@@ -19,6 +19,8 @@ class SideBar extends Component {
         onCollapse={(collapsed, type) => {
           console.log(collapsed, type);
         }}
+
+        className="custom-side-bar"
       >
         <Row type="flex" justify="center">
           <img src={logo} style={{ width: '150px', margin: '20px 0' }}/>

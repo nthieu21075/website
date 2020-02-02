@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { showAlert } from 'helpers/userAlert'
 import { getCategories } from 'services/users/category/api'
 import { userTeam } from 'services/users/tournaments/api'
+import ErrorPage from 'pages/ErrorPage'
 
 class UserLayout extends Component {
   componentDidUpdate() {
@@ -30,6 +31,13 @@ class UserLayout extends Component {
           <Route exact path={Routes.users.PROFILE_PAGE} component={ProfilePage} />
           <Route exact path={Routes.users.TOURNAMENTS_PAGE + '/:categoryId'} component={TournamentsPage} />
           <Route exact path={Routes.users.TOURNAMENT_DETAIL_PAGE + '/:tournamentId'} component={TournamentDetailPage} />
+          <Route>
+            <ErrorPage
+              status="404"
+              title="404"
+              message="Sorry, the page you visited does not exist."
+            />
+          </Route>
         </Switch>
       </div>
     )
