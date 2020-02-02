@@ -33,6 +33,8 @@ export default {
     REFEREES: '/admins/referees',
     REFEREE_CREATE: '/admins/referee-create',
     PITCHES: '/admins/pitches',
-    PITCH_CREATE: '/admins/pitch-create'
+    PITCH_CREATE: '/admins/pitch-create',
+    CATEGORIES: '/admins/categories',
+    CATEGORY_CREATE: '/admins/category-create'
   }
 }

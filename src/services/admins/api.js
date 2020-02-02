@@ -124,7 +124,6 @@ export const getCategories = () => {
   }
 }
 
-
 export const getPitches = (callback) => {
   return dispatch => {
     adminApi().get('api/admins/pitches').then(function (response) {
@@ -140,3 +139,44 @@ export const getPitches = (callback) => {
     })
   }
 }
+
+export const getPrivateCategories = (callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/categories').then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const createCategory =
+  (values, dispatch, props) => {
+    const { name, image } = values
+
+    let bodyFormData = new FormData()
+    bodyFormData.append('name', name)
+    if (image) {
+      bodyFormData.append('image', image.file)
+    }
+
+    adminApiFormData().post('api/admins/create-category', bodyFormData).then(function (response) {
+      const apiResponse = response.data
+
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        Navigator.push('/admins/categories')
+        dispatch(messageSuccess('Created Category successfully'))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
