@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { showAlert } from 'helpers/alert'
 import { Row, Col, Layout, Typography, Pagination, Spin, List, Card, Avatar, Button } from 'antd'
 import { tournamentData } from 'global/fakeData'
-import { getReferees } from 'services/admins/api'
+import { getPitches } from 'services/admins/api'
 import moment from 'moment'
 import Navigator from 'helpers/history'
 import Routes from 'global/routes'
@@ -23,7 +23,7 @@ const contentStyled = {
 const teamStyled = {
   display: 'flex',
   flexDirection: 'column',
-  padding: '10px 0',
+  paddingBottom: '10px',
   justifyContent: 'center',
   alignItems: 'center'
 }
@@ -35,14 +35,14 @@ const itemFooterStyled = {
   alignItems: 'center'
 }
 
-class RefereesContainer extends Component {
+class PitchesContainer extends Component {
   constructor(props) {
     super(props)
     this.state = { loading: true, data: [] }
   }
 
   componentDidMount() {
-    this.props.dispatch(getReferees((response) => {
+    this.props.dispatch(getPitches((response) => {
       this.setState({ loading: false, data: response })
     }))
   }
@@ -54,12 +54,12 @@ class RefereesContainer extends Component {
       <Spin spinning={loading} delay={500}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button type="primary" shape="round" icon="plus" onClick={e => Navigator.push(Routes.admins.REFEREE_CREATE)}>
-              Create new referee
+            <Button type="primary" shape="round" icon="plus" onClick={e => Navigator.push(Routes.admins.PITCH_CREATE)}>
+              Create new pitch
             </Button>
           </div>
           <Content style={contentStyled}>
-            <Title level={3} style={{ textAlign: 'center', margin: '30px' }}>List Referees</Title>
+            <Title level={3} style={{ textAlign: 'center', margin: '30px' }}>List Pitches</Title>
             <Row type="flex" justify="center">
               <Col xs={{span: 24}} md={{span: 24}} sm={{span: 24}} lg={{span: 24}} xl={{span: 24}} style={{ paddingBottom: '100px' }}>
                 <div style={{ display: 'flex', flexFlow: 'wrap row', 'justifyContent': 'center' }}>
@@ -68,16 +68,15 @@ class RefereesContainer extends Component {
                       return (
                         <Card
                           key={item.id}
-                          style={{ cursor: 'pointer', width: 300, margin: 20 }}
+                          style={{ cursor: 'pointer', width: 400, margin: 20 }}
                           type="inner"
-                          bodyStyle={{ padding: '12px' }}
+                          bodyStyle={{ padding: '0' }}
                           bordered={true}
                         >
-                          <div onClick={e => Navigator.push('/admins/organizer-detail/' + item.id)}>
+                          <div onClick={e => Navigator.push('/admins/pitch-detail/' + item.id)}>
                             <div style={teamStyled}>
-                              <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-yaq_DZKXinW1i0VvxAgrMQd7gVid0idFr0nxfWrvGStgnHmT&s" size={200}/>
+                              <img src={ process.env.API_DOMAIN_URL + item.mainImageUrl } style={{ width: '100%', height: 200, objectFit: 'cover' }}/>
                               <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: 10 }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.email}</Text>
                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
                                 <Text style={{ fontSize: 15 }}>{`Price: ${item.price}`}</Text>
                                 {item.category ? <Text style={{ fontSize: 15 }}>{`Category: ${item.category.name}`}</Text> : '' }
@@ -91,6 +90,7 @@ class RefereesContainer extends Component {
                                     }
                                   })}
                                 </Text>
+                                <Text style={{ fontSize: 15 }}>{`Owner: ${item.ownerName}`}</Text>
                                 <Text style={{ fontSize: 15 }}>{`Phone number: ${item.phoneNumber}`}</Text>
                               </div>
                             </div>
@@ -116,4 +116,4 @@ class RefereesContainer extends Component {
 const mapStateToProps = (state) => ({
 })
 
-export default connect(mapStateToProps)(RefereesContainer)
+export default connect(mapStateToProps)(PitchesContainer)

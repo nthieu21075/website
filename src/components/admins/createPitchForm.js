@@ -14,6 +14,7 @@ import {
 import { required, email, numericality, length, confirmation } from 'redux-form-validators'
 import { Field, reduxForm } from 'redux-form'
 import reduxAntFormField from 'components/reduxAntFormField'
+import AntUploadFormField from 'components/reduxAntUploadField'
 import {residences} from 'global/fakeData'
 
 const { Option } = Select;
@@ -48,26 +49,26 @@ const tailFormItemLayout = {
   }
 }
 
-const CreateRefereeForm = ({ handleSubmit, pristine, submitting, initialValues: {categories} }) => {
+const CreatePitchForm = ({ handleSubmit, pristine, submitting, initialValues: {categories} }) => {
 
   return (
     <Form {...formItemLayout} onSubmit={handleSubmit} style={{width: '100%'}}>
       <Field
         hasFeedback
         required={true}
-        label="Email Address"
-        name="email"
+        label="Pitch Name"
+        name="name"
         component={reduxAntFormField(Input)}
-        placeholder="Email Address"
-        validate={[ required(), email() ]}
+        placeholder="Pitch Name"
+        validate={[ required() ]}
       />
       <Field
         hasFeedback
         required={true}
-        label="Name"
-        name="name"
+        label="Owner Name"
+        name="ownerName"
         component={reduxAntFormField(Input)}
-        placeholder="Name"
+        placeholder="Owner Name"
         validate={[ required() ]}
       />
       <Field
@@ -119,25 +120,9 @@ const CreateRefereeForm = ({ handleSubmit, pristine, submitting, initialValues: 
         placeholder="Phone Number"
         validate={[ required(), numericality() ]}
       />
-      <Field
-        hasFeedback
-        required={true}
-        label="Password"
-        name="password"
-        type="password"
-        component={reduxAntFormField(Input)}
-        placeholder="Password"
-        validate={[ required(), length({ min: 6 }) ]}
-      />
-      <Field
-        hasFeedback
-        required={true}
-        label="Confirm Password"
-        name="confirmPassword"
-        type="password"
-        component={reduxAntFormField(Input)}
-        placeholder="Confirm Password"
-        validate={[ required(), length({ min: 6 }), confirmation({ field: 'password', fieldLabel: 'Password' }) ]}
+      <AntUploadFormField
+        label="Image"
+        name="image"
       />
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" loading={submitting} htmlType="submit">Save</Button>
@@ -146,4 +131,4 @@ const CreateRefereeForm = ({ handleSubmit, pristine, submitting, initialValues: 
   )
 }
 
-export default CreateRefereeForm
+export default CreatePitchForm

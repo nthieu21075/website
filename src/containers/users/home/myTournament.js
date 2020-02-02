@@ -47,7 +47,6 @@ class TournamentContainer extends Component {
   }
 
   joinTournament(categoryId, tournamentId) {
-    console.log(categoryId, tournamentId)
     this.setState({ showJoinModal: true, categoryId: categoryId, tournamentId: tournamentId })
   }
 

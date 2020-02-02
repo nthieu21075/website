@@ -31,6 +31,8 @@ export default {
     ORGANIZERS: '/admins/organizers',
     ORGANIZER_CREATE: '/admins/organizer-create',
     REFEREES: '/admins/referees',
-    REFEREE_CREATE: '/admins/referee-create'
+    REFEREE_CREATE: '/admins/referee-create',
+    PITCHES: '/admins/pitches',
+    PITCH_CREATE: '/admins/pitch-create'
   }
 }

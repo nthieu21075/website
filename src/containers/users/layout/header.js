@@ -20,6 +20,10 @@ class HeaderContainer extends Component {
     this.onCloseCreateTeam = this.onCloseCreateTeam.bind(this)
   }
 
+  componentDidMount() {
+    this.props.dispatch(getCategories())
+  }
+
   onCloseNotification() {
     this.setState({ visibleNotification: false })
   }

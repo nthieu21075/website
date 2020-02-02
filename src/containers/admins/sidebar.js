@@ -22,6 +22,9 @@ class SideBarContainer extends Component {
       case 'referees':
         Navigator.push(Routes.admins.REFEREES)
         return
+      case 'pitches':
+        Navigator.push(Routes.admins.PITCHES)
+        return
       default:
         return
     }

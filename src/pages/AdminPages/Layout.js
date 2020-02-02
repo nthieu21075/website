@@ -10,7 +10,8 @@ import OrganizersPage from 'pages/AdminPages/OrganizersPage'
 import CreateOrganizerPage from 'pages/AdminPages/CreateOrganizerPage'
 import RefereesPage from 'pages/AdminPages/RefereesPage'
 import CreateRefereePage from 'pages/AdminPages/CreateRefereePage'
-
+import PitchesPage from 'pages/AdminPages/PitchesPage'
+import CreatePitchPage from 'pages/AdminPages/CreatePitchPage'
 import { showAlert } from 'helpers/adminAlert'
 
 const { Header, Content, Footer, Sider } = Layout
@@ -42,6 +43,8 @@ class AdminsLayout extends Component {
               <Route exact path={Routes.admins.ORGANIZER_CREATE} component={CreateOrganizerPage}/>
               <Route exact path={Routes.admins.REFEREES} component={RefereesPage}/>
               <Route exact path={Routes.admins.REFEREE_CREATE} component={CreateRefereePage}/>
+              <Route exact path={Routes.admins.PITCHES} component={PitchesPage}/>
+              <Route exact path={Routes.admins.PITCH_CREATE} component={CreatePitchPage}/>
             </Switch>
           </Content>
         </Layout>
