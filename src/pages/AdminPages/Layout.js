@@ -16,6 +16,8 @@ import RefereeDetailPage from 'pages/AdminPages/RefereeDetailPage'
 
 import PitchesPage from 'pages/AdminPages/PitchesPage'
 import CreatePitchPage from 'pages/AdminPages/CreatePitchPage'
+import PitchDetailPage from 'pages/AdminPages/PitchDetailPage'
+
 import CategoriesPage from 'pages/AdminPages/CategoriesPage'
 import CreateCategoryPage from 'pages/AdminPages/CreateCategoryPage'
 import ManualPage from 'pages/AdminPages/ManualPage'
@@ -50,11 +52,15 @@ class AdminsLayout extends Component {
               <Route exact path={Routes.admins.ORGANIZERS} component={OrganizersPage}/>
               <Route exact path={Routes.admins.ORGANIZER_CREATE} component={CreateOrganizerPage}/>
               <Route exact path={Routes.admins.ORGANIZER_DETAIL} component={OrganizerDetailPage}/>
+
               <Route exact path={Routes.admins.REFEREES} component={RefereesPage}/>
               <Route exact path={Routes.admins.REFEREE_CREATE} component={CreateRefereePage}/>
               <Route exact path={Routes.admins.REFEREE_DETAIL} component={RefereeDetailPage}/>
+
               <Route exact path={Routes.admins.PITCHES} component={PitchesPage}/>
               <Route exact path={Routes.admins.PITCH_CREATE} component={CreatePitchPage}/>
+              <Route exact path={Routes.admins.PITCH_DETAIL} component={PitchDetailPage}/>
+
               <Route exact path={Routes.admins.CATEGORIES} component={CategoriesPage}/>
               <Route exact path={Routes.admins.CATEGORY_CREATE} component={CreateCategoryPage}/>
               <Route exact path={Routes.admins.MANUAL} component={ManualPage}/>

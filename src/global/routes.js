@@ -36,6 +36,7 @@ export default {
     REFEREE_DETAIL: '/admins/referee-detail/:id',
     PITCHES: '/admins/pitches',
     PITCH_CREATE: '/admins/pitch-create',
+    PITCH_DETAIL: '/admins/pitch-detail/:id',
     CATEGORIES: '/admins/categories',
     CATEGORY_CREATE: '/admins/category-create',
     MANUAL: '/admins/manual'

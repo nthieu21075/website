@@ -69,6 +69,22 @@ export const getReferees = (callback) => {
   }
 }
 
+export const getPitchDetail = (id, callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/pitch-detail/' + id).then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
 export const getManual = (callback) => {
   return dispatch => {
     adminApi().get('api/admins/manual').then(function (response) {
@@ -189,6 +205,44 @@ export const updateReferee =
       throw new SubmissionError({ _error: error.message })
     })
   }
+
+export const updatePitch =
+  (values, dispatch, props) => {
+    const { name, categoryId, ownerName, phoneNumber, image, price, location, address, id } = values
+
+    let bodyFormData = new FormData()
+    bodyFormData.append('id', id)
+    bodyFormData.append('name', name)
+    bodyFormData.append('categoryId', categoryId)
+    bodyFormData.append('ownerName', ownerName)
+    bodyFormData.append('phoneNumber', phoneNumber)
+    bodyFormData.append('price', price)
+    bodyFormData.append('address', address)
+    bodyFormData.append('location', location)
+
+    if (image) {
+      if (image.file.status == 'removed') {
+        bodyFormData.append('removeImage', true)
+      } else {
+        bodyFormData.append('image', image.file)
+      }
+    }
+
+    adminApiFormData().post('api/admins/update-pitch', bodyFormData).then(function (response) {
+      const apiResponse = response.data
+
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        Navigator.push('/admins/pitches')
+        dispatch(messageSuccess('Update Pitch successfully'))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+
 
 export const createPitch =
   (values, dispatch, props) => {
