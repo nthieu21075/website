@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Layout, Typography  } from 'antd'
 import { connect } from 'react-redux'
 import { getManual } from 'services/organizers/tournaments/api'
-import { Icon, message, Button, Card, Typography } from 'antd';
+import { Icon, message, Button, Card } from 'antd';
+
 const { Title } = Typography
 
 class ManualContainer extends Component {
@@ -22,7 +23,7 @@ class ManualContainer extends Component {
   render() {
     return (
       <div style={{ height: 200, display: 'flex', flexDirection: 'column' }}>
-        <Title level={3} style={{ textAlign: 'center', margin: '30px' }}>List Manual </Title>
+        <Title level={3} style={{ textAlign: 'center', margin: '30px' }}>List Manual</Title>
         <div style={{ display: 'flex', flexFlow: 'wrap row', 'justifyContent': 'center' }}>
           {
             this.state.fileList.map(item => {

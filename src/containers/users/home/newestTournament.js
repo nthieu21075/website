@@ -42,7 +42,7 @@ class NewestTournamentContainer extends Component {
         <Row type="flex" justify="center">
           <Col xs={{span: 23}} md={{span: 22}} sm={{span: 22}} lg={{span: 22}} xl={{span: 24}} style={{ paddingBottom: '100px' }}>
             <ListTournament
-              grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 3, xl: 4 , xxl: 4}}
+              grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 3, xxl: 4}}
               loading={false}
               bordered={true}
               data={tournaments}
