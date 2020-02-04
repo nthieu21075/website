@@ -17,6 +17,12 @@ const reduxFormField = Component => ({ required, input, meta, children, hasFeedb
     rest.checked = defaultChecked
   }
 
+  if (rest.type == 'hidden') {
+    return (
+      <Component {...input} {...rest} options={options} rows={4} children={children} />
+    )
+  }
+
   return (
     <Form.Item
       required={required}

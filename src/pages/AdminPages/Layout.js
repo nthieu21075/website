@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import Navigator from 'helpers/history'
 import OrganizersPage from 'pages/AdminPages/OrganizersPage'
 import CreateOrganizerPage from 'pages/AdminPages/CreateOrganizerPage'
+import OrganizerDetailPage from 'pages/AdminPages/OrganizerDetailPage'
+
 import RefereesPage from 'pages/AdminPages/RefereesPage'
 import CreateRefereePage from 'pages/AdminPages/CreateRefereePage'
 import PitchesPage from 'pages/AdminPages/PitchesPage'
@@ -45,6 +47,7 @@ class AdminsLayout extends Component {
             <Switch>
               <Route exact path={Routes.admins.ORGANIZERS} component={OrganizersPage}/>
               <Route exact path={Routes.admins.ORGANIZER_CREATE} component={CreateOrganizerPage}/>
+              <Route exact path={Routes.admins.ORGANIZER_DETAIL} component={OrganizerDetailPage}/>
               <Route exact path={Routes.admins.REFEREES} component={RefereesPage}/>
               <Route exact path={Routes.admins.REFEREE_CREATE} component={CreateRefereePage}/>
               <Route exact path={Routes.admins.PITCHES} component={PitchesPage}/>

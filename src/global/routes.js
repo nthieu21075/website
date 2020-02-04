@@ -30,6 +30,7 @@ export default {
     LOGIN: '/admins/login',
     ORGANIZERS: '/admins/organizers',
     ORGANIZER_CREATE: '/admins/organizer-create',
+    ORGANIZER_DETAIL: '/admins/organizer-detail/:id',
     REFEREES: '/admins/referees',
     REFEREE_CREATE: '/admins/referee-create',
     PITCHES: '/admins/pitches',
