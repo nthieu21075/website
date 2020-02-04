@@ -33,6 +33,7 @@ export default {
     ORGANIZER_DETAIL: '/admins/organizer-detail/:id',
     REFEREES: '/admins/referees',
     REFEREE_CREATE: '/admins/referee-create',
+    REFEREE_DETAIL: '/admins/referee-detail/:id',
     PITCHES: '/admins/pitches',
     PITCH_CREATE: '/admins/pitch-create',
     CATEGORIES: '/admins/categories',

@@ -37,6 +37,22 @@ export const getOrganizerDetail = (id, callback) => {
   }
 }
 
+export const getRefereeDetail = (id, callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/referee-detail/' + id).then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
 export const getReferees = (callback) => {
   return dispatch => {
     adminApi().get('api/admins/referees').then(function (response) {
@@ -107,7 +123,6 @@ export const createOrganizer =
 
 export const updateOrganizer =
   (values, dispatch, props) => {
-    console.log(values)
     const { email, address, location, name, organizerName, phoneNumber, password, id } = values
     let params = { email: email, address: address, location: location, name: name, organizerName: organizerName, phoneNumber: phoneNumber, id: id }
 
@@ -141,6 +156,31 @@ export const createReferee =
       adminCheckApiResponse(response, apiResponse, dispatch, () => {
         Navigator.push('/admins/referees')
         dispatch(messageSuccess('Created Referee successfully'))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+
+export const updateReferee =
+  (values, dispatch, props) => {
+    const { email, address, location, name, phoneNumber, password, price, categoryId, id } = values
+
+    let params = { email: email, address: address, location: location, name: name, phoneNumber: phoneNumber, price: price, categoryId: categoryId, id: id }
+
+    if (password) {
+      params['password'] = password
+    }
+
+    adminApi().post('api/admins/update-referee', params).then(function (response) {
+      const apiResponse = response.data
+
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        Navigator.push('/admins/referees')
+        dispatch(messageSuccess('Updated Referee successfully'))
       })
 
       return Promise.resolve()

@@ -73,7 +73,7 @@ class RefereesContainer extends Component {
                           bodyStyle={{ padding: '12px' }}
                           bordered={true}
                         >
-                          <div onClick={e => Navigator.push('/admins/organizer-detail/' + item.id)}>
+                          <div onClick={e => Navigator.push('/admins/referee-detail/' + item.id)}>
                             <div style={teamStyled}>
                               <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-yaq_DZKXinW1i0VvxAgrMQd7gVid0idFr0nxfWrvGStgnHmT&s" size={200}/>
                               <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: 10 }}>

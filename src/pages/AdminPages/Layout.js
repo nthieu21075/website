@@ -12,6 +12,8 @@ import OrganizerDetailPage from 'pages/AdminPages/OrganizerDetailPage'
 
 import RefereesPage from 'pages/AdminPages/RefereesPage'
 import CreateRefereePage from 'pages/AdminPages/CreateRefereePage'
+import RefereeDetailPage from 'pages/AdminPages/RefereeDetailPage'
+
 import PitchesPage from 'pages/AdminPages/PitchesPage'
 import CreatePitchPage from 'pages/AdminPages/CreatePitchPage'
 import CategoriesPage from 'pages/AdminPages/CategoriesPage'
@@ -50,6 +52,7 @@ class AdminsLayout extends Component {
               <Route exact path={Routes.admins.ORGANIZER_DETAIL} component={OrganizerDetailPage}/>
               <Route exact path={Routes.admins.REFEREES} component={RefereesPage}/>
               <Route exact path={Routes.admins.REFEREE_CREATE} component={CreateRefereePage}/>
+              <Route exact path={Routes.admins.REFEREE_DETAIL} component={RefereeDetailPage}/>
               <Route exact path={Routes.admins.PITCHES} component={PitchesPage}/>
               <Route exact path={Routes.admins.PITCH_CREATE} component={CreatePitchPage}/>
               <Route exact path={Routes.admins.CATEGORIES} component={CategoriesPage}/>
