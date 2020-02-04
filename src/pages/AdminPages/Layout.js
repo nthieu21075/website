@@ -20,6 +20,8 @@ import PitchDetailPage from 'pages/AdminPages/PitchDetailPage'
 
 import CategoriesPage from 'pages/AdminPages/CategoriesPage'
 import CreateCategoryPage from 'pages/AdminPages/CreateCategoryPage'
+import CategoryDetailPage from 'pages/AdminPages/CategoryDetailPage'
+
 import ManualPage from 'pages/AdminPages/ManualPage'
 
 import { showAlert } from 'helpers/adminAlert'
@@ -63,6 +65,8 @@ class AdminsLayout extends Component {
 
               <Route exact path={Routes.admins.CATEGORIES} component={CategoriesPage}/>
               <Route exact path={Routes.admins.CATEGORY_CREATE} component={CreateCategoryPage}/>
+              <Route exact path={Routes.admins.CATEGORY_DETAIL} component={CategoryDetailPage}/>
+
               <Route exact path={Routes.admins.MANUAL} component={ManualPage}/>
             </Switch>
           </Content>

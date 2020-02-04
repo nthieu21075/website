@@ -39,6 +39,7 @@ export default {
     PITCH_DETAIL: '/admins/pitch-detail/:id',
     CATEGORIES: '/admins/categories',
     CATEGORY_CREATE: '/admins/category-create',
+    CATEGORY_DETAIL: '/admins/category-detail/:id',
     MANUAL: '/admins/manual'
   }
 }

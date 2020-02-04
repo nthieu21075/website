@@ -85,6 +85,22 @@ export const getPitchDetail = (id, callback) => {
   }
 }
 
+export const getCategoryDetail = (id, callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/category-detail/' + id).then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
 export const getManual = (callback) => {
   return dispatch => {
     adminApi().get('api/admins/manual').then(function (response) {
@@ -242,6 +258,38 @@ export const updatePitch =
       throw new SubmissionError({ _error: error.message })
     })
   }
+
+export const updateCategory =
+  (values, dispatch, props) => {
+    const { name, image, id } = values
+
+    let bodyFormData = new FormData()
+    bodyFormData.append('id', id)
+    bodyFormData.append('name', name)
+
+    if (image) {
+      if (image.file.status == 'removed') {
+        bodyFormData.append('removeImage', true)
+      } else {
+        bodyFormData.append('image', image.file)
+      }
+    }
+
+    adminApiFormData().post('api/admins/update-category', bodyFormData).then(function (response) {
+      const apiResponse = response.data
+
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        Navigator.push('/admins/categories')
+        dispatch(messageSuccess('Update Category successfully'))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+
 
 
 export const createPitch =
