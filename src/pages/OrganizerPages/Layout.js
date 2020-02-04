@@ -14,6 +14,7 @@ import PendingRequestPage from 'pages/OrganizerPages/PendingRequestPage'
 import FinishTournamentPage from 'pages/OrganizerPages/FinishTournamentPage'
 import HappeningTournamentPage from 'pages/OrganizerPages/HappeningTournamentPage'
 import HappeningMatchPage from 'pages/OrganizerPages/HappeningMatchPage'
+import ManualPage from 'pages/OrganizerPages/ManualPage'
 
 import { showAlert } from 'helpers/alert'
 
@@ -51,6 +52,8 @@ class OrganizerLayout extends Component {
               <Route exact path={Routes.organizers.FINISHED_TOURNAMENT} component={FinishTournamentPage}/>
               <Route exact path={Routes.organizers.HAPPENING_TOURNAMENT} component={HappeningTournamentPage}/>
               <Route exact path={Routes.organizers.HAPPENING_MATCH} component={HappeningMatchPage}/>
+              <Route exact path={Routes.organizers.MANUAL} component={ManualPage}/>
+
             </Switch>
           </Content>
         </Layout>

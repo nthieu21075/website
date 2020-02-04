@@ -14,6 +14,7 @@ const { Title } = Typography
 const { Content } = Layout
 
 const contentStyled = {
+  width: '100%',
   padding: '10px 24px',
   minHeight: 280,
   display: 'flex',

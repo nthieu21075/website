@@ -27,6 +27,7 @@ class ListTournament extends Component {
 
     return (
       <List
+        style={{ width: '100%' }}
         grid={grid}
         dataSource={data}
         renderItem={ item => (

@@ -42,6 +42,22 @@ export const createTournament =
     })
   }
 
+export const getManual = (callback) => {
+  return dispatch => {
+    organierApi().get('api/admins/manual').then(function (response) {
+      const apiResponse = response.data
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
 export const getBasicInformation = (id) => {
   return dispatch => {
     organierApi().get('api/organizer/tournament/basic-info/' + id).then(function (response) {

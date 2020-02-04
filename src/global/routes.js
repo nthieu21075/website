@@ -24,7 +24,8 @@ export default {
     PENDING_REQUEST: '/organizer/tournaments/pending-request',
     FINISHED_TOURNAMENT: '/organizer/tournaments/finished',
     HAPPENING_TOURNAMENT: '/organizer/tournaments/happening',
-    HAPPENING_MATCH: '/organizer/tournaments/happening-match'
+    HAPPENING_MATCH: '/organizer/tournaments/happening-match',
+    MANUAL: '/organizer/manual'
   },
   admins: {
     LOGIN: '/admins/login',

@@ -53,6 +53,10 @@ class SideBar extends Component {
             <Icon type="unordered-list" />
             <span className="nav-text">Pending Request</span>
           </Menu.Item>
+          <Menu.Item key="manual">
+            <Icon type="unordered-list" />
+            <span className="nav-text">Manual</span>
+          </Menu.Item>
         </Menu>
       </Sider>
     )

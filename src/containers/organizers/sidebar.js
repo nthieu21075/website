@@ -37,6 +37,10 @@ class SideBarContainer extends Component {
       case 'happeningMatch':
         Navigator.push(Routes.organizers.HAPPENING_MATCH)
         return
+      case 'manual':
+        Navigator.push(Routes.organizers.MANUAL)
+        return
+
       default:
         return
     }

@@ -28,6 +28,11 @@ const imageStyled = {
   objectFit: 'cover'
 }
 
+const descriptionStyled = {
+  textOverflow: 'ellipsis',
+  height: 60
+}
+
 class TournamenItem extends Component {
   render() {
     const { item, loading, bordered, className, joinTournament } = this.props
@@ -41,10 +46,10 @@ class TournamenItem extends Component {
           bodyStyle={{ padding: '12px' }}
           bordered={bordered}
         >
-          <div onClick={ e => Navigator.push('tournament/' + item.id) }>
+          <div onClick={ e => Navigator.push('/tournament/' + item.id) }>
             <img alt="error" src={process.env.API_DOMAIN_URL + item.src} style={imageStyled} />
             <div style={titleStyled}>{item.title}</div>
-            <Paragraph>{item.description}</Paragraph>
+            <Paragraph style={descriptionStyled}>{item.description}</Paragraph>
             <div style={footerStyled}>
               <Text strong>Organize By:</Text>
               <Text code>{item.organizer}</Text>
