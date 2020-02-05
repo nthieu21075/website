@@ -3,17 +3,21 @@ import { Row, Col } from 'antd'
 import { Bracket, BracketGame } from 'react-tournament-bracket'
 import _ from 'lodash'
 import { singleElimination } from 'helpers/bracket'
+import MatchResult from './matchResult'
 
 class SingleEliminationContainer extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      hoveredTeamId: null
+      hoveredTeamId: null,
+      showMatchResult: false,
+      currentMatchResult: null
     }
 
     this.gameComponent = this.gameComponent.bind(this)
     this.changeHoveredTeamId = this.changeHoveredTeamId.bind(this)
+    this.closeMatchResult = this.closeMatchResult.bind(this)
   }
 
   changeHoveredTeamId(hoveredTeamId) {
@@ -22,7 +26,7 @@ class SingleEliminationContainer extends Component {
 
   handleClick(game){
     console.log(game)
-    alert('clicked game: ' + game.name)
+    this.setState({ showMatchResult: true, currentMatchResult: game })
   }
 
   gameComponent(props) {
@@ -34,6 +38,10 @@ class SingleEliminationContainer extends Component {
         hoveredTeamId={this.state.hoveredTeamId}
       />
     )
+  }
+
+  closeMatchResult() {
+    this.setState({ showMatchResult: false, currentMatchResult: null })
   }
 
   render() {
@@ -54,7 +62,7 @@ class SingleEliminationContainer extends Component {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', overflow: 'scroll' }}>
-        {_.map(schedules, (schedule, index) => {
+        {_.map(schedules.matches, (schedule, index) => {
           if (schedule.matches.length == 0) {
             return (<div key={index}/>)
           }
@@ -68,6 +76,13 @@ class SingleEliminationContainer extends Component {
               gameDimensions={gameDimensions}
               roundSeparatorWidth={roundSeparatorWidth}
               svgPadding={svgPadding}
+            />
+            <MatchResult
+              match={this.state.currentMatchResult}
+              visible={this.state.showMatchResult}
+              closeModal={this.closeMatchResult}
+              pitches={schedules.pitches}
+              referees={schedules.referees}
             />
           </div>)
         })}

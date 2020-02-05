@@ -5,6 +5,7 @@ const bracket = (match, visitorSource = null, homeSource = null) => {
     const homeDisplayName = homeSource ? homeSource.name : match.name
 
     return {
+        matchData: match,
         id: match.id,
         name: match.name,
         scheduled: parseInt(match.scheduled),

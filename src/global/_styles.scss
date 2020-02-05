@@ -150,3 +150,21 @@ body {
 .custom-side-bar .ant-menu-item {
   padding: 0 8px !important;
 }
+
+.pitch-wrapper {
+  width: 100%;
+  display: flex;
+  flex-flow: wrap row;
+  justify-content: center;
+  align-items: center;
+
+  .ant-card {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .active {
+    box-shadow: 0 4px 8px rgba(0, 230, 64, 0.5), 0 1px 6px rgba(0, 230, 64, 1);
+  }
+}
