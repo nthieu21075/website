@@ -11,18 +11,20 @@ const bracket = (match, visitorSource = null, homeSource = null) => {
         scheduled: parseInt(match.scheduled),
         sides: {
             visitor: {
-                score: match.visitorScore,
+                score: { 'score': match.visitorScore },
                 team: match.visitorTeam,
                 seed: {
+                    score: match.homeScore,
                     sourceGame: visitorSource,
                     rank: 1,
                     displayName: 'Winner of ' + visitorDisplayName
                 }
             },
             home: {
-                score: match.homeScore,
+                score: { 'score': match.homeScore },
                 team: match.homeTeam,
                 seed: {
+                    score: match.homeScore,
                     sourceGame: homeSource,
                     rank: 1,
                     displayName: 'Winner of ' + homeDisplayName

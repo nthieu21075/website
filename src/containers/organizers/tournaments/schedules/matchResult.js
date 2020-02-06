@@ -2,19 +2,22 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { Tabs, Modal, Button, Transfer, Select, message, InputNumber, Typography, Card, Avatar } from 'antd'
-import { addToTeamTable } from 'services/organizers/tournaments/api'
+import { Tabs, Modal, Button, Transfer, Select, message, InputNumber, Typography, Card, Avatar, DatePicker } from 'antd'
+import { updateMatchInfo } from 'services/organizers/tournaments/schedule/api'
 
 const { TabPane } = Tabs
 const { Option } = Select
 const { Paragraph, Title, Text } = Typography
 
-const matchInfo = (match, onChangeHomeScore, onChangeVisitorScore) => {
+const matchInfo = (match, onChangeHomeScore, onChangeVisitorScore, onScheduledOk) => {
   const data = match.matchData
   return (
     <div style={teamStyled}>
       <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{data.name}</div>
-      <div style={{ textAlign: 'center', fontSize: '15px', marginBottom: 15 }}>{`Time: ${moment(parseInt(data.scheduled)).format('DD-MM-YYYY HH:mm')}`}</div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '60%', margin: '10px 0 20px 0' }}>
+        <Text style={{ fontSize: 15, fontWeight: 'bold', marginRight: 10 }}>Time:</Text>
+        <DatePicker showTime placeholder="Select Time" onOk={onScheduledOk} defaultValue={moment(parseInt(data.scheduled))} />
+      </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         {
           data.homeTeam ?
@@ -84,9 +87,15 @@ class MatchResult extends Component {
     this.state = {
       confirmLoading: false,
       homeScore: 0,
+      changeHomeScore: false,
+      changeVisitorScore: false,
+      changeScheduled: false,
+      changePitch: false,
+      changeReferee: false,
       visitorScore: 0,
       pitchId: 0,
-      refereeId: 0
+      refereeId: 0,
+      scheduled: null
     }
 
     this.handleOk = this.handleOk.bind(this)
@@ -94,31 +103,67 @@ class MatchResult extends Component {
     this.onChangeVisitorScore = this.onChangeVisitorScore.bind(this)
     this.selectPitch = this.selectPitch.bind(this)
     this.selectReferee = this.selectReferee.bind(this)
+    this.onScheduledOk = this.onScheduledOk.bind(this)
   }
 
   handleOk() {
-    console.log('Ok')
-      this.setState({ confirmLoading: true })
-      setTimeout(() => {
-        this.setState({ confirmLoading: false })
+    const { dispatch, match: { matchData } } = this.props
+    let params = {
+      tableId: matchData.tableId,
+      homeTournamentTeamId: matchData.homeTeam ? matchData.homeTeam.id : null,
+      visitorTournamentTeamId: matchData.visitorTeam ? matchData.visitorTeam.id : null,
+      matchId: matchData.id,
+      tournamentId: this.props.basicInformation.id,
+      pitchId: this.state.changePitch ? this.state.pitchId : matchData.pitch.id,
+      refereeId: this.state.changeReferee ? this.state.refereeId : matchData.referee.id,
+      homeScore: this.state.changeHomeScore ? this.state.homeScore : matchData.homeScore,
+      visitorScore: this.state.changeVisitorScore ? this.state.visitorScore : matchData.visitorScore,
+      scheduled: this.state.changeScheduled ? this.state.scheduled : matchData.scheduled
+    }
+
+    if ((this.state.changeHomeScore && !this.state.homeScore) || (this.state.changeVisitorScore && !this.state.visitorScore)) {
+      return message.error('Please input score of this match')
+    }
+
+    this.setState({ confirmLoading: true })
+    setTimeout(() => {
+      dispatch(updateMatchInfo(params, () => {
+        this.setState({
+          confirmLoading: false,
+          homeScore: 0,
+          visitorScore: 0,
+          pitchId: 0,
+          refereeId: 0,
+          changeHomeScore: false,
+          changeVisitorScore: false,
+          changeScheduled: false,
+          changePitch: false,
+          changeReferee: false,
+          scheduled: null
+        })
         this.props.closeModal()
-      }, 500)
+      }))
+    }, 500)
+  }
+
+  onScheduledOk(value) {
+    this.setState({ scheduled: value.valueOf(), changeScheduled: true })
   }
 
   onChangeHomeScore(value) {
-    console.log('HomeScore', value)
+    this.setState({ homeScore: value, changeHomeScore: true })
   }
 
   onChangeVisitorScore(value) {
-    console.log('VisitorScore', value)
+    this.setState({ visitorScore: value, changeVisitorScore: true })
   }
 
   selectPitch(id) {
-    this.setState({ pitchId: id })
+    this.setState({ pitchId: id, changePitch: true })
   }
 
   selectReferee(id) {
-    this.setState({ refereeId: id })
+    this.setState({ refereeId: id, changeReferee: true })
   }
 
   render() {
@@ -137,11 +182,12 @@ class MatchResult extends Component {
         confirmLoading={confirmLoading}
         onCancel={closeModal}
         width='60%'
+        keyboard={false}
       >
         <Tabs defaultActiveKey="1">
           <TabPane tab="Match Information" key="1">
             <div style={teamStyled}>
-              {matchInfo(match, this.onChangeHomeScore, this.onChangeVisitorScore)}
+              {matchInfo(match, this.onChangeHomeScore, this.onChangeVisitorScore, this.onScheduledOk)}
               {pitchInformation(pitches, match.matchData.pitch)}
               {refereeInformation(referees, match.matchData.referee)}
             </div>
@@ -171,9 +217,9 @@ class MatchResult extends Component {
                             {`${item.address} - `}
                             { item.location.map((item, index) => {
                               if(index == 0) {
-                                return (<span key={item} style={{margin: '0 2px'}} >{item}</span>)
+                                return (<span key={index} style={{margin: '0 2px'}} >{item}</span>)
                               } else {
-                                return (<span key={item} style={{margin: '0 2px'}} >{` - ${item}`}</span>)
+                                return (<span key={index} style={{margin: '0 2px'}} >{` - ${item}`}</span>)
                               }
                             })}
                           </Text>
@@ -213,9 +259,9 @@ class MatchResult extends Component {
                             {`${item.address} - `}
                             { item.location.map((item, index) => {
                               if(index == 0) {
-                                return (<span key={item} style={{margin: '0 2px'}} >{item}</span>)
+                                return (<span key={index} style={{margin: '0 2px'}} >{item}</span>)
                               } else {
-                                return (<span key={item} style={{margin: '0 2px'}} >{` - ${item}`}</span>)
+                                return (<span key={index} style={{margin: '0 2px'}} >{` - ${item}`}</span>)
                               }
                             })}
                           </Text>

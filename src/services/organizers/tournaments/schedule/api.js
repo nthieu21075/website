@@ -41,3 +41,22 @@ export const generate =
       throw new SubmissionError({ _error: error.message })
     })
   }
+
+
+export const updateMatchInfo = (params, callback) => {
+  return dispatch => {
+    organierApi().post('/api/organizer/tournament/update-match-info', params).then(function (response) {
+      const apiResponse = response.data
+
+      checkApiResponse(response, apiResponse, dispatch, () => {
+        callback()
+        dispatch(updateSchedule(apiResponse.data))
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
