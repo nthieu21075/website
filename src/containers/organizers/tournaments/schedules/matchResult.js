@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { Tabs, Modal, Button, Transfer, Select, message, InputNumber, Typography, Card, Avatar, DatePicker } from 'antd'
+import { Tabs, Modal, Button, Transfer, Select, message, InputNumber, Typography, Card, Avatar, DatePicker, Row, Col } from 'antd'
 import { updateMatchInfo } from 'services/organizers/tournaments/schedule/api'
 
 const { TabPane } = Tabs
@@ -59,9 +59,44 @@ const pitchInformation = (pitches, currentPitch) => {
     )
   }
   return(
-    <div style={teamStyled}>
+    <div style={teamStyled} key={'pitch'}>
       <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, marginTop: 30, fontWeight: 'bold' }}>Pitch Information</div>
-
+      <Row style={{ width: '100%', alignItems: 'center', display: 'flex' }}>
+        <Col span={8}>
+          <img src={process.env.API_DOMAIN_URL + currentPitch.mainImageUrl} style={{ height: 'auto', objectFit: 'cover', width: '100%' }}></img>
+        </Col>
+        <Col span={16} style={{ padding: '0 10px' }}>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Name:</div>
+            {currentPitch.name}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Owner Name:</div>
+            {currentPitch.ownerName}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Address:</div>
+            <Text>
+              {`${currentPitch.address} - `}
+              { currentPitch.location.map((item, index) => {
+                if(index == 0) {
+                  return (<span key={index} style={{margin: '0 2px'}} >{item}</span>)
+                } else {
+                  return (<span key={index} style={{margin: '0 2px'}} >{` - ${item}`}</span>)
+                }
+              })}
+            </Text>
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Phone Number:</div>
+            {currentPitch.phoneNumber}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Price:</div>
+            {currentPitch.price}
+          </div>
+        </Col>
+      </Row>
     </div>
   )
 }
@@ -74,9 +109,37 @@ const refereeInformation = (referees, currentReferee) => {
     )
   }
   return(
-    <div style={teamStyled}>
+    <div style={teamStyled} key={'referee'}>
       <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, marginTop: 30, fontWeight: 'bold' }}>Referee Information</div>
-
+      <Row style={{ width: '100%', alignItems: 'center', display: 'flex' }}>
+        <Col span={24} style={{ padding: '0 10px' }}>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Name:</div>
+            {currentReferee.name}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Address:</div>
+            <Text>
+              {`${currentReferee.address} - `}
+              { currentReferee.location.map((item, index) => {
+                if(index == 0) {
+                  return (<span key={index} style={{margin: '0 2px'}} >{item}</span>)
+                } else {
+                  return (<span key={index} style={{margin: '0 2px'}} >{` - ${item}`}</span>)
+                }
+              })}
+            </Text>
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Phone Number:</div>
+            {currentReferee.phoneNumber}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Price:</div>
+            {currentReferee.price}
+          </div>
+        </Col>
+      </Row>
     </div>
   )
 }
@@ -108,14 +171,17 @@ class MatchResult extends Component {
 
   handleOk() {
     const { dispatch, match: { matchData } } = this.props
+    const pitchId = matchData.pitch ? matchData.pitch.id : 0
+    const refereeId = matchData.referee ? matchData.referee.id : 0
+
     let params = {
       tableId: matchData.tableId,
       homeTournamentTeamId: matchData.homeTeam ? matchData.homeTeam.id : null,
       visitorTournamentTeamId: matchData.visitorTeam ? matchData.visitorTeam.id : null,
       matchId: matchData.id,
       tournamentId: this.props.basicInformation.id,
-      pitchId: this.state.changePitch ? this.state.pitchId : matchData.pitch.id,
-      refereeId: this.state.changeReferee ? this.state.refereeId : matchData.referee.id,
+      pitchId: this.state.changePitch ? this.state.pitchId : pitchId,
+      refereeId: this.state.changeReferee ? this.state.refereeId : refereeId,
       homeScore: this.state.changeHomeScore ? this.state.homeScore : matchData.homeScore,
       visitorScore: this.state.changeVisitorScore ? this.state.visitorScore : matchData.visitorScore,
       scheduled: this.state.changeScheduled ? this.state.scheduled : matchData.scheduled
@@ -248,14 +314,14 @@ class MatchResult extends Component {
                     bodyStyle={{ padding: '0' }}
                     bordered={true}
                   >
-                    <Card.Grid className={this.state.refereeId == item.id && 'active'} style={{ width: '100%', padding: 0 }} hoverable={false}>
+                    <Card.Grid className={this.state.refereeId == item.id && 'active'} style={{ width: '100%', padding: '10px 0' }} hoverable={false}>
                       <div style={pitchStyled} onClick={e => this.selectReferee(item.id)}>
                         <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-yaq_DZKXinW1i0VvxAgrMQd7gVid0idFr0nxfWrvGStgnHmT&s" size={100}/>
                         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', marginTop: 10, padding: 10 }}>
                           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.email}</Text>
                           <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
                           <Text style={{ fontSize: 15 }}>{`Price: ${item.price}`}</Text>
-                          <Text style={{ fontSize: 15, textAlign: 'center' }}>
+                          <Text style={{ fontSize: 15, textAlign: 'center', height: 50 }}>
                             {`${item.address} - `}
                             { item.location.map((item, index) => {
                               if(index == 0) {
@@ -265,7 +331,6 @@ class MatchResult extends Component {
                               }
                             })}
                           </Text>
-                          <Text style={{ fontSize: 15 }}>{`Owner: ${item.ownerName}`}</Text>
                           <Text style={{ fontSize: 15 }}>{`Phone number: ${item.phoneNumber}`}</Text>
                         </div>
                       </div>
