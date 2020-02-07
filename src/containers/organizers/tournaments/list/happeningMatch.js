@@ -34,7 +34,6 @@ class HappeningMatchContainer extends Component {
     const { dispatch, type } = this.props
 
     dispatch(getHappeningMatch((response) => {
-      console.log(response)
       this.setState({ loading: false, data: response })
     }))
   }
@@ -75,7 +74,10 @@ class HappeningMatchContainer extends Component {
                                       <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '0 10px' }}>
-                                       <div style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>VS</div>
+                                      { match.homeScore && match.visitorScore ?
+                                        <div style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>{`${match.homeScore} : ${match.visitorScore}`}</div>
+                                        : <div style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>VS</div>
+                                      }
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                                       <img alt="error" src={process.env.API_DOMAIN_URL + match.visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />

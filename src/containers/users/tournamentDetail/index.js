@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import { Tabs, Table, Spin, Typography, Row, Col, Avatar, Card } from 'antd'
 import Navigator from 'helpers/history'
 import moment from 'moment'
+import MatchDetail from './matchDetail'
 import { getTournamentDetail } from 'services/users/tournaments/api'
 
 const { Column, ColumnGroup } = Table
@@ -22,7 +24,15 @@ const tableTeam = ({team}) => {
 class TournamentDetailContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = { tournament: null }
+    this.state = {
+      tournament: null,
+      showMatchResult: false,
+      currentMatchResult: null,
+      homeTeam: '',
+      visitorTeam: ''
+    }
+    this.closeMatchResult = this.closeMatchResult.bind(this)
+    this.showDetail = this.showDetail.bind(this)
   }
 
   componentDidMount() {
@@ -31,6 +41,14 @@ class TournamentDetailContainer extends Component {
     dispatch(getTournamentDetail(params.tournamentId, (response) => {
       this.setState({ tournament: response })
     }))
+  }
+
+  closeMatchResult() {
+    this.setState({ showMatchResult: false, currentMatchResult: null, homeTeam: '', visitorTeam: '' })
+  }
+
+  showDetail(match, visitorTeam, homeTeam) {
+    this.setState({ showMatchResult: true, currentMatchResult: match, visitorTeam: visitorTeam, homeTeam: homeTeam })
   }
 
   render() {
@@ -59,18 +77,36 @@ class TournamentDetailContainer extends Component {
                 <TabPane tab="Schedule Match" key="1">
                   <div>
                     { _.map(tournament.tables, (table, index) => {
+                      const scheduled = _.sortBy(table.matches, [function(o) { return o.name }])
+
                       return (
                         <div style={{ display: 'flex', flexDirection: 'column', marginTop: '20px' }} key={index}>
                           <Title level={2} style={{ textAlign: 'center' }}>{table.name}</Title>
                           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'wrap row' }}>
-                            { _.map(table.matches, (match, matchIndex) => {
+                            { _.map(scheduled, (match, matchIndex) => {
+                              const previousMatch = _.filter(scheduled, function(o) { return o.rootIndex == match.index })
+
+                              let homeTeam = ''
+                              let visitorTeam = ''
+                              if (!match.homeTeam && previousMatch.length >0) {
+                                homeTeam = previousMatch[0]
+                              }
+
+                              if (!match.visitorTeam) {
+                                if(previousMatch.length == 1 && match.homeTeam){
+                                  visitorTeam = previousMatch[0]
+                                } else if (previousMatch.length == 2){
+                                  visitorTeam = previousMatch[1]
+                                }
+                              }
+
                               return (
                                 <Card
-                                  key={matchIndex * index + 1}
-                                  onClick={e=> console.log('click')}
+                                  key={match.id}
+                                  onClick={e=> this.showDetail(match, visitorTeam, homeTeam)}
                                   type="inner"
                                   bodyStyle={{ padding: '15px' }}
-                                  style ={{ width: '450px', margin: '10px 20px' }}
+                                  style ={{ width: '450px', margin: '10px 20px', cursor: 'pointer' }}
                                 >
                                   <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{match.name}</div>
                                   <div style={{ textAlign: 'center', fontSize: '15px', marginBottom: 15 }}>{moment(match.scheduled).format('DD-MM-YYYY HH:mm')}</div>
@@ -83,7 +119,7 @@ class TournamentDetailContainer extends Component {
                                           <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
                                         </div>
                                       )
-                                      : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${table.matches[matchIndex - 2].name}`}</div>)
+                                      : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${homeTeam.name}`}</div>)
                                     }
                                     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '0 10px' }}>
                                       { match.homeScore && match.visitorScore ?
@@ -99,7 +135,7 @@ class TournamentDetailContainer extends Component {
                                           <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
                                         </div>
                                       )
-                                      : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${table.matches[matchIndex - 1] ? table.matches[matchIndex - 1].name : ''}`}</div>)
+                                      : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${visitorTeam.name}`}</div>)
                                     }
                                   </div>
                                 </Card>
@@ -113,9 +149,10 @@ class TournamentDetailContainer extends Component {
                 </TabPane>
                 <TabPane tab="League Table" key="2">
                   { _.map(tournament.tables, (table, index) => {
+                    const tableResult = _.sortBy(table.table_results, [function(o) { return o.point }])
                     return (
                       <Col xs={{span: 24}} md={{span: 24}} sm={{span: 24}} lg={{span: 24}} xl={{span: 12}} key={index}>
-                        <Table dataSource={table.table_results} style={{ margin: 25 }} pagination={false} bordered={true}>
+                        <Table dataSource={tableResult} style={{ margin: 25 }} pagination={false} bordered={true}>
                           <ColumnGroup title={table.name}>
                             <Column title="" dataIndex="tournament_team" render={tableTeam}/>
                             <Column title="MP" dataIndex="wp" />
@@ -131,6 +168,13 @@ class TournamentDetailContainer extends Component {
               </Tabs>
             </Row>
           </Col>
+          <MatchDetail
+            match={this.state.currentMatchResult}
+            visitorTeam={this.state.visitorTeam}
+            homeTeam={this.state.homeTeam}
+            visible={this.state.showMatchResult}
+            closeModal={this.closeMatchResult}
+          />
         </Row>
       )
     }

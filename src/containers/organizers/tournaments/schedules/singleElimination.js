@@ -25,7 +25,6 @@ class SingleEliminationContainer extends Component {
   }
 
   handleClick(game){
-    console.log(game)
     this.setState({ showMatchResult: true, currentMatchResult: game })
   }
 
@@ -66,7 +65,7 @@ class SingleEliminationContainer extends Component {
           if (schedule.matches.length == 0) {
             return (<div key={index}/>)
           }
-          console.log(singleElimination(schedule.matches))
+
           return (<div className="scheduled" style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', overflow: 'scroll' }} key={index}>
             <h3>{schedule.table}</h3>
             <Bracket
