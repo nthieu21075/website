@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { notification } from 'antd'
-import { initMessageState } from 'services/admins/message/actions'
+import { initMessageState } from 'services/referees/message/actions'
 
 const errorAlert = (errors) => (dispatch) => {
     if (_.isObject(errors)) {

@@ -87,3 +87,31 @@ export const userCheckApiResponse = (requestResponse, apiResponse, dispatch, cal
         Navigator.push('/500')
     }
 }
+
+export const refereeCheckApiResponse = (requestResponse, apiResponse, dispatch, callback, customResponse = null) => {
+    if (requestResponse.status == 200) {
+        switch (apiResponse.code) {
+            case 401:
+                dispatch(adminMessageError(apiResponse.message))
+                Navigator.push('/referee/login')
+                break
+            case 403:
+                Navigator.push('/403')
+                break;
+            case 404:
+                Navigator.push('/404')
+                break;
+            case 409:
+                dispatch(adminMessageError(apiResponse.message))
+                break;
+            case 400:
+                customResponse()
+                break;
+            case 200:
+                callback()
+                break;
+        }
+    } else {
+        Navigator.push('/500')
+    }
+}

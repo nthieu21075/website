@@ -22,6 +22,10 @@ import adminAuthReducer from 'services/admins/authentication/reducer'
 import adminGlobalReducer from 'services/admins/global/reducer'
 import adminMessageReducer from 'services/admins/message/reducer'
 
+import refereeAuthReducer from 'services/referees/authentication/reducer'
+import refereeGlobalReducer from 'services/referees/global/reducer'
+import refereeMessageReducer from 'services/referees/message/reducer'
+
 export default combineReducers({
   users: combineReducers({
     auth: userAuthReducer,
@@ -43,6 +47,11 @@ export default combineReducers({
     auth: adminAuthReducer,
     global: adminGlobalReducer,
     message: adminMessageReducer
+  }),
+  referee: combineReducers({
+    auth: refereeAuthReducer,
+    global: refereeGlobalReducer,
+    message: refereeMessageReducer
   }),
   form: formReducer
 })

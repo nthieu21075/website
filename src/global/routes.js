@@ -42,5 +42,11 @@ export default {
     CATEGORY_CREATE: '/admins/category-create',
     CATEGORY_DETAIL: '/admins/category-detail/:id',
     MANUAL: '/admins/manual'
+  },
+  referee: {
+    LOGIN: '/referee/login',
+    INVITED_MATCH: '/referee/invited-match',
+    FINISHED_MATCH: '/referee/finished-match',
+    HAPPENING_MATCH: '/referee/happening-match'
   }
 }
