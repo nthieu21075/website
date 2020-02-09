@@ -3,7 +3,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { Tabs, Modal, Button, Transfer, Select, message, InputNumber, Typography, Card, Avatar, DatePicker, Row, Col } from 'antd'
-import { updateMatchInfo } from 'services/organizers/tournaments/schedule/api'
+import { updateMatchInfo } from 'services/referees/api'
 
 const { TabPane } = Tabs
 const { Option } = Select
@@ -77,52 +77,6 @@ const pitchInformation = (currentPitch) => {
             <div style={{ fontWeight: 'bold', marginRight: 5 }}>Phone Number:</div>
             {currentPitch.phoneNumber}
           </div>
-          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
-            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Price:</div>
-            {currentPitch.price}
-          </div>
-        </Col>
-      </Row>
-    </div>
-  )
-}
-
-const refereeInformation = (currentReferee) => {
-  if (!currentReferee) {
-    return(
-      <div/>
-    )
-  }
-  return(
-    <div style={teamStyled} key={'referee'}>
-      <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, marginTop: 30, fontWeight: 'bold' }}>Referee Information</div>
-      <Row style={{ width: '100%', alignItems: 'center', display: 'flex' }}>
-        <Col span={24} style={{ padding: '0 10px' }}>
-          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
-            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Name:</div>
-            {currentReferee.name}
-          </div>
-          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
-            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Address:</div>
-            <Text>
-              {`${currentReferee.address} - `}
-              { currentReferee.location.map((item, index) => {
-                if(index == 0) {
-                  return (<span key={index} style={{margin: '0 2px'}} >{item}</span>)
-                } else {
-                  return (<span key={index} style={{margin: '0 2px'}} >{` - ${item}`}</span>)
-                }
-              })}
-            </Text>
-          </div>
-          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
-            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Phone Number:</div>
-            {currentReferee.phoneNumber}
-          </div>
-          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
-            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Price:</div>
-            {currentReferee.price}
-          </div>
         </Col>
       </Row>
     </div>
@@ -143,27 +97,21 @@ class MatchDetail extends Component {
     this.handleOk = this.handleOk.bind(this)
     this.onChangeHomeScore = this.onChangeHomeScore.bind(this)
     this.onChangeVisitorScore = this.onChangeVisitorScore.bind(this)
+    this.confirmModalOk = this.confirmModalOk.bind(this)
   }
 
-  handleOk() {
-    const { dispatch, match } = this.props
-    const pitchId = match.pitch ? match.pitch.id : 0
-    const refereeId = match.referee ? match.referee.id : 0
+  confirmModalOk() {
+    const { dispatch, match, tournament } = this.props
 
     let params = {
       tableId: match.tableId,
-      homeTournamentTeamId: match.homeTeam ? match.homeTeam.id : null,
-      visitorTournamentTeamId: match.visitorTeam ? match.visitorTeam.id : null,
       matchId: match.id,
-      tournamentId: this.props.basicInformation.id,
-      pitchId: pitchId,
-      refereeId: refereeId,
+      tournamentId: tournament.id,
       homeScore: this.state.changeHomeScore ? this.state.homeScore : match.homeScore,
       visitorScore: this.state.changeVisitorScore ? this.state.visitorScore : match.visitorScore,
-      scheduled: moment(match.scheduled).valueOf()
     }
 
-    if ((this.state.changeHomeScore && !this.state.homeScore) || (this.state.changeVisitorScore && !this.state.visitorScore)) {
+    if ((this.state.changeHomeScore && this.state.homeScore == null) || (this.state.changeVisitorScore && this.state.visitorScore == null)) {
       return message.error('Please input score of this match')
     }
 
@@ -183,6 +131,33 @@ class MatchDetail extends Component {
     }, 500)
   }
 
+  handleOk() {
+    if (this.props.match.refereeConfirmed) {
+      Modal.info({
+        title: 'You have confirmed this match already.',
+        content: (
+          <div>
+            <p>Pls contact organizer if have any issue!!!</p>
+          </div>
+        )
+      })
+    } else {
+      const { confirmModalOk } = this
+
+      Modal.info({
+        title: 'You want to confirm result of this Match.',
+        content: (
+          <div>
+            <p>After confirmed. It will cannot be changed result</p>
+          </div>
+        ),
+        onOk() {
+          confirmModalOk()
+        }
+      })
+    }
+  }
+
   onChangeHomeScore(value) {
     this.setState({ homeScore: value, changeHomeScore: true })
   }
@@ -193,7 +168,7 @@ class MatchDetail extends Component {
 
   render() {
     const { confirmLoading } = this.state
-    const { visible, closeModal, match } = this.props
+    const { visible, closeModal, match, tournament } = this.props
 
     if (match == null) {
       return(<div/>)
@@ -203,17 +178,37 @@ class MatchDetail extends Component {
       <Modal
         visible={visible}
         onOk={this.handleOk}
-        okText='Save'
+        okText='Confirm'
         confirmLoading={confirmLoading}
         onCancel={closeModal}
         width='60%'
         keyboard={false}
       >
-        <div style={teamStyled}>
-          {matchInfo(match, this.onChangeHomeScore, this.onChangeVisitorScore)}
-          {pitchInformation(match.pitch)}
-          {refereeInformation(match.referee)}
-        </div>
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Match Information" key="1">
+            <div style={teamStyled}>
+              <div style={teamStyled}>
+                {matchInfo(match, this.onChangeHomeScore, this.onChangeVisitorScore)}
+                {pitchInformation(match.pitch)}
+              </div>
+            </div>
+          </TabPane>
+          <TabPane tab="Tournament Information" key="2">
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <img alt="error" src={process.env.API_DOMAIN_URL + tournament.mainImageUrl} style={imageStyled} />
+              <div style={titleStyled}>{tournament.title}</div>
+              <Paragraph >{tournament.description}</Paragraph>
+              <div style={footerStyled}>
+                <Text strong>Organize By:</Text>
+                <Text code>{tournament.organizer.name}</Text>
+              </div>
+              <div style={footerStyled}>
+                <Text strong>Date:</Text>
+                <Text code>{`${moment(tournament.startDate).format("DD/MM/YYYY")} - ${moment(tournament.endDate).format("DD/MM/YYYY")}`}</Text>
+              </div>
+            </div>
+          </TabPane>
+        </Tabs>
       </Modal>
     )
   }
@@ -224,6 +219,29 @@ const mapStateToProps = (state) => ({
 })
 
 export default connect(mapStateToProps)(MatchDetail)
+
+const footerStyled = {
+  display: 'flex',
+  fontSize: '13px',
+  alignItems: 'center',
+  marginTop: 5
+}
+
+const titleStyled = {
+  fontSize: 18,
+  fontWeight: 'bold',
+  width: '100%',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  textAlign: 'center',
+  margin: '10px 0 5px 0',
+  whiteSpace: 'nowrap'
+}
+
+const imageStyled = {
+  width: '100%',
+  objectFit: 'cover'
+}
 
 const pitchStyled = {
   display: 'flex',

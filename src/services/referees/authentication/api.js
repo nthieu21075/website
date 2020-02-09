@@ -6,7 +6,6 @@ import { authSuccess } from 'services/referees/authentication/actions'
 
 export const submitLogin =
   (values, dispatch, props) => {
-    console.log(123123213)
     const { email, password } = values
     const params = { email: email, password: password }
 

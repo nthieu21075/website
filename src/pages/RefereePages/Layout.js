@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import Navigator from 'helpers/history'
 
 import { showAlert } from 'helpers/refereeAlert'
+import InvitedPage from 'pages/RefereePages/InvitedPage'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -34,6 +35,7 @@ class refereesLayout extends Component {
           <HeaderContainer/>
           <Content style={{ margin: '24px', height: '100%' }}>
             <Switch>
+              <Route exact path={Routes.referee.INVITED_MATCH} component={InvitedPage}/>
             </Switch>
           </Content>
         </Layout>
