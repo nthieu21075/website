@@ -11,6 +11,7 @@ import { showAlert } from 'helpers/refereeAlert'
 import InvitedPage from 'pages/RefereePages/InvitedPage'
 import FinishedPage from 'pages/RefereePages/FinishedPage'
 import HappeningPage from 'pages/RefereePages/HappeningPage'
+import ProfilePage from 'pages/RefereePages/ProfilePage'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -40,6 +41,7 @@ class refereesLayout extends Component {
               <Route exact path={Routes.referee.INVITED_MATCH} component={InvitedPage}/>
               <Route exact path={Routes.referee.FINISHED_MATCH} component={FinishedPage}/>
               <Route exact path={Routes.referee.HAPPENING_MATCH} component={HappeningPage}/>
+              <Route exact path={Routes.referee.MY_PROFILE} component={ProfilePage}/>
             </Switch>
           </Content>
         </Layout>

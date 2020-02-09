@@ -25,6 +25,9 @@ class SideBarContainer extends Component {
       case 'happeningMatch':
         Navigator.push(Routes.referee.HAPPENING_MATCH)
         return
+      case 'profile':
+        Navigator.push(Routes.referee.MY_PROFILE)
+        return
       default:
         return
     }

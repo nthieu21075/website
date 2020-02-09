@@ -47,6 +47,7 @@ export default {
     LOGIN: '/referee/login',
     INVITED_MATCH: '/referee/invited-match',
     FINISHED_MATCH: '/referee/finished-match',
-    HAPPENING_MATCH: '/referee/happening-match'
+    HAPPENING_MATCH: '/referee/happening-match',
+    MY_PROFILE: '/referee/my-profile'
   }
 }

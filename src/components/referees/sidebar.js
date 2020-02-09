@@ -26,6 +26,10 @@ class SideBar extends Component {
           <img src={logo} style={{ width: '150px', margin: '20px 0' }}/>
         </Row>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={[activeLink]} selectedKeys={activeLink} onClick={onClick}>
+          <Menu.Item key="profile">
+            <Icon type="unordered-list" />
+            <span className="nav-text">My Profile</span>
+          </Menu.Item>
           <Menu.Item key="invitedMatch">
             <Icon type="unordered-list" />
             <span className="nav-text">All Unconfirmed Match</span>

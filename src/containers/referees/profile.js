@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Layout, Typography, Pagination } from 'antd'
 import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
-import ProfileInfoForm from 'components/organizers/profileForm'
-import ChangePasswordForm from 'components/organizers/changePasswordForm'
-import { updateProfile, updatePassword } from 'services/organizers/profile/api'
+import ProfileInfoForm from 'components/referees/profileForm'
+import ChangePasswordForm from 'components/referees/changePasswordForm'
+import { getProfileDetail, updatePassword, updateProfile } from 'services/referees/api'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -23,17 +23,23 @@ const contentStyled = {
 class ProfileContainer extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      data: {}
+    }
   }
 
   componentDidMount() {
-    this.props.dispatch(reset('origanizerChangePasswordForm'))
+    this.props.dispatch(reset('refereeChangePasswordForm'))
+    this.props.dispatch(getProfileDetail((response) => {
+      this.setState({ data: response })
+    }))
   }
 
   render() {
     return (
       <Content style={contentStyled}>
         <Title level={3} style={{ textAlign: 'center' }}>My profile</Title>
-        <ProfileInfoFormDecorator/>
+        <ProfileInfoFormDecorator data={this.state.data}/>
         <Title level={3} style={{ textAlign: 'center', marginTop: '15px' }}>Update Passowrd</Title>
         <ChangePasswordFormDecorator/>
       </Content>
@@ -42,34 +48,34 @@ class ProfileContainer extends Component {
 }
 
 const ChangePasswordFormDecorator = reduxForm({
-  form: 'origanizerChangePasswordForm',
+  form: 'refereeChangePasswordForm',
   onSubmit: updatePassword,
   enableReinitialize: true
 })(ChangePasswordForm)
 
 let ProfileInfoFormDecorator = reduxForm({
-  form: 'origanizerProfileForm',
+  form: 'refereeProfileForm',
   enableReinitialize: true,
   destroyOnUnmount: false,
   onSubmit: updateProfile
 })(ProfileInfoForm)
 
 ProfileInfoFormDecorator = connect(
-  (state) => {
-    const user =  state.organizers.auth.data
+  (state, ownState) => {
+    const data = ownState.data
     return ({
       initialValues: {
-        email: user.email,
-        name: user.name,
-        address: user.address,
-        phoneNumber: user.phoneNumber,
-        organizerName: user.organizerName,
-        location: user.location
+        email: data.email,
+        name: data.name,
+        address: data.address,
+        phoneNumber: data.phoneNumber,
+        location: data.location
       }
     })
   }
 )(ProfileInfoFormDecorator)
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+})
 
 export default connect(mapStateToProps)(ProfileContainer)
