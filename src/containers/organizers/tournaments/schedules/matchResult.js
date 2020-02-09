@@ -51,8 +51,7 @@ const matchInfo = (match, onChangeHomeScore, onChangeVisitorScore, onScheduledOk
   )
 }
 
-const pitchInformation = (pitches, currentPitch) => {
-  console.log(currentPitch)
+const pitchInformation = (currentPitch) => {
   if (!currentPitch) {
     return(
       <div/>
@@ -101,8 +100,7 @@ const pitchInformation = (pitches, currentPitch) => {
   )
 }
 
-const refereeInformation = (referees, currentReferee) => {
-  console.log(currentReferee)
+const refereeInformation = (currentReferee) => {
   if (!currentReferee) {
     return(
       <div/>
@@ -254,8 +252,8 @@ class MatchResult extends Component {
           <TabPane tab="Match Information" key="1">
             <div style={teamStyled}>
               {matchInfo(match, this.onChangeHomeScore, this.onChangeVisitorScore, this.onScheduledOk)}
-              {pitchInformation(pitches, match.matchData.pitch)}
-              {refereeInformation(referees, match.matchData.referee)}
+              {pitchInformation(match.matchData.pitch)}
+              {refereeInformation(match.matchData.referee)}
             </div>
           </TabPane>
           <TabPane tab="Select Pitch" key="2">

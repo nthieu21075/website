@@ -5,6 +5,7 @@ import { showAlert } from 'helpers/alert'
 import moment from 'moment'
 import { Row, Col, Layout, Typography, Pagination, Card,Tabs } from 'antd'
 import ListTournament from 'components/organizers/tournaments/listTournament'
+import MatchDetail from './matchDetail'
 import { tournamentData } from 'global/fakeData'
 import { getHappeningMatch } from 'services/organizers/tournaments/api'
 
@@ -26,16 +27,34 @@ class HappeningMatchContainer extends Component {
 
     this.state = {
       loading: true,
-      data: []
+      data: [],
+      showMatchResult: false,
+      currentMatchResult: null
     }
+
+    this.closeMatchResult = this.closeMatchResult.bind(this)
+    this.matchDetail = this.matchDetail.bind(this)
+    this.getData = this.getData.bind(this)
   }
 
   componentDidMount() {
+    this.getData()
+  }
+
+  getData() {
     const { dispatch, type } = this.props
 
     dispatch(getHappeningMatch((response) => {
       this.setState({ loading: false, data: response })
     }))
+  }
+
+  matchDetail(match) {
+    this.setState({ showMatchResult: true, currentMatchResult: match })
+  }
+
+  closeMatchResult() {
+    this.setState({ showMatchResult: false, currentMatchResult: null })
   }
 
   render() {
@@ -61,10 +80,10 @@ class HappeningMatchContainer extends Component {
                               return (
                                 <Card
                                   key={match.id * 1.9}
-                                  onClick={e=> console.log('click')}
+                                  onClick={e=> this.matchDetail(match)}
                                   type="inner"
                                   bodyStyle={{ padding: '15px' }}
-                                  style ={{ width: '450px', margin: '0 20px' }}
+                                  style ={{ width: '450px', margin: '0 20px', cursor: 'pointer' }}
                                 >
                                   <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{match.name}</div>
                                   <div style={{ textAlign: 'center', fontSize: '15px', marginBottom: 15 }}>{moment(match.scheduled).format('DD-MM-YYYY HH:mm')}</div>
@@ -96,6 +115,12 @@ class HappeningMatchContainer extends Component {
               })}
             </Tabs>
           </Row>
+          <MatchDetail
+            match={this.state.currentMatchResult}
+            visible={this.state.showMatchResult}
+            closeModal={this.closeMatchResult}
+            getData={this.getData}
+          />
       </Content>
     )
   }

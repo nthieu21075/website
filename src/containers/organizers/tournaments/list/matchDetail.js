@@ -2,53 +2,43 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import { Modal, Button, Typography, Card, Avatar, Row, Col } from 'antd'
+import { Tabs, Modal, Button, Transfer, Select, message, InputNumber, Typography, Card, Avatar, DatePicker, Row, Col } from 'antd'
+import { updateMatchInfo } from 'services/organizers/tournaments/schedule/api'
 
+const { TabPane } = Tabs
+const { Option } = Select
 const { Paragraph, Title, Text } = Typography
 
-const matchInfo = (match, homeTeam, visitorTeam) => {
+const matchInfo = (match, onChangeHomeScore, onChangeVisitorScore) => {
   return (
     <div style={teamStyled}>
       <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{match.name}</div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '60%', margin: '10px 0 20px 0' }}>
         <Text style={{ fontSize: 15, fontWeight: 'bold', marginRight: 10 }}>Time:</Text>
-        <Text style={{ fontSize: 15, fontWeight: 'bold', marginRight: 10 }}>{ moment(match.scheduled).format('DD-MM-YYYY HH:mm') }</Text>
+        <div style={{ textAlign: 'center', fontSize: '15px' }}>{moment(match.scheduled).format('DD-MM-YYYY HH:mm')}</div>
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        {
-          match.homeTeam ?
-          (
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <img alt="error" src={process.env.API_DOMAIN_URL + match.homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-              <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
-            </div>
-          )
-          : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${homeTeam.name}`}</div>)
-        }
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <img alt="error" src={process.env.API_DOMAIN_URL + match.homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
+          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '0 40px' }}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '20px', fontWeight: 'bold' }}>
-            { match.homeScore && match.visitorScore ?
-              <div style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>{`${match.homeScore} : ${match.visitorScore}`}</div>
-              : <div style={{ textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>VS</div>
-            }
+            <InputNumber min={0} defaultValue={match.homeScore ? match.homeScore : 0} onChange={onChangeHomeScore} />
+            <span style={{ margin: '0 10px' }}>VS</span>
+            <InputNumber min={0} defaultValue={match.visitorScore ? match.visitorScore : 0} onChange={onChangeVisitorScore} />
           </div>
         </div>
-        {
-          match.visitorTeam ?
-          (
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <img alt="error" src={process.env.API_DOMAIN_URL + match.visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-              <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
-            </div>
-          )
-          : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${visitorTeam.name}`}</div>)
-        }
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <img alt="error" src={process.env.API_DOMAIN_URL + match.visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
+          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
+        </div>
       </div>
     </div>
   )
 }
 
-const pitchInformation = (currentPitch) => {
+const pitchInformation = (pitches, currentPitch) => {
   if (!currentPitch) {
     return(
       <div/>
@@ -82,6 +72,14 @@ const pitchInformation = (currentPitch) => {
                 }
               })}
             </Text>
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Phone Number:</div>
+            {currentPitch.phoneNumber}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Price:</div>
+            {currentPitch.price}
           </div>
         </Col>
       </Row>
@@ -117,6 +115,14 @@ const refereeInformation = (currentReferee) => {
               })}
             </Text>
           </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Phone Number:</div>
+            {currentReferee.phoneNumber}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Price:</div>
+            {currentReferee.price}
+          </div>
         </Col>
       </Row>
     </div>
@@ -126,10 +132,68 @@ const refereeInformation = (currentReferee) => {
 class MatchDetail extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      confirmLoading: false,
+      homeScore: 0,
+      changeHomeScore: false,
+      changeVisitorScore: false,
+      visitorScore: 0
+    }
+
+    this.handleOk = this.handleOk.bind(this)
+    this.onChangeHomeScore = this.onChangeHomeScore.bind(this)
+    this.onChangeVisitorScore = this.onChangeVisitorScore.bind(this)
+  }
+
+  handleOk() {
+    const { dispatch, match } = this.props
+    const pitchId = match.pitch ? match.pitch.id : 0
+    const refereeId = match.referee ? match.referee.id : 0
+
+    let params = {
+      tableId: match.tableId,
+      homeTournamentTeamId: match.homeTeam ? match.homeTeam.id : null,
+      visitorTournamentTeamId: match.visitorTeam ? match.visitorTeam.id : null,
+      matchId: match.id,
+      tournamentId: this.props.basicInformation.id,
+      pitchId: pitchId,
+      refereeId: refereeId,
+      homeScore: this.state.changeHomeScore ? this.state.homeScore : match.homeScore,
+      visitorScore: this.state.changeVisitorScore ? this.state.visitorScore : match.visitorScore,
+      scheduled: moment(match.scheduled).valueOf()
+    }
+
+    if ((this.state.changeHomeScore && !this.state.homeScore) || (this.state.changeVisitorScore && !this.state.visitorScore)) {
+      return message.error('Please input score of this match')
+    }
+
+    this.setState({ confirmLoading: true })
+    setTimeout(() => {
+      dispatch(updateMatchInfo(params, () => {
+        this.setState({
+          confirmLoading: false,
+          homeScore: 0,
+          visitorScore: 0,
+          changeHomeScore: false,
+          changeVisitorScore: false,
+        })
+        this.props.getData()
+        this.props.closeModal()
+      }))
+    }, 500)
+  }
+
+  onChangeHomeScore(value) {
+    this.setState({ homeScore: value, changeHomeScore: true })
+  }
+
+  onChangeVisitorScore(value) {
+    this.setState({ visitorScore: value, changeVisitorScore: true })
   }
 
   render() {
-    const { visible, closeModal, match, homeTeam, visitorTeam } = this.props
+    const { confirmLoading } = this.state
+    const { visible, closeModal, match } = this.props
 
     if (match == null) {
       return(<div/>)
@@ -138,13 +202,15 @@ class MatchDetail extends Component {
     return (
       <Modal
         visible={visible}
+        onOk={this.handleOk}
         okText='Save'
+        confirmLoading={confirmLoading}
         onCancel={closeModal}
         width='60%'
         keyboard={false}
       >
         <div style={teamStyled}>
-          {matchInfo(match, homeTeam, visitorTeam)}
+          {matchInfo(match, this.onChangeHomeScore, this.onChangeVisitorScore)}
           {pitchInformation(match.pitch)}
           {refereeInformation(match.referee)}
         </div>
@@ -154,6 +220,7 @@ class MatchDetail extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  basicInformation: state.organizers.tournamentPage.basicInformation
 })
 
 export default connect(mapStateToProps)(MatchDetail)
