@@ -28,11 +28,11 @@ class SideBar extends Component {
         <Menu theme="dark" mode="inline" defaultSelectedKeys={[activeLink]} selectedKeys={activeLink} onClick={onClick}>
           <Menu.Item key="invitedMatch">
             <Icon type="unordered-list" />
-            <span className="nav-text">Invited Match</span>
+            <span className="nav-text">All Unconfirmed Match</span>
           </Menu.Item>
           <Menu.Item key="finishedMatch">
             <Icon type="unordered-list" />
-            <span className="nav-text">Finished Match</span>
+            <span className="nav-text">Confirmed Match</span>
           </Menu.Item>
           <Menu.Item key="happeningMatch">
             <Icon type="unordered-list" />

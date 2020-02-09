@@ -3,17 +3,17 @@ import { connect } from 'react-redux'
 import { updateSideBarActive } from 'services/referees/global/actions'
 import MatchesContainer from 'containers/referees/matches'
 
-class InvitedPage extends Component {
+class HappeningPage extends Component {
   componentDidMount() {
-    this.props.dispatch(updateSideBarActive('invitedMatch'))
+    this.props.dispatch(updateSideBarActive('happeningMatch'))
   }
 
   render() {
     return (
-      <MatchesContainer title='Invited Match' type='invitedMatch'/>
+      <MatchesContainer title='Happening Match' type='happeningMatch'/>
     )
   }
 }
 
 const mapStateToProps = (state) => ({})
-export default connect(mapStateToProps)(InvitedPage)
+export default connect(mapStateToProps)(HappeningPage)

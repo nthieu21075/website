@@ -4,9 +4,9 @@ import { SubmissionError } from 'redux-form'
 import Navigator from 'helpers/history'
 import { refereeCheckApiResponse } from 'helpers/apiResponse'
 
-export const getInvitedMatch = (callback) => {
+export const getInvitedMatch = (type, callback) => {
   return dispatch => {
-    refereeApi().get('api/referee/invited-match').then(function (response) {
+    refereeApi().get('api/referee/invited-match/' + type).then(function (response) {
       const apiResponse = response.data
       refereeCheckApiResponse(response, apiResponse, dispatch, () => {
         callback(apiResponse.data)

@@ -19,6 +19,12 @@ class SideBarContainer extends Component {
       case 'invitedMatch':
         Navigator.push(Routes.referee.INVITED_MATCH)
         return
+      case 'finishedMatch':
+        Navigator.push(Routes.referee.FINISHED_MATCH)
+        return
+      case 'happeningMatch':
+        Navigator.push(Routes.referee.HAPPENING_MATCH)
+        return
       default:
         return
     }

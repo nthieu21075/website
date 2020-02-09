@@ -9,6 +9,8 @@ import Navigator from 'helpers/history'
 
 import { showAlert } from 'helpers/refereeAlert'
 import InvitedPage from 'pages/RefereePages/InvitedPage'
+import FinishedPage from 'pages/RefereePages/FinishedPage'
+import HappeningPage from 'pages/RefereePages/HappeningPage'
 
 const { Header, Content, Footer, Sider } = Layout
 
@@ -36,6 +38,8 @@ class refereesLayout extends Component {
           <Content style={{ margin: '24px', height: '100%' }}>
             <Switch>
               <Route exact path={Routes.referee.INVITED_MATCH} component={InvitedPage}/>
+              <Route exact path={Routes.referee.FINISHED_MATCH} component={FinishedPage}/>
+              <Route exact path={Routes.referee.HAPPENING_MATCH} component={HappeningPage}/>
             </Switch>
           </Content>
         </Layout>
