@@ -68,13 +68,14 @@ class InvitedMatchContainer extends Component {
               return (
                 <Row type="flex" justify="center" style={{ background: 'white', flexDirection: 'column' }} key={index}>
                   <Title level={4} style={{ textAlign: 'center', margin: '30px 0' }}>{tournament.name}</Title>
-                  <Row type="flex" justify="center" style={{ background: 'white' }}>
+                  <div style={{ display: 'flex', background: 'white', flexFlow: 'wrap row', width: '100%' }}>
                       { _.map(tournament.tables, (table, index) => {
                         return (
                           <div style={{ display: 'flex', flexDirection: 'column', margin: '20px' }} key={index}>
                             <Title level={4} style={{ textAlign: 'center' }}>{table.name}</Title>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'wrap row' }}>
                               { _.map(table.matches, (match, matchIndex) => {
+                                console.log(match)
                                 if (!match.visitorTeam || !match.homeTeam) {
                                   return (<div/>)
                                 }
@@ -84,7 +85,7 @@ class InvitedMatchContainer extends Component {
                                     onClick={e=> this.matchDetail(match, tournament)}
                                     type="inner"
                                     bodyStyle={{ padding: '15px' }}
-                                    style ={{ width: '450px', margin: '0 20px', cursor: 'pointer' }}
+                                    style ={{ width: '450px', margin: '10px 20px', cursor: 'pointer' }}
                                   >
                                     <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{match.name}</div>
                                     <div style={{ textAlign: 'center', fontSize: '15px', marginBottom: 15 }}>{moment(match.scheduled).format('DD-MM-YYYY HH:mm')}</div>
@@ -111,7 +112,7 @@ class InvitedMatchContainer extends Component {
                           </div>
                         )
                       })}
-                  </Row>
+                  </div>
                 </Row>
               )
             })

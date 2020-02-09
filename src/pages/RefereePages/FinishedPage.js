@@ -10,7 +10,7 @@ class FinishedPage extends Component {
 
   render() {
     return (
-      <MatchesContainer title='Finished Match' type='finishedMatch'/>
+      <MatchesContainer title='Confirmed Match' type='finishedMatch'/>
     )
   }
 }

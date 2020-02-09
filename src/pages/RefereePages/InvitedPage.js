@@ -10,7 +10,7 @@ class InvitedPage extends Component {
 
   render() {
     return (
-      <MatchesContainer title='Invited Match' type='invitedMatch'/>
+      <MatchesContainer title='Unconfirmed Match' type='invitedMatch'/>
     )
   }
 }
