@@ -70,7 +70,7 @@ class WebBrowserNotification extends Component {
           onClick={this.handleNotificationOnClick.bind(this)}
           onClose={this.handleNotificationOnClose.bind(this)}
           onError={this.handleNotificationOnError.bind(this)}
-          timeout={5000}
+          timeout={7000}
           title={title}
           options={options}
         />

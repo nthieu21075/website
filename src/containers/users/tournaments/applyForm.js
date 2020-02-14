@@ -31,8 +31,8 @@ class ApplyFormContainer extends Component {
     setTimeout(() => {
       dispatch(joinTournament(tournamentId, teamId, () => {
         onCancel()
-        this.setState({ confirmLoading: false })
         dispatch(joinTournamentNotification({ tournamentName: tournament.title, organizerId: tournament.organizerId }))
+        this.setState({ confirmLoading: false })
       }))
     }, 500)
     console.log('JoinTeam')
@@ -40,7 +40,6 @@ class ApplyFormContainer extends Component {
 
   render() {
     const { visible, onCancel, userTeams, categoryId, tournament, teams, tournamentTeam, authentication } = this.props
-    console.log(tournament)
     const tournamentId = tournament.id
     const { confirmLoading } = this.state
 

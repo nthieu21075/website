@@ -28,7 +28,6 @@ export const fetchUserNotifications = (callback, showWebNotification) => (dispat
   const ref = database.ref('notifications/users/' + store.getState().users.auth.data.id)
 
   ref.on('child_added', (result) => {
-    console.log(123123123)
     const item = result.val()
     showWebNotification(item, {
       title: 'You have new message',
