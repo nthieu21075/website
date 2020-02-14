@@ -14,7 +14,6 @@ export const submitLogin =
       const apiResponse = response.data
 
       userCheckApiResponse(response, apiResponse, dispatch, () => {
-        console.log(apiResponse.data)
         dispatch(authSuccess(apiResponse.data.user, apiResponse.token))
         dispatch(updateUserTeamData({team: apiResponse.data.team, tournamentTeam: apiResponse.data.tournamentTeam}))
 

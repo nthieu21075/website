@@ -6,7 +6,9 @@ import Notification from 'components/users/notification'
 import { initAuthState } from 'services/users/authentication/actions'
 import Navigator from 'helpers/history'
 import { getCategories } from 'services/users/category/api'
+import { fetchUserNotifications } from 'services/notification'
 import { userTeam } from 'services/users/tournaments/api'
+import WebBrowserNotification from 'containers/webNotification'
 
 import CreateTeamDrawer from 'containers/users/profile/createTeam'
 import _ from 'lodash'
@@ -14,18 +16,38 @@ import _ from 'lodash'
 class HeaderContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = { visibleNotification: false, createTeam: false }
+    this.state = {
+      visibleNotification: false,
+      createTeam: false,
+      notifications: [],
+      webNotification: {},
+      loadData: false
+    }
     this.onClickMenuItem = this.onClickMenuItem.bind(this)
     this.onCloseNotification = this.onCloseNotification.bind(this)
+    this.onCloseCreateTeam = this.onCloseCreateTeam.bind(this)
+    this.updateNotification = this.updateNotification.bind(this)
+    this.showWebNotification = this.showWebNotification.bind(this)
     this.onCloseCreateTeam = this.onCloseCreateTeam.bind(this)
   }
 
   componentDidMount() {
     this.props.dispatch(getCategories())
+    this.props.dispatch(fetchUserNotifications(this.updateNotification, this.showWebNotification))
   }
 
   onCloseNotification() {
     this.setState({ visibleNotification: false })
+  }
+
+  updateNotification(data) {
+    this.setState({ notifications: data, loadData: true })
+  }
+
+  showWebNotification(item, notification) {
+    if (item && !this.state.notifications[item.id] && this.state.loadData) {
+      this.setState({ webNotification: notification })
+    }
   }
 
   onCloseCreateTeam() {
@@ -79,9 +101,10 @@ class HeaderContainer extends Component {
     return (
       <Affix offsetTop={0}>
         <div>
-          <NavBar user={data} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo} categories={categories}/>
-          <Notification onClose={this.onCloseNotification} visible={this.state.visibleNotification} />
+          <NavBar user={data} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo} categories={categories} />
+          <Notification onClose={this.onCloseNotification} visible={this.state.visibleNotification} notifications={_.values(this.state.notifications)} />
           <CreateTeamDrawer onClose={this.onCloseCreateTeam} visible={this.state.createTeam}/>
+          <WebBrowserNotification webNotification={this.state.webNotification}/>
         </div>
       </Affix>
     )

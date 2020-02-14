@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Modal, Button, Transfer, Radio } from 'antd'
 import { joinTournament } from 'services/users/profile/api'
 import Navigator from 'helpers/history'
+import { joinTournamentNotification } from 'services/notification'
 
 class ApplyFormContainer extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class ApplyFormContainer extends Component {
   }
 
   handleOk() {
-    const { dispatch, onCancel } = this.props
+    const { dispatch, onCancel, tournament } = this.props
     const { tournamentId, teamId } = this.state
     this.setState({ confirmLoading: true })
 
@@ -31,13 +32,16 @@ class ApplyFormContainer extends Component {
       dispatch(joinTournament(tournamentId, teamId, () => {
         onCancel()
         this.setState({ confirmLoading: false })
+        dispatch(joinTournamentNotification({ tournamentName: tournament.title, organizerId: tournament.organizerId }))
       }))
     }, 500)
     console.log('JoinTeam')
   }
 
   render() {
-    const { visible, onCancel, userTeams, categoryId, tournamentId, teams, tournamentTeam, authentication } = this.props
+    const { visible, onCancel, userTeams, categoryId, tournament, teams, tournamentTeam, authentication } = this.props
+    console.log(tournament)
+    const tournamentId = tournament.id
     const { confirmLoading } = this.state
 
     if (!authentication.logged) {

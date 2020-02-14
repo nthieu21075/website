@@ -13,17 +13,17 @@ const { Title } = Typography
 class NewestTournamentContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = { categoryId: null, showJoinModal: false, tournamentId: 0 }
+    this.state = { categoryId: null, showJoinModal: false, tournament: {}, teams: [] }
     this.joinTournament = this.joinTournament.bind(this)
     this.onCancel = this.onCancel.bind(this)
   }
 
-  joinTournament(categoryId, tournamentId) {
-    this.setState({ showJoinModal: true, categoryId: categoryId, tournamentId: tournamentId })
+  joinTournament(categoryId, tournament, teams) {
+    this.setState({ showJoinModal: true, categoryId: categoryId, tournament: tournament, teams: teams })
   }
 
   onCancel() {
-    this.setState({ showJoinModal: false, categoryId: 0, tournamentId: 0 })
+    this.setState({ showJoinModal: false, categoryId: 0, tournament: {}, teams: [] })
   }
 
   componentDidMount() {
@@ -32,7 +32,7 @@ class NewestTournamentContainer extends Component {
 
   render() {
     const { title, autoPlay, infinite, slidesToShow, tournaments } = this.props
-    const { showJoinModal, categoryId, tournamentId } = this.state
+    const { showJoinModal, categoryId, tournament, teams } = this.state
 
     return (
       <div style={{ margin: '30px 0' }}>
@@ -53,7 +53,8 @@ class NewestTournamentContainer extends Component {
         <ApplyTourmanentModal
           visible={showJoinModal}
           categoryId={categoryId}
-          tournamentId={tournamentId}
+          teams={teams}
+          tournament={tournament}
           onCancel={this.onCancel}
         />
       </div>

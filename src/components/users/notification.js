@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Drawer, Icon, Timeline } from 'antd'
+import moment from 'moment'
+import _ from 'lodash'
 
 class Notification extends Component {
   render() {
-    const { onClose, visible } = this.props
+    const { onClose, visible, notifications } = this.props
 
     return (
       <Drawer
@@ -15,12 +17,34 @@ class Notification extends Component {
         width={400}
       >
         <Timeline>
-          <Timeline.Item color="green"> <Icon type="check" style={{ color: 'green' }} /> Your request to join "Champion Leauge" was approved by organizer at 14-12-2019 05:30</Timeline.Item>
-          <Timeline.Item color="green"> <Icon type="check" style={{ color: 'green' }} /> Your request to join "Champion Leauge 1" was approved by organizer at 13-12-2019 05:30</Timeline.Item>
-          <Timeline.Item color="red"> <Icon type="close" style={{ color: 'red' }} /> Your request to join "Champion Leauge 2" was canceled by organizer at 12-12-2019 05:30</Timeline.Item>
-          <Timeline.Item color="red"> <Icon type="close" style={{ color: 'red' }} /> Your request to join "Champion Leauge 3" was canceled by organizer at 11-12-2019 05:30</Timeline.Item>
-          <Timeline.Item color="red"> <Icon type="close" style={{ color: 'red' }} /> Your request to join "Champion Leauge 4" was canceled by organizer at 15-12-2019 05:30</Timeline.Item>
-          <Timeline.Item color="green"> <Icon type="check" style={{ color: 'green' }} /> Your request to join "Champion Leauge 5" was approved by organizer at 17-12-2019 05:30</Timeline.Item>
+          {
+            _.reverse(_.sortBy(notifications, [function(o) { return o.time }])).map((item, index) => {
+              let data = {}
+              switch(item.status) {
+                  case 'approved':
+                    data = { icon: 'check', color: 'green', messageStatusText: `was ${item.status}` }
+                    break;
+                  case 'pending':
+                    data = { icon: 'exclamation', color: 'orange', messageStatusText: `is ${item.status}` }
+                    break;
+                  default:
+                    data = { icon: 'close', color: 'red', messageStatusText: `was ${item.status}` }
+                }
+
+              return (
+                <Timeline.Item
+                  color={data.color}
+                  key={index}
+                >
+                  <Icon
+                    type={data.icon}
+                    style={{ color: data.color }}
+                  />
+                  {`Your request to join "${item.tournamentName}" ${data.messageStatusText} by organizer at ${moment(item.time).format('DD-MM-YYYY HH:mm')}`}
+                </Timeline.Item>
+              )
+            })
+          }
         </Timeline>
       </Drawer>
     )

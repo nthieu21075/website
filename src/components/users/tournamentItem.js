@@ -64,7 +64,7 @@ class TournamenItem extends Component {
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button type='primary' style={{ marginTop: 15 }} onClick={e => joinTournament(item.categoryId, item.id, item.teams)} >Join Tournament</Button>
+            <Button type='primary' style={{ marginTop: 15 }} onClick={e => joinTournament(item.categoryId, item, item.teams)} >Join Tournament</Button>
           </div>
         </Card>
       </div>

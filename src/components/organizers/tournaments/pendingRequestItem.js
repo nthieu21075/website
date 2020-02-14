@@ -76,10 +76,10 @@ class PendingRequestItem extends Component {
             </div>
           </div>
           <div style={footerStyled}>
-            <Button type="danger" shape="round" icon="close" onClick={e => unapproveRequest(item.id)}>
+            <Button type="danger" shape="round" icon="close" onClick={e => unapproveRequest(item)}>
               Unapprove
             </Button>
-            <Button  icon="check" shape="round" style={{ background: 'green', color: 'white', marginLeft: 15 }} onClick={e => approveRequest(item.id)}>
+            <Button  icon="check" shape="round" style={{ background: 'green', color: 'white', marginLeft: 15 }} onClick={e => approveRequest(item)}>
               Approve
             </Button>
           </div>

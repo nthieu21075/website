@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import { Drawer } from 'antd'
+import { Drawer, Icon, Timeline } from 'antd'
+import moment from 'moment'
+import _ from 'lodash'
 
 class Notification extends Component {
   render() {
-    const { onClose, visible } = this.props
+    const { onClose, visible, notifications } = this.props
 
     return (
       <Drawer
@@ -12,10 +14,26 @@ class Notification extends Component {
         closable={false}
         onClose={onClose}
         visible={visible}
+        width={400}
       >
-        <p>Notification 1</p>
-        <p>Notification 2</p>
-        <p>Notification 3</p>
+        <Timeline>
+          {
+            _.reverse(_.sortBy(notifications, [function(o) { return o.time }])).map((item, index) => {
+              return (
+                <Timeline.Item
+                  color='orange'
+                  key={index}
+                >
+                  <Icon
+                    type='exclamation'
+                    style={{ color: 'orange' }}
+                  />
+                  {`Your have new request to join "${item.tournamentName}" from ${item.userName} at ${moment(item.time).format('DD-MM-YYYY HH:mm')}`}
+                </Timeline.Item>
+              )
+            })
+          }
+        </Timeline>
       </Drawer>
     )
   }

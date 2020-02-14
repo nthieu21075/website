@@ -6,6 +6,7 @@ import { Row, Col, Layout, Typography, Pagination, Spin } from 'antd'
 import ListPendingRequest from 'components/organizers/tournaments/listPendingRequest'
 import { tournamentData } from 'global/fakeData'
 import { getPendingRequest, approvePendingRequest, unapprovePendingRequest } from 'services/organizers/tournaments/pendingRequest/api'
+import { organizerResponseNotification } from 'services/notification'
 
 const { Title } = Typography
 const { Content } = Layout
@@ -30,21 +31,25 @@ class ListPendingRequestContainer extends Component {
     this.props.dispatch(getPendingRequest())
   }
 
-  approveRequest(tournamentTeamId) {
+  approveRequest(tournamentTeam) {
     this.setState({ loading: true})
 
+    console.log(tournamentTeam.team.onw)
+
     setTimeout(() => {
-      this.props.dispatch(approvePendingRequest(tournamentTeamId, ()=> {
+      this.props.dispatch(approvePendingRequest(tournamentTeam.id, ()=> {
         this.setState({ loading: false})
+        this.props.dispatch(organizerResponseNotification({ userId: tournamentTeam.team.own.id, tournamentName: tournamentTeam.tournament.name, status: 'approved' }))
       }))
     }, 500)
   }
 
-  unapproveRequest(tournamentTeamId) {
+  unapproveRequest(tournamentTeam) {
     this.setState({ loading: true})
     setTimeout(() => {
-      this.props.dispatch(unapprovePendingRequest(tournamentTeamId, ()=> {
+      this.props.dispatch(unapprovePendingRequest(tournamentTeam.id, ()=> {
         this.setState({ loading: false})
+        this.props.dispatch(organizerResponseNotification({ userId: tournamentTeam.team.own.id, tournamentName: tournamentTeam.tournament.name, status: 'cancled' }))
       }))
     }, 500)
   }
