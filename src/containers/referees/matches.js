@@ -71,14 +71,15 @@ class InvitedMatchContainer extends Component {
                   <div style={{ display: 'flex', background: 'white', flexFlow: 'wrap row', width: '100%' }}>
                       { _.map(tournament.tables, (table, index) => {
                         return (
-                          <div style={{ display: 'flex', flexDirection: 'column', margin: '20px' }} key={index}>
+                          <div style={{ display: 'flex', flexDirection: 'column', margin: '20px', width: '100%' }} key={index}>
                             <Title level={4} style={{ textAlign: 'center' }}>{table.name}</Title>
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexFlow: 'wrap row' }}>
                               { _.map(table.matches, (match, matchIndex) => {
-                                console.log(match)
-                                if (!match.visitorTeam || !match.homeTeam) {
+                                if (!match.visitorTournamentTeam || !match.homeTournamentTeam) {
                                   return (<div/>)
                                 }
+                                const homeTeam = match.homeTournamentTeam.team
+                                const visitorTeam = match.visitorTournamentTeam.team
                                 return (
                                   <Card
                                     key={match.id * 1.9}
@@ -91,8 +92,8 @@ class InvitedMatchContainer extends Component {
                                     <div style={{ textAlign: 'center', fontSize: '15px', marginBottom: 15 }}>{moment(match.scheduled).format('DD-MM-YYYY HH:mm')}</div>
                                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                        <img alt="error" src={process.env.API_DOMAIN_URL + match.homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-                                        <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
+                                        <img alt="error" src={process.env.API_DOMAIN_URL + homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
+                                        <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{homeTeam.name}</div>
                                       </div>
                                       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '0 10px' }}>
                                         { match.homeScore != null && match.visitorScore != null ?
@@ -101,8 +102,8 @@ class InvitedMatchContainer extends Component {
                                         }
                                       </div>
                                       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                        <img alt="error" src={process.env.API_DOMAIN_URL + match.visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-                                        <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
+                                        <img alt="error" src={process.env.API_DOMAIN_URL + visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
+                                        <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{visitorTeam.name}</div>
                                       </div>
                                     </div>
                                   </Card>

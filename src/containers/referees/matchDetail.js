@@ -10,6 +10,8 @@ const { Option } = Select
 const { Paragraph, Title, Text } = Typography
 
 const matchInfo = (match, onChangeHomeScore, onChangeVisitorScore) => {
+  const homeTeam = match.homeTournamentTeam.team
+  const visitorTeam = match.visitorTournamentTeam.team
   return (
     <div style={teamStyled}>
       <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{match.name}</div>
@@ -19,8 +21,8 @@ const matchInfo = (match, onChangeHomeScore, onChangeVisitorScore) => {
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <img alt="error" src={process.env.API_DOMAIN_URL + match.homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
+          <img alt="error" src={process.env.API_DOMAIN_URL + homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
+          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{homeTeam.name}</div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '0 40px' }}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '20px', fontWeight: 'bold' }}>
@@ -30,8 +32,8 @@ const matchInfo = (match, onChangeHomeScore, onChangeVisitorScore) => {
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <img alt="error" src={process.env.API_DOMAIN_URL + match.visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
+          <img alt="error" src={process.env.API_DOMAIN_URL + visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
+          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{visitorTeam.name}</div>
         </div>
       </div>
     </div>

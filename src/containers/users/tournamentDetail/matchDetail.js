@@ -7,6 +7,8 @@ import { Modal, Button, Typography, Card, Avatar, Row, Col } from 'antd'
 const { Paragraph, Title, Text } = Typography
 
 const matchInfo = (match, homeTeam, visitorTeam) => {
+  const homeTournamentTeam = match.homeTournamentTeam
+  const visitorTournamentTeam = match.visitorTournamentTeam
   return (
     <div style={teamStyled}>
       <div style={{ textAlign: 'center', fontSize: '20px', marginBottom: 10, fontWeight: 'bold' }}>{match.name}</div>
@@ -16,11 +18,11 @@ const matchInfo = (match, homeTeam, visitorTeam) => {
       </div>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         {
-          match.homeTeam ?
+          homeTournamentTeam ?
           (
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <img alt="error" src={process.env.API_DOMAIN_URL + match.homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-              <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
+              <img alt="error" src={process.env.API_DOMAIN_URL + homeTournamentTeam.team.logo} style={{ height: 80, objectFit: 'contain' }} />
+              <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{homeTournamentTeam.team.name}</div>
             </div>
           )
           : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${homeTeam.name}`}</div>)
@@ -34,11 +36,11 @@ const matchInfo = (match, homeTeam, visitorTeam) => {
           </div>
         </div>
         {
-          match.visitorTeam ?
+          visitorTournamentTeam ?
           (
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <img alt="error" src={process.env.API_DOMAIN_URL + match.visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-              <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
+              <img alt="error" src={process.env.API_DOMAIN_URL + visitorTournamentTeam.team.logo} style={{ height: 80, objectFit: 'contain' }} />
+              <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{visitorTournamentTeam.team.name}</div>
             </div>
           )
           : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${visitorTeam.name}`}</div>)

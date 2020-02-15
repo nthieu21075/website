@@ -84,6 +84,6 @@ class WebBrowserNotification extends Component {
   }
 }
 
-const mapStateToProps = state => {}
+const mapStateToProps = state => ({})
 
 export default connect(mapStateToProps)(WebBrowserNotification)

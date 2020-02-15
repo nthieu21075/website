@@ -88,12 +88,15 @@ class TournamentDetailContainer extends Component {
 
                               let homeTeam = ''
                               let visitorTeam = ''
-                              if (!match.homeTeam && previousMatch.length >0) {
+                              const homeTournamentTeam = match.homeTournamentTeam
+                              const visitorTournamentTeam = match.visitorTournamentTeam
+
+                              if (!homeTournamentTeam && previousMatch.length >0) {
                                 homeTeam = previousMatch[0]
                               }
 
-                              if (!match.visitorTeam) {
-                                if(previousMatch.length == 1 && match.homeTeam){
+                              if (!visitorTournamentTeam) {
+                                if(previousMatch.length == 1 && homeTournamentTeam){
                                   visitorTeam = previousMatch[0]
                                 } else if (previousMatch.length == 2){
                                   visitorTeam = previousMatch[1]
@@ -112,11 +115,11 @@ class TournamentDetailContainer extends Component {
                                   <div style={{ textAlign: 'center', fontSize: '15px', marginBottom: 15 }}>{moment(match.scheduled).format('DD-MM-YYYY HH:mm')}</div>
                                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     {
-                                      match.homeTeam ?
+                                      homeTournamentTeam ?
                                       (
                                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                          <img alt="error" src={process.env.API_DOMAIN_URL + match.homeTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-                                          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.homeTeam.name}</div>
+                                          <img alt="error" src={process.env.API_DOMAIN_URL + homeTournamentTeam.team.logo} style={{ height: 80, objectFit: 'contain' }} />
+                                          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{homeTournamentTeam.team.name}</div>
                                         </div>
                                       )
                                       : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${homeTeam.name}`}</div>)
@@ -128,11 +131,11 @@ class TournamentDetailContainer extends Component {
                                       }
                                     </div>
                                     {
-                                      match.visitorTeam ?
+                                      visitorTournamentTeam ?
                                       (
                                         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                          <img alt="error" src={process.env.API_DOMAIN_URL + match.visitorTeam.logo} style={{ height: 80, objectFit: 'contain' }} />
-                                          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{match.visitorTeam.name}</div>
+                                          <img alt="error" src={process.env.API_DOMAIN_URL + visitorTournamentTeam.team.logo} style={{ height: 80, objectFit: 'contain' }} />
+                                          <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold', marginTop: 10 }}>{visitorTournamentTeam.team.name}</div>
                                         </div>
                                       )
                                       : (<div style={{ textAlign: 'center', fontSize: '15px', fontWeight: 'bold'}}>{`Winner of ${visitorTeam.name}`}</div>)

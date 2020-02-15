@@ -57,6 +57,17 @@ const registerItem = () => (
   </Menu.Item>
 )
 
+const categoriesItem = (categories) => (
+  <SubMenu
+    style={{ float: 'right' }}
+    title={<span className="submenu-title-wrapper">Categories</span>}
+  >
+    {_.map(categories.data, (category) => {
+      return <Menu.Item key={'categoryItem' + category.id} id={category.id}>{category.name}</Menu.Item>
+    })}
+  </SubMenu>
+)
+
 class AuthNav extends Component {
   render() {
     const { user, onClick, categories } = this.props
@@ -71,21 +82,13 @@ class AuthNav extends Component {
         {_.size(user) > 0 && userInfo(user)}
         {_.size(user) == 0 && loginItem()}
         {_.size(user) == 0 && registerItem()}
-        {_.map(categories.data, (category) => {
-          return <Menu.Item key={'categoryItem' + category.id} style={categoryItemStyled} id={category.id}>{category.name}</Menu.Item>
-        })}
+        {categoriesItem(categories)}
       </Menu>
     )
   }
 }
 
 const menuItemStyled = {
-  float: 'right',
-  display: 'flex',
-  alignItems: 'center'
-}
-
-const categoryItemStyled = {
   float: 'right',
   display: 'flex',
   alignItems: 'center'

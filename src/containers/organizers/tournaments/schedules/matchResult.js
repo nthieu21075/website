@@ -116,6 +116,10 @@ const refereeInformation = (currentReferee) => {
             {currentReferee.name}
           </div>
           <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
+            <div style={{ fontWeight: 'bold', marginRight: 5 }}>Email:</div>
+            {currentReferee.email}
+          </div>
+          <div style={{ display: 'flex', width: '100%', margin: '5px 0' }}>
             <div style={{ fontWeight: 'bold', marginRight: 5 }}>Address:</div>
             <Text>
               {`${currentReferee.address} - `}
@@ -174,8 +178,8 @@ class MatchResult extends Component {
 
     let params = {
       tableId: matchData.tableId,
-      homeTournamentTeamId: matchData.homeTeam ? matchData.homeTeam.id : null,
-      visitorTournamentTeamId: matchData.visitorTeam ? matchData.visitorTeam.id : null,
+      homeTournamentTeamId: matchData.homeTeam ? matchData.homeTeam.tournamentId : null,
+      visitorTournamentTeamId: matchData.visitorTeam ? matchData.visitorTeam.tournamentId : null,
       matchId: matchData.id,
       tournamentId: this.props.basicInformation.id,
       pitchId: this.state.changePitch ? this.state.pitchId : pitchId,
