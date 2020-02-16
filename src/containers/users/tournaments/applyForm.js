@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import { Modal, Button, Transfer, Radio } from 'antd'
+import { message, Modal, Button, Transfer, Radio } from 'antd'
 import { joinTournament } from 'services/users/profile/api'
 import Navigator from 'helpers/history'
 import { joinTournamentNotification } from 'services/notification'
@@ -26,6 +26,9 @@ class ApplyFormContainer extends Component {
   handleOk() {
     const { dispatch, onCancel, tournament } = this.props
     const { tournamentId, teamId } = this.state
+    if (teamId == 0) {
+      return message.warning('Please select you team!!!');
+    }
     this.setState({ confirmLoading: true })
 
     setTimeout(() => {
@@ -35,7 +38,6 @@ class ApplyFormContainer extends Component {
         this.setState({ confirmLoading: false })
       }))
     }, 500)
-    console.log('JoinTeam')
   }
 
   render() {
