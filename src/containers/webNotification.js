@@ -52,10 +52,10 @@ class WebBrowserNotification extends Component {
     const options = {
       tag: Date.now(),
       body: webNotification.message,
-      icon: 'images/Notifications_button_24.png',
+      icon: 'http://localhost:3000/images/Notifications_button_24.png',
       lang: 'en',
       dir: 'ltr',
-      sound: 'sound/sound.mp3'
+      sound: 'http://localhost:3000/sound/sound.mp3'
     }
     const title = webNotification.title ? webNotification.title : ''
 
@@ -75,8 +75,8 @@ class WebBrowserNotification extends Component {
           options={options}
         />
         <audio id='sound' preload='auto'>
-          <source src='sound/sound.mp3' type='audio/mpeg' />
-          <source src='sound/sound.ogg' type='audio/ogg' />
+          <source src='http://localhost:3000/sound/sound.mp3' type='audio/mpeg' />
+          <source src='http://localhost:3000/sound/sound.ogg' type='audio/ogg' />
           <embed hidden='true' loop='false' src='sound/sound.mp3' />
         </audio>
       </div>
