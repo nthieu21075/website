@@ -7,6 +7,9 @@ import _ from 'lodash'
 
 
 export const fetchOrganizerNotifications = (callback, showWebNotification) => (dispatch) => {
+  if (!store.getState().organizers.auth,data) {
+    return
+  }
   const ref = database.ref('notifications/organizers/' + store.getState().organizers.auth.data.id)
 
   ref.on('child_added', (result) => {
@@ -25,6 +28,10 @@ export const fetchOrganizerNotifications = (callback, showWebNotification) => (d
 }
 
 export const fetchUserNotifications = (callback, showWebNotification) => (dispatch) => {
+  if (!store.getState().users.auth.data) {
+    return
+  }
+
   const ref = database.ref('notifications/users/' + store.getState().users.auth.data.id)
 
   ref.on('child_added', (result) => {
