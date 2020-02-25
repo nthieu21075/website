@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
 import { showAlert } from 'helpers/alert'
-import { Row, Col, Layout, Typography, Pagination, Spin, List, Card, Avatar, Button } from 'antd'
+import { Row, Col, Layout, Typography, Pagination, Spin, List, Card, Avatar, Button, Modal } from 'antd'
 import { tournamentData } from 'global/fakeData'
-import { getPitches } from 'services/admins/api'
+import { getPitches, deletePitch } from 'services/admins/api'
 import moment from 'moment'
 import Navigator from 'helpers/history'
 import Routes from 'global/routes'
@@ -39,12 +39,36 @@ class PitchesContainer extends Component {
   constructor(props) {
     super(props)
     this.state = { loading: true, data: [] }
+
+    this.deleteItem = this.deleteItem.bind(this)
+    this.updateData = this.updateData.bind(this)
   }
 
   componentDidMount() {
     this.props.dispatch(getPitches((response) => {
       this.setState({ loading: false, data: response })
     }))
+  }
+
+  deleteItem(id) {
+    const { dispatch } = this.props
+    const { updateData } = this
+
+    Modal.confirm({
+      title: 'Do you Want to delete this pitch?',
+      content: '',
+      onOk() {
+        console.log(id)
+        dispatch(deletePitch(id, (response) => {
+          updateData(response)
+        }))
+      },
+      onCancel() {},
+    });
+  }
+
+  updateData(data) {
+    this.setState({ data: data })
   }
 
   render() {
@@ -98,6 +122,9 @@ class PitchesContainer extends Component {
                               <Text strong>Created At:</Text>
                               <Text code style={{ marginLeft: 5 }}>{moment(item.createdAt).format("DD/MM/YYYY HH:MM")}</Text>
                             </div>
+                          </div>
+                          <div style={itemFooterStyled} >
+                            <Button type="danger" onClick={ e => this.deleteItem(item.id)}>Delete</Button>
                           </div>
                         </Card>
                       )

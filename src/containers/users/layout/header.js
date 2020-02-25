@@ -11,6 +11,7 @@ import { userTeam } from 'services/users/tournaments/api'
 import WebBrowserNotification from 'containers/webNotification'
 
 import CreateTeamDrawer from 'containers/users/profile/createTeam'
+import MyTeamDrawer from 'containers/users/profile/myTeam'
 import _ from 'lodash'
 
 class HeaderContainer extends Component {
@@ -21,7 +22,8 @@ class HeaderContainer extends Component {
       createTeam: false,
       notifications: [],
       webNotification: {},
-      loadData: false
+      loadData: false,
+      myTeam: false,
     }
     this.onClickMenuItem = this.onClickMenuItem.bind(this)
     this.onCloseNotification = this.onCloseNotification.bind(this)
@@ -52,6 +54,10 @@ class HeaderContainer extends Component {
 
   onCloseCreateTeam() {
     this.setState({ createTeam: false })
+  }
+
+  onCloseMyTeam() {
+    this.setState({ myTeam: false })
   }
 
   onClickMenuItem({ item, key, keyPath, selectedKeys, domEvent }) {
@@ -86,6 +92,9 @@ class HeaderContainer extends Component {
       case 'createTeam':
         this.setState({ createTeam: true })
         return
+      case 'myTeam':
+        this.setState({ myTeam: true })
+        return
       case 'search':
         return
       default:
@@ -104,6 +113,7 @@ class HeaderContainer extends Component {
           <NavBar user={data} onClick={this.onClickMenuItem} onClickLogo={this.onClickLogo} categories={categories} />
           <Notification onClose={this.onCloseNotification} visible={this.state.visibleNotification} notifications={_.values(this.state.notifications)} />
           <CreateTeamDrawer onClose={this.onCloseCreateTeam} visible={this.state.createTeam}/>
+          <MyTeamDrawer onClose={this.onCloseMyTeam} visible={this.state.myTeam}/>
           <WebBrowserNotification webNotification={this.state.webNotification}/>
         </div>
       </Affix>

@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import { reduxForm, reset } from 'redux-form'
 import { connect } from 'react-redux'
-import { showAlert } from 'helpers/alert'
-import { Row, Col, Layout, Typography, Pagination, Spin, List, Card, Avatar, Button } from 'antd'
-import { tournamentData } from 'global/fakeData'
-import { getPrivateCategories } from 'services/admins/api'
-import moment from 'moment'
+import { Row, Col, Layout, Typography, Spin, Card, Button, Modal } from 'antd'
+import { getPrivateCategories, deleteCategory } from 'services/admins/api'
 import Navigator from 'helpers/history'
 import Routes from 'global/routes'
 
-const { Paragraph, Title, Text } = Typography
+const { Title, Text } = Typography
 const { Content } = Layout
 
 const contentStyled = {
@@ -39,12 +35,35 @@ class CategoriesContainer extends Component {
   constructor(props) {
     super(props)
     this.state = { loading: true, data: [] }
+
+    this.deleteItem = this.deleteItem.bind(this)
+    this.updateData = this.updateData.bind(this)
   }
 
   componentDidMount() {
     this.props.dispatch(getPrivateCategories((response) => {
       this.setState({ loading: false, data: response })
     }))
+  }
+
+  deleteItem(id) {
+    const { dispatch } = this.props
+    const { updateData } = this
+
+    Modal.confirm({
+      title: 'Do you Want to delete this category?',
+      content: '',
+      onOk() {
+        dispatch(deleteCategory(id, (response) => {
+          updateData(response)
+        }))
+      },
+      onCancel() {},
+    });
+  }
+
+  updateData(data) {
+    this.setState({ data: data })
   }
 
   render() {
@@ -80,6 +99,9 @@ class CategoriesContainer extends Component {
                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
                               </div>
                             </div>
+                          </div>
+                          <div style={itemFooterStyled} >
+                            <Button type="danger" onClick={ e => this.deleteItem(item.id)}>Delete</Button>
                           </div>
                         </Card>
                       )

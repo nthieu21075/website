@@ -395,3 +395,35 @@ export const createCategory =
       throw new SubmissionError({ _error: error.message })
     })
   }
+
+export const deletePitch = (id, callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/remove-pitch/' + id).then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}
+
+export const deleteCategory = (id, callback) => {
+  return dispatch => {
+    adminApi().get('api/admins/remove-category/' + id).then(function (response) {
+      const apiResponse = response.data
+      adminCheckApiResponse(response, apiResponse, dispatch, () => {
+        callback(apiResponse.data)
+      })
+
+      return Promise.resolve()
+    })
+    .catch(function (error) {
+      throw new SubmissionError({ _error: error.message })
+    })
+  }
+}

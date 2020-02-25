@@ -21,6 +21,10 @@ const userInfo = (user) => (
     }
   >
     <Menu.ItemGroup key='profile'>
+      <Menu.Item key="myTeam">
+        <Icon type="team"/>
+        My Team
+      </Menu.Item>
       <Menu.Item key="createTeam">
         <Icon type="team"/>
         Create Team
