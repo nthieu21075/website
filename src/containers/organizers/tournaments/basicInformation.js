@@ -55,6 +55,9 @@ const ininValueDetault = (state) => {
     const startDate = moment(basicInformation.startDate).format(dateFormat)
     const endDate = moment(basicInformation.endDate).format(dateFormat)
 
+    console.log('startDate', startDate)
+    console.log('endDate', endDate)
+
     defaultValue = _.merge(defaultValue, {
       publish: basicInformation.publish,
       id: basicInformation.id,

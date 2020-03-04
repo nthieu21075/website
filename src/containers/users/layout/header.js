@@ -30,7 +30,7 @@ class HeaderContainer extends Component {
     this.onCloseCreateTeam = this.onCloseCreateTeam.bind(this)
     this.updateNotification = this.updateNotification.bind(this)
     this.showWebNotification = this.showWebNotification.bind(this)
-    this.onCloseCreateTeam = this.onCloseCreateTeam.bind(this)
+    this.onCloseMyTeam = this.onCloseMyTeam.bind(this)
   }
 
   componentDidMount() {

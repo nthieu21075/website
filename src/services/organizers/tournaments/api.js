@@ -11,7 +11,8 @@ import moment from 'moment'
 
 export const createTournament =
   (values, dispatch, props) => {
-    const { name, categoryId, shortDescription, description, image, team, originationDate, publish } = values
+    const { name, categoryId, shortDescription, description, image, team, orginationDate, publish } = values
+
     let bodyFormData = new FormData()
     bodyFormData.append('name', name)
     bodyFormData.append('categoryId', categoryId)
@@ -19,8 +20,8 @@ export const createTournament =
     bodyFormData.append('description', description)
     bodyFormData.append('team', team)
     bodyFormData.append('publish', publish)
-    bodyFormData.append('startDate', moment(originationDate[0]))
-    bodyFormData.append('endDate', moment(originationDate[1]))
+    bodyFormData.append('startDate', moment(orginationDate[0]))
+    bodyFormData.append('endDate', moment(orginationDate[1]))
     if (image) {
       bodyFormData.append('image', image.file)
     }
